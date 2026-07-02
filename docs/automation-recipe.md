@@ -27,8 +27,16 @@
 ## 与 Cursor 账户无关、换号不受影响的部分
 
 - GitHub 仓库、历史报告与数据（都在 git 里）
-- GitHub Pages 情报站
+- GitHub Pages 情报站（**永久访问地址，请收藏**）
 - 微信推送（GitHub Actions + Server酱，密钥存 GitHub Secrets）
+
+## 永久访问地址（不依赖推送有效期）
+
+Server酱 消息里的跳转链接可能过期；以下地址由 GitHub Pages 托管，**长期有效**，可随时查看全部历史日报：
+
+**https://bobizhenkeai.github.io/star-skill-radar/site/**
+
+建议保存到：手机浏览器书签、微信收藏、或「文件传输助手」/备忘录。推送仅作「今日已更新」提醒，日常阅读请用固定地址。
 
 ## 换号 / 断档的影响与信号
 

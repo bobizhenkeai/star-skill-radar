@@ -14,6 +14,7 @@ jobs:
         env:
           SENDKEY: ${{ secrets.SERVERCHAN_SENDKEY }}
           SITE_URL: https://bobizhenkeai.github.io/star-skill-radar/site/
+          PERMANENT_HINT: 永久入口（请收藏，推送过期后仍可访问）
         run: |
           if [ -z "$SENDKEY" ]; then
             echo "未配置 SERVERCHAN_SENDKEY secret，跳过微信推送。"
@@ -21,7 +22,13 @@ jobs:
           fi
           TODAY=$(TZ=Asia/Shanghai date +%F)
           TITLE="Star-Skill Radar 情报更新（${TODAY}）"
-          DESP=$(printf '今日 AI 技术资产情报已生成。\n\n[打开情报站](%s)\n\n[查看 Markdown 报告](https://github.com/%s/blob/master/reports/%s.md)' "$SITE_URL" "$GITHUB_REPOSITORY" "$TODAY")
+          DESP=$(printf '%s\n\n%s\n%s\n\n%s\n%s\n\n%s' \
+            "今日 AI 技术资产情报已生成。" \
+            "${PERMANENT_HINT}：" \
+            "${SITE_URL}" \
+            "（复制到浏览器或微信收藏，可随时查看全部历史日报）" \
+            "当日 Markdown 报告：" \
+            "https://github.com/${GITHUB_REPOSITORY}/blob/master/reports/${TODAY}.md")
           curl -sS -X POST "https://sctapi.ftqq.com/${SENDKEY}.send" \
             --data-urlencode "title=${TITLE}" \
             --data-urlencode "desp=${DESP}"
