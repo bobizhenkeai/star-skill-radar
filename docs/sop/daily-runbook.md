@@ -7,9 +7,13 @@
 1. 确认当前工作目录为仓库根目录。
 2. 读取 `AGENTS.md`、`docs/specs/data-contract.md`、本目录全部 SOP。
 3. 用系统时间换算北京时间运行日期，文件名必须是 `YYYY-MM-DD`，例如 `2026-07-02`。
-4. 读取 `data/ledger.json`；不存在时创建空数组，存在时必须先解析成功。
-5. 读取 `data/issues/index.json`；不存在时先按 `data/issues/YYYY-MM-DD.json` 实际文件重建日期数组，存在时必须先解析成功。
-6. 建立候选表，字段至少包含：`id`、`name`、`type`、`source_kind`、`stars`、`dates`、`links`、`evidence_signals`、`ledger_state`。
+4. **幂等检查（硬性，先于其他一切步骤）**：检查 `data/issues/YYYY-MM-DD.json`（当期运行日期）是否已存在。
+   - 已存在：说明当天已有正式产出（无论是定时触发还是此前的手动触发）。立即停止流程，不得重新采集、不得生成、不得提交、不得修改该文件或 `reports/YYYY-MM-DD.md`。仅在运行日志中说明"当天文件已存在，本次运行跳过"。
+   - 不存在：正常继续后续步骤。
+   - 例外：只有当用户在触发时明确指示"重新生成/强制覆盖当天日报"，才允许跳过本检查；未收到明确指示时一律视为不存在特例。
+5. 读取 `data/ledger.json`；不存在时创建空数组，存在时必须先解析成功。
+6. 读取 `data/issues/index.json`；不存在时先按 `data/issues/YYYY-MM-DD.json` 实际文件重建日期数组，存在时必须先解析成功。
+7. 建立候选表，字段至少包含：`id`、`name`、`type`、`source_kind`、`stars`、`dates`、`links`、`evidence_signals`、`ledger_state`。
 
 ## 2. 官方源巡检
 
