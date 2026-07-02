@@ -98,5 +98,103 @@
       "https://github.com/addyosmani/agent-skills",
       "https://addyosmani.com/blog/agent-skills/"
     ]
+  },
+  {
+    "id": "obra/superpowers",
+    "name": "Superpowers",
+    "type": "paradigm",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-07-02",
+    "last_updates": [],
+    "state_snapshot": "2026-07-02T14:41+08:00 GitHub API: 243,701 stars, 21,623 forks, 297 issues; latest release v6.1.0 on 2026-06-30; Claude/Codex/Cursor marketplace install paths documented.",
+    "stage_tags": [
+      "requirements",
+      "design",
+      "implementation",
+      "review",
+      "testing"
+    ],
+    "links": [
+      "https://github.com/obra/superpowers",
+      "https://github.com/obra/superpowers/releases/tag/v6.1.0",
+      "https://claude.com/plugins/superpowers"
+    ]
+  },
+  {
+    "id": "mattpocock/skills",
+    "name": "Matt Pocock Skills",
+    "type": "skill",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-07-02",
+    "last_updates": [],
+    "state_snapshot": "2026-07-02T14:41+08:00 GitHub API: 153,443 stars, 13,235 forks, 107 issues; latest release v1.0.1 on 2026-06-17; skills.sh distribution and composable engineering skills.",
+    "stage_tags": [
+      "requirements",
+      "implementation",
+      "review",
+      "testing"
+    ],
+    "links": [
+      "https://github.com/mattpocock/skills",
+      "https://skills.sh/mattpocock/skills",
+      "https://github.com/mattpocock/skills/releases/tag/v1.0.1"
+    ]
+  },
+  {
+    "id": "anthropics/claude-code",
+    "name": "Claude Code",
+    "type": "paradigm",
+    "evidence_tier": "official",
+    "first_reported": "2026-07-02",
+    "last_updates": [],
+    "state_snapshot": "2026-07-02T14:41+08:00 GitHub API: 135,379 stars, 21,819 forks, 9,493 issues; latest release v2.1.198 on 2026-07-01; official skills docs at code.claude.com.",
+    "stage_tags": [
+      "implementation",
+      "review",
+      "ops"
+    ],
+    "links": [
+      "https://github.com/anthropics/claude-code",
+      "https://code.claude.com/docs/en/skills",
+      "https://github.com/anthropics/claude-code/releases/tag/v2.1.198"
+    ]
+  },
+  {
+    "id": "modelcontextprotocol/servers",
+    "name": "MCP Reference Servers",
+    "type": "mcp",
+    "evidence_tier": "official",
+    "first_reported": "2026-07-02",
+    "last_updates": [],
+    "state_snapshot": "2026-07-02T14:41+08:00 GitHub API: 87,949 stars, 11,119 forks, 617 issues; official MCP reference implementations; README directs discovery to MCP Registry.",
+    "stage_tags": [
+      "design",
+      "implementation",
+      "testing"
+    ],
+    "links": [
+      "https://github.com/modelcontextprotocol/servers",
+      "https://modelcontextprotocol.io/",
+      "https://registry.modelcontextprotocol.io/"
+    ]
+  },
+  {
+    "id": "wshobson/agents",
+    "name": "wshobson Agents Marketplace",
+    "type": "subagent",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-07-02",
+    "last_updates": [],
+    "state_snapshot": "2026-07-02T14:41+08:00 GitHub API: 37,419 stars, 4,020 forks; README: 88 plugins, 194 agents, 158 skills, 106 commands; multi-harness generation from single source.",
+    "stage_tags": [
+      "design",
+      "implementation",
+      "ops"
+    ],
+    "links": [
+      "https://github.com/wshobson/agents",
+      "https://github.com/wshobson/agents/blob/main/docs/harnesses.md",
+      "https://github.com/wshobson/agents/blob/main/docs/plugins.md"
+    ]
   }
 ]
