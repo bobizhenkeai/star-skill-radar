@@ -1,7 +1,8 @@
 const DATA_ROOT = "../data";
 const ISSUE_ROOT = `${DATA_ROOT}/issues`;
-const DISCOVERY_START = { year: 2026, week: 1 };
-const DISCOVERY_LOOKAHEAD_WEEKS = 8;
+const DISCOVERY_START_DATE = "2026-07-02";
+const DISCOVERY_LOOKAHEAD_DAYS = 7;
+const DISCOVERY_CONCURRENCY = 20;
 
 const TYPE_OPTIONS = [
   ["all", "全部"],
@@ -46,7 +47,9 @@ const EVIDENCE_LABELS = {
 const state = {
   ledger: [],
   issues: [],
-  selectedWeek: null,
+  selectedDate: null,
+  loadErrors: [],
+  routeNotice: "",
   filters: {
     type: "all",
     stage: "all"
@@ -54,6 +57,7 @@ const state = {
 };
 
 const nodes = {
+  archiveShell: document.querySelector("#archiveShell"),
   issueList: document.querySelector("#issueList"),
   issueDetail: document.querySelector("#issueDetail"),
   statusBar: document.querySelector("#statusBar"),
@@ -61,34 +65,39 @@ const nodes = {
   stageFilters: document.querySelector("#stageFilters"),
   statIssueCount: document.querySelector("#statIssueCount"),
   statHighlightCount: document.querySelector("#statHighlightCount"),
-  statLatestWeek: document.querySelector("#statLatestWeek")
+  statLatestDate: document.querySelector("#statLatestDate")
 };
 
 document.addEventListener("DOMContentLoaded", init);
 window.addEventListener("hashchange", () => {
   syncRoute();
+  setStatus(statusMessage(), hasVisibleError());
   render();
 });
 
 async function init() {
   renderFilterButtons();
-  try {
-    state.ledger = await loadLedger();
-    state.issues = await discoverIssues(state.ledger);
-    const initialHash = window.location.hash;
-    syncRoute();
-    if (!initialHash && state.selectedWeek) {
-      history.replaceState(null, "", `#/week/${state.selectedWeek}`);
-    }
-    setStatus(statusMessage());
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    setStatus(`数据读取失败：${message}`, true);
-    state.ledger = [];
-    state.issues = [];
-    state.selectedWeek = null;
+  setArchiveDefaultOpen();
+
+  state.loadErrors = [];
+  state.ledger = await loadLedger();
+  const discovery = await discoverIssues(state.ledger);
+  state.issues = discovery.issues;
+  state.loadErrors.push(...discovery.errors);
+
+  const initialHash = window.location.hash;
+  syncRoute();
+  if (!initialHash && state.selectedDate) {
+    history.replaceState(null, "", `#/date/${state.selectedDate}`);
   }
+
+  setStatus(statusMessage(), hasVisibleError());
   render();
+}
+
+function setArchiveDefaultOpen() {
+  if (!nodes.archiveShell) return;
+  nodes.archiveShell.open = window.matchMedia("(min-width: 740px)").matches;
 }
 
 function renderFilterButtons() {
@@ -122,30 +131,56 @@ function filterButton(label, active, onClick) {
 }
 
 async function loadLedger() {
-  const result = await fetchJson(`${DATA_ROOT}/ledger.json`, { optional: true });
-  return Array.isArray(result) ? result : [];
+  try {
+    const result = await fetchJson(`${DATA_ROOT}/ledger.json`, { optional: true });
+    return Array.isArray(result) ? result.filter(isPlainObject) : [];
+  } catch (error) {
+    state.loadErrors.push(errorMessage(error));
+    return [];
+  }
 }
 
 async function discoverIssues(ledger) {
-  const weeks = new Set(generateCandidateWeeks());
+  const dates = new Set(generateCandidateDates());
   for (const item of Array.isArray(ledger) ? ledger : []) {
-    addWeekIfValid(weeks, item && item.first_reported);
+    addDateIfValid(dates, item && item.first_reported);
     const updates = Array.isArray(item && item.last_updates) ? item.last_updates : [];
     for (const update of updates) {
-      addWeekIfValid(weeks, update && update.week);
+      addDateIfValid(dates, update && update.date);
     }
   }
 
-  const candidates = Array.from(weeks).sort(compareWeeksDesc);
-  const issueResults = await Promise.all(
-    candidates.map(async (week) => {
-      const data = await fetchJson(`${ISSUE_ROOT}/${week}.json`, { optional: true });
-      if (!isIssue(data)) return null;
-      return normalizeIssue(data, week);
-    })
-  );
+  const candidates = Array.from(dates).sort(compareDatesDesc);
+  const results = await mapWithConcurrency(candidates, DISCOVERY_CONCURRENCY, fetchIssueByDate);
+  const errors = [];
+  const issuesByDate = new Map();
 
-  return issueResults.filter(Boolean).sort((a, b) => compareWeeksDesc(a.week, b.week));
+  for (const result of results) {
+    if (!result) continue;
+    if (result.error) {
+      errors.push(result.error);
+      continue;
+    }
+    if (result.issue && !issuesByDate.has(result.issue.date)) {
+      issuesByDate.set(result.issue.date, result.issue);
+    }
+  }
+
+  return {
+    issues: Array.from(issuesByDate.values()).sort((a, b) => compareDatesDesc(a.date, b.date)),
+    errors
+  };
+}
+
+async function fetchIssueByDate(date) {
+  const url = `${ISSUE_ROOT}/${date}.json`;
+  try {
+    const data = await fetchJson(url, { optional: true });
+    if (!isIssue(data)) return null;
+    return { issue: normalizeIssue(data, date) };
+  } catch (error) {
+    return { error: errorMessage(error) };
+  }
 }
 
 async function fetchJson(url, { optional = false } = {}) {
@@ -168,90 +203,162 @@ async function fetchJson(url, { optional = false } = {}) {
   }
 }
 
-function generateCandidateWeeks() {
-  const weeks = [];
-  const today = new Date();
-  const endDate = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()));
-  endDate.setUTCDate(endDate.getUTCDate() + DISCOVERY_LOOKAHEAD_WEEKS * 7);
-  const end = isoWeek(endDate);
-  let cursor = { ...DISCOVERY_START };
+async function mapWithConcurrency(items, limit, mapper) {
+  const results = new Array(items.length);
+  let cursor = 0;
+  const workerCount = Math.min(Math.max(limit, 1), items.length);
+  const workers = Array.from({ length: workerCount }, async () => {
+    while (cursor < items.length) {
+      const index = cursor;
+      cursor += 1;
+      results[index] = await mapper(items[index]);
+    }
+  });
+  await Promise.all(workers);
+  return results;
+}
 
-  while (compareWeeksAsc(formatWeek(cursor), formatWeek(end)) <= 0) {
-    weeks.push(formatWeek(cursor));
-    cursor = nextWeek(cursor);
+function generateCandidateDates() {
+  const dates = [];
+  const start = parseIsoDate(DISCOVERY_START_DATE);
+  const end = addUtcDays(parseIsoDate(todayIsoDate()), DISCOVERY_LOOKAHEAD_DAYS);
+  if (!start || !end) return dates;
+
+  let cursor = start;
+  while (cursor.getTime() <= end.getTime()) {
+    dates.push(formatIsoDate(cursor));
+    cursor = addUtcDays(cursor, 1);
   }
-  return weeks;
+  return dates;
 }
 
-function nextWeek({ year, week }) {
-  const max = weeksInIsoYear(year);
-  if (week < max) return { year, week: week + 1 };
-  return { year: year + 1, week: 1 };
+function todayIsoDate() {
+  const today = new Date();
+  return [
+    today.getFullYear(),
+    String(today.getMonth() + 1).padStart(2, "0"),
+    String(today.getDate()).padStart(2, "0")
+  ].join("-");
 }
 
-function weeksInIsoYear(year) {
-  return isoWeek(new Date(Date.UTC(year, 11, 28))).week;
-}
-
-function isoWeek(date) {
-  const target = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
-  const day = target.getUTCDay() || 7;
-  target.setUTCDate(target.getUTCDate() + 4 - day);
-  const yearStart = new Date(Date.UTC(target.getUTCFullYear(), 0, 1));
-  const week = Math.ceil(((target - yearStart) / 86400000 + 1) / 7);
-  return { year: target.getUTCFullYear(), week };
-}
-
-function formatWeek({ year, week }) {
-  return `${year}-W${String(week).padStart(2, "0")}`;
-}
-
-function parseWeek(week) {
-  const match = /^(\d{4})-W(\d{2})$/.exec(String(week || ""));
+function parseIsoDate(value) {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(value || ""));
   if (!match) return null;
-  return { year: Number(match[1]), week: Number(match[2]) };
+
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  if (
+    date.getUTCFullYear() !== year ||
+    date.getUTCMonth() !== month - 1 ||
+    date.getUTCDate() !== day
+  ) {
+    return null;
+  }
+  return date;
 }
 
-function addWeekIfValid(weeks, week) {
-  if (parseWeek(week)) weeks.add(week);
+function formatIsoDate(date) {
+  return [
+    date.getUTCFullYear(),
+    String(date.getUTCMonth() + 1).padStart(2, "0"),
+    String(date.getUTCDate()).padStart(2, "0")
+  ].join("-");
 }
 
-function compareWeeksAsc(a, b) {
-  const left = parseWeek(a);
-  const right = parseWeek(b);
+function addUtcDays(date, days) {
+  const next = new Date(date.getTime());
+  next.setUTCDate(next.getUTCDate() + days);
+  return next;
+}
+
+function addDateIfValid(dates, date) {
+  if (parseIsoDate(date)) dates.add(date);
+}
+
+function compareDatesAsc(a, b) {
+  const left = parseIsoDate(a);
+  const right = parseIsoDate(b);
   if (!left || !right) return String(a).localeCompare(String(b));
-  if (left.year !== right.year) return left.year - right.year;
-  return left.week - right.week;
+  return left.getTime() - right.getTime();
 }
 
-function compareWeeksDesc(a, b) {
-  return -compareWeeksAsc(a, b);
+function compareDatesDesc(a, b) {
+  return -compareDatesAsc(a, b);
 }
 
 function isIssue(data) {
-  return data && typeof data === "object" && !Array.isArray(data);
+  return isPlainObject(data);
 }
 
-function normalizeIssue(data, fallbackWeek) {
+function isPlainObject(value) {
+  return value && typeof value === "object" && !Array.isArray(value);
+}
+
+function normalizeIssue(data, fallbackDate) {
+  const date = parseIsoDate(data.date) ? data.date : fallbackDate;
   return {
-    week: parseWeek(data.week) ? data.week : fallbackWeek,
+    date,
     generated_at: typeof data.generated_at === "string" ? data.generated_at : "",
-    highlights: Array.isArray(data.highlights) ? data.highlights : [],
-    briefs: Array.isArray(data.briefs) ? data.briefs : [],
-    source_gaps: Array.isArray(data.source_gaps) ? data.source_gaps : []
+    highlights: normalizeHighlights(data.highlights),
+    briefs: normalizeBriefs(data.briefs),
+    source_gaps: toArray(data.source_gaps).map((gap) => String(gap)).filter(Boolean)
   };
 }
 
+function normalizeHighlights(value) {
+  return toArray(value)
+    .filter(isPlainObject)
+    .map((item) => ({
+      id: item.id,
+      name: item.name,
+      type: item.type,
+      evidence_tier: item.evidence_tier,
+      evidence_notes: item.evidence_notes,
+      summary: item.summary,
+      competitors: toArray(item.competitors).filter(isPlainObject),
+      recommendation: item.recommendation,
+      usage_paradigm: item.usage_paradigm,
+      stage_tags: toArray(item.stage_tags).map((tag) => String(tag)).filter(Boolean),
+      is_update: Boolean(item.is_update),
+      links: toArray(item.links).map((link) => String(link)).filter(Boolean)
+    }));
+}
+
+function normalizeBriefs(value) {
+  return toArray(value)
+    .filter(isPlainObject)
+    .map((brief) => ({
+      name: brief.name,
+      one_liner: brief.one_liner,
+      link: brief.link
+    }));
+}
+
 function syncRoute() {
-  const match = /^#\/week\/([^/]+)$/.exec(window.location.hash || "");
-  const requestedWeek = match ? decodeURIComponent(match[1]) : null;
-  if (requestedWeek && state.issues.some((issue) => issue.week === requestedWeek)) {
-    state.selectedWeek = requestedWeek;
-  } else if (state.issues.length > 0) {
-    state.selectedWeek = state.issues[0].week;
-  } else {
-    state.selectedWeek = null;
+  state.routeNotice = "";
+  const hash = window.location.hash || "";
+  const match = /^#\/date\/([^/]+)$/.exec(hash);
+  const requestedDate = match ? safeDecode(match[1]) : null;
+
+  if (requestedDate && state.issues.some((issue) => issue.date === requestedDate)) {
+    state.selectedDate = requestedDate;
+    return;
   }
+
+  state.selectedDate = state.issues.length > 0 ? state.issues[0].date : null;
+
+  if (!hash || hash === "#/") return;
+
+  if (requestedDate) {
+    state.routeNotice = parseIsoDate(requestedDate)
+      ? `未找到 ${requestedDate} 的日报，已显示最新日报。`
+      : "日期路由格式无效，已显示最新日报。";
+    return;
+  }
+
+  state.routeNotice = "未识别的路由，已显示最新日报。";
 }
 
 function render() {
@@ -265,35 +372,74 @@ function renderStats() {
   const highlightCount = state.issues.reduce((sum, issue) => sum + issue.highlights.length, 0);
   nodes.statIssueCount.textContent = String(state.issues.length);
   nodes.statHighlightCount.textContent = String(highlightCount);
-  nodes.statLatestWeek.textContent = state.issues[0] ? state.issues[0].week : "--";
+  nodes.statLatestDate.textContent = state.issues[0] ? state.issues[0].date : "--";
 }
 
 function renderIssueList() {
   if (state.issues.length === 0) {
-    nodes.issueList.replaceChildren(emptyMini("暂无可展示的期数"));
+    nodes.issueList.replaceChildren(emptyMini("暂无可展示的日报"));
     return;
   }
 
-  const template = document.querySelector("#issueButtonTemplate");
+  const groups = groupIssuesByMonth(state.issues);
+  const latestMonth = state.issues[0].date.slice(0, 7);
+  const selectedMonth = state.selectedDate ? state.selectedDate.slice(0, 7) : latestMonth;
   nodes.issueList.replaceChildren(
-    ...state.issues.map((issue) => {
-      const fragment = template.content.cloneNode(true);
-      const link = fragment.querySelector("a");
-      const title = issue.highlights[0] ? safeText(issue.highlights[0].name, "本期情报") : "本期无重点条目";
-      link.href = `#/week/${encodeURIComponent(issue.week)}`;
-      link.classList.toggle("is-active", issue.week === state.selectedWeek);
-      fragment.querySelector(".issue-week").textContent = issue.week;
-      fragment.querySelector(".issue-title").textContent = title;
-      fragment.querySelector(".issue-meta").textContent = `${issue.highlights.length} 个重点 · ${issue.briefs.length} 条简讯`;
-      return fragment;
-    })
+    ...groups.map(([month, issues]) => issueMonthGroup(month, issues, latestMonth, selectedMonth))
   );
 }
 
+function groupIssuesByMonth(issues) {
+  const groups = new Map();
+  for (const issue of issues) {
+    const month = issue.date.slice(0, 7);
+    if (!groups.has(month)) groups.set(month, []);
+    groups.get(month).push(issue);
+  }
+  return Array.from(groups.entries());
+}
+
+function issueMonthGroup(month, issues, latestMonth, selectedMonth) {
+  const details = document.createElement("details");
+  details.className = "issue-month";
+  details.open = month === latestMonth || month === selectedMonth;
+
+  const summary = document.createElement("summary");
+  const label = document.createElement("span");
+  label.textContent = monthLabel(month);
+  const count = document.createElement("strong");
+  count.textContent = `${issues.length} 期`;
+  summary.append(label, count);
+
+  const list = document.createElement("div");
+  list.className = "issue-month-list";
+  list.append(...issues.map(issueLink));
+
+  details.append(summary, list);
+  return details;
+}
+
+function issueLink(issue) {
+  const template = document.querySelector("#issueButtonTemplate");
+  const fragment = template.content.cloneNode(true);
+  const link = fragment.querySelector("a");
+  const title = issue.highlights[0] ? safeText(issue.highlights[0].name, "本期情报") : "本期无重点条目";
+  link.href = `#/date/${encodeURIComponent(issue.date)}`;
+  link.classList.toggle("is-active", issue.date === state.selectedDate);
+  if (issue.date === state.selectedDate) link.setAttribute("aria-current", "page");
+  fragment.querySelector(".issue-date").textContent = issue.date;
+  fragment.querySelector(".issue-title").textContent = title;
+  fragment.querySelector(".issue-meta").textContent = `${issue.highlights.length} 重点 · ${issue.briefs.length} 简讯`;
+  return fragment;
+}
+
 function renderIssueDetail() {
-  const issue = state.issues.find((item) => item.week === state.selectedWeek);
+  const issue = state.issues.find((item) => item.date === state.selectedDate);
   if (!issue) {
-    nodes.issueDetail.replaceChildren(emptyState("暂无情报数据", "当 `data/issues/YYYY-Www.json` 加入仓库后，站点会在下一次加载时自动尝试发现并展示。"));
+    const message = state.loadErrors.length > 0
+      ? "部分数据读取失败，详情见上方状态栏。修复 JSON 后刷新即可恢复。"
+      : "当 `data/issues/YYYY-MM-DD.json` 加入仓库后，站点会在下一次加载时自动尝试发现并展示。";
+    nodes.issueDetail.replaceChildren(emptyState("暂无情报数据", message));
     return;
   }
 
@@ -321,10 +467,10 @@ function issueHeader(issue, filteredCount) {
   header.className = "issue-header";
 
   const copy = document.createElement("div");
-  copy.append(textBlock("eyebrow", "Issue"));
+  copy.append(textBlock("eyebrow", "Daily Issue"));
   const title = document.createElement("h2");
   title.id = "contentTitle";
-  title.textContent = `${issue.week} 情报周报`;
+  title.textContent = `${issue.date} 情报日报`;
   copy.append(title);
   const generated = document.createElement("p");
   generated.className = "hero-text";
@@ -384,7 +530,7 @@ function highlightCard(item) {
   fields.append(fieldBox("条目标识", item.id, "未提供 ID。"));
   card.append(fields);
 
-  const competitors = toArray(item.competitors);
+  const competitors = toArray(item.competitors).filter(isPlainObject);
   if (competitors.length > 0) {
     card.append(listBlock("竞品对比", competitorList(competitors)));
   }
@@ -547,6 +693,7 @@ function textBlock(className, value) {
 }
 
 function matchesFilters(item) {
+  if (!isPlainObject(item)) return false;
   const typeOk = state.filters.type === "all" || item.type === state.filters.type;
   if (!typeOk) return false;
   if (state.filters.stage === "all") return true;
@@ -560,13 +707,34 @@ function setStatus(message, isError = false) {
 }
 
 function statusMessage() {
+  const messages = [];
+  if (state.routeNotice) messages.push(state.routeNotice);
+
   if (state.issues.length === 0) {
-    return "未发现可读取的期数。请添加 data/issues/YYYY-Www.json 后刷新。";
+    messages.push("未发现可读取的日报。请添加 data/issues/YYYY-MM-DD.json 后刷新。");
+  } else if (state.ledger.length === 0) {
+    messages.push(`已读取 ${state.issues.length} 期日报；ledger.json 缺失或为空，站点按契约降级展示。`);
+  } else {
+    messages.push(`数据读取完成，已发现 ${state.issues.length} 期日报。`);
   }
-  if (state.ledger.length === 0) {
-    return "已读取期数数据；ledger.json 缺失或为空，站点按契约降级展示。";
+
+  if (state.loadErrors.length > 0) {
+    const sample = state.loadErrors.slice(0, 3).join("；");
+    const suffix = state.loadErrors.length > 3 ? `；另有 ${state.loadErrors.length - 3} 项` : "";
+    messages.push(`读取异常 ${state.loadErrors.length} 项：${sample}${suffix}`);
   }
-  return "数据读取完成。";
+
+  return messages.join(" ");
+}
+
+function hasVisibleError() {
+  return state.loadErrors.length > 0 || Boolean(state.routeNotice);
+}
+
+function monthLabel(month) {
+  const match = /^(\d{4})-(\d{2})$/.exec(month);
+  if (!match) return month;
+  return `${match[1]} 年 ${match[2]} 月`;
 }
 
 function formatDate(value) {
@@ -588,16 +756,18 @@ function toArray(value) {
 }
 
 function linkOrText(href, label) {
+  const safeLabel = safeText(label, "未命名链接");
   if (!href || !isSafeHref(href)) {
     const span = document.createElement("span");
-    span.textContent = label;
+    span.textContent = safeLabel;
     return span;
   }
   const a = document.createElement("a");
   a.href = href;
   a.target = "_blank";
   a.rel = "noopener noreferrer";
-  a.textContent = label;
+  a.title = href;
+  a.textContent = safeLabel;
   return a;
 }
 
@@ -617,4 +787,16 @@ function readableLink(href) {
   } catch {
     return String(href);
   }
+}
+
+function safeDecode(value) {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return "";
+  }
+}
+
+function errorMessage(error) {
+  return error instanceof Error ? error.message : String(error);
 }
