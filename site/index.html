@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Star-Skill Radar 情报站</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到主要内容</a>
+
+    <header class="shell hero">
+      <div class="hero-copy">
+        <p class="eyebrow">AI 技术资产周报</p>
+        <h1>Star-Skill Radar</h1>
+        <p class="hero-text">
+          面向 AI 编程实践的静态情报站。按周浏览高价值 skills、MCP、rules、hooks、subagents、提示词库与工作范式。
+        </p>
+      </div>
+      <div class="hero-stats" aria-label="站点数据概览">
+        <div>
+          <strong id="statIssueCount">--</strong>
+          <span>期报告</span>
+        </div>
+        <div>
+          <strong id="statHighlightCount">--</strong>
+          <span>重点条目</span>
+        </div>
+        <div>
+          <strong id="statLatestWeek">--</strong>
+          <span>最新周期</span>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" class="shell app-shell">
+      <aside class="issue-panel" aria-labelledby="issuePanelTitle">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Archive</p>
+            <h2 id="issuePanelTitle">历期索引</h2>
+          </div>
+          <a class="home-link" href="#/" aria-label="返回最新期">最新</a>
+        </div>
+        <div id="issueList" class="issue-list" aria-live="polite"></div>
+      </aside>
+
+      <section class="content-panel" aria-labelledby="contentTitle">
+        <div class="toolbar" aria-label="筛选工具">
+          <div class="filter-group">
+            <span class="filter-label">主题类型</span>
+            <div id="typeFilters" class="segmented" role="group" aria-label="按主题类型筛选"></div>
+          </div>
+          <div class="filter-group">
+            <span class="filter-label">开发阶段</span>
+            <div id="stageFilters" class="segmented" role="group" aria-label="按开发阶段筛选"></div>
+          </div>
+        </div>
+
+        <div id="statusBar" class="status-bar" role="status" aria-live="polite">正在读取情报数据...</div>
+
+        <article id="issueDetail" class="issue-detail">
+          <div class="empty-state">
+            <p class="eyebrow">Loading</p>
+            <h2 id="contentTitle">正在准备情报站</h2>
+            <p>如果这是首次打开，请确认通过本地静态服务器或 GitHub Pages 访问，以便浏览器可以读取 JSON 数据。</p>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <template id="issueButtonTemplate">
+      <a class="issue-card" href="#">
+        <span class="issue-week"></span>
+        <strong class="issue-title"></strong>
+        <span class="issue-meta"></span>
+      </a>
+    </template>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>

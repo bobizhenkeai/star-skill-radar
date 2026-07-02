@@ -1,0 +1,73 @@
+{
+  "week": "2026-W27",
+  "generated_at": "2026-07-02T08:30:00+08:00",
+  "highlights": [
+    {
+      "id": "anthropics/skills-cookbook",
+      "name": "Skills Cookbook",
+      "type": "skill",
+      "evidence_tier": "official",
+      "evidence_notes": "示例数据：官方示例库，记录了技能封装、指令分层与可复用模板的采集快照。",
+      "summary": "面向 AI 编程 Agent 的技能组织样例，适合作为团队内部沉淀工作流、代码审查准则与运行手册的参考。",
+      "competitors": [
+        {
+          "name": "Prompt snippets",
+          "link": "https://github.com/search?q=prompt+snippets",
+          "verdict": "片段库更轻，但缺少技能级目录、约束与验证路径。"
+        }
+      ],
+      "recommendation": "结构化 skill 比零散提示词更容易复用和审计，适合沉淀高频开发动作。",
+      "usage_paradigm": "前期用于需求澄清与流程约束，中期可作为实现窗口的执行准则。",
+      "stage_tags": ["requirements", "design", "implementation"],
+      "is_update": false,
+      "links": ["https://docs.anthropic.com/"]
+    },
+    {
+      "id": "modelcontextprotocol/servers",
+      "name": "MCP Servers Collection",
+      "type": "mcp",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "示例数据：社区集合型仓库，关注 server 覆盖范围、维护活跃度与工具接入形态。",
+      "summary": "MCP server 集合降低了 Agent 连接外部系统的门槛，适合在工具链扩展阶段筛选稳定连接器。",
+      "competitors": [
+        {
+          "name": "Custom REST wrappers",
+          "link": "https://modelcontextprotocol.io/",
+          "verdict": "自定义封装灵活，但跨工具复用和权限边界不如 MCP 统一。"
+        }
+      ],
+      "recommendation": "MCP 是当前 Agent 工具互操作的重要协议，应优先追踪官方与高活跃社区 server。",
+      "usage_paradigm": "中期连接 GitHub、文档、数据库等上下文；后期可扩展到监控和运维工具。",
+      "stage_tags": ["implementation", "ops"],
+      "is_update": false,
+      "links": ["https://modelcontextprotocol.io/"]
+    },
+    {
+      "id": "cursor/rules-gallery",
+      "name": "Rules Gallery",
+      "type": "rules",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "示例数据：按语言和框架分类的 rules 模板，重点观察适配粒度与维护状态。",
+      "summary": "Rules 模板把团队工程偏好显式交给 AI IDE，适合约束代码风格、测试习惯和模块边界。",
+      "competitors": [],
+      "recommendation": "对单用户项目也有价值，可以把隐性开发偏好变成可迁移的仓库约定。",
+      "usage_paradigm": "前期写入架构原则，中期约束实现，审查阶段辅助发现偏离约定的改动。",
+      "stage_tags": ["design", "implementation", "review"],
+      "is_update": false,
+      "links": ["https://docs.cursor.com/"]
+    }
+  ],
+  "briefs": [
+    {
+      "name": "Spec-driven workflow 示例增多",
+      "one_liner": "越来越多仓库把需求、规格、执行计划拆成可复用文档，便于多 Agent 并行。",
+      "link": "https://github.com/search?q=spec-driven+development"
+    },
+    {
+      "name": "Agent review checklist",
+      "one_liner": "代码审查提示词开始从单次 prompt 演进为仓库级检查清单。",
+      "link": "https://github.com/search?q=agent+review+checklist"
+    }
+  ],
+  "source_gaps": []
+}
