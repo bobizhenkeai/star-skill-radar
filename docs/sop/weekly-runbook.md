@@ -126,9 +126,9 @@ topic:mcp-servers stars:>50
 3. 对比 Markdown 和 JSON highlights。
 4. 确认禁止范围未改动：`docs/prds/`、`docs/specs/`、`site/`。
 5. `git status --short` 检查改动范围。
-6. 提交信息使用：
+6. 提交信息使用（替换为当期 ISO 周）：
 
 ```text
-docs: add weekly SOP pipeline and first issue run
+docs: add YYYY-Www weekly issue
 ```
 
