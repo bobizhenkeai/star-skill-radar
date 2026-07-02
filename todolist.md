@@ -7,7 +7,7 @@
 | 阶段 | 内容 | 状态 |
 |---|---|---|
 | Phase 1 | 脚手架 + 治理文件 + 数据契约 + 来源调研（架构师） | 完成 |
-| Phase 2 / Round 1 | 窗口B：采集/验证/报告 SOP 体系（feat/sop-pipeline）；窗口C：HTML 情报站（feat/html-site）— 并行 | 指令已下发 |
+| Phase 2 / Round 1 | 窗口B：采集/验证/报告 SOP 体系（feat/sop-pipeline）；窗口C：HTML 情报站（feat/html-site）— 并行 | 完成并合并 |
 | Phase 3 | 合并 → GitHub 仓库推送 → Pages 上线 → 手动全链路试跑首期报告 | 未开始 |
 | Phase 4 | 创建 Cursor Automation（每周 cron）→ 观察首次自动运行 → 验收 | 未开始 |
 
@@ -22,3 +22,4 @@
 ## 进度日志
 
 - 2026-07-02：需求澄清 3 轮完成，PRD v1.0 落盘；仓库脚手架初始化（5dc9f8f）；来源调研报告落盘（fb4f2ce）；Round 1 双窗口指令下发（B=feat/sop-pipeline，C=feat/html-site）。
+- 2026-07-02：Round 1 验收完成。SOP 线（49da9d5）自审通过，runbook 提交信息模板参数化修正（3a2923b）后并入 master；HTML 线经代码审查发现 3 项问题（跨年 W53 时区 bug / optional 加载吞错 / 无 JS 降级），窗口C 修复（f50b876）后合并（72aed00），冲突文件 2026-W27.json 保留真实数据，删除虚构示例 W28。合并后契约校验通过（5 highlights / 9 briefs / 5 ledger items）。
