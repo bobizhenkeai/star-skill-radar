@@ -1,0 +1,226 @@
+{
+  "week": "2026-W27",
+  "generated_at": "2026-07-02T09:43:47+08:00",
+  "highlights": [
+    {
+      "id": "anthropics/skills",
+      "name": "Anthropic Skills",
+      "type": "skill",
+      "evidence_tier": "official",
+      "evidence_notes": "采集时间 2026-07-02T09:43+08:00。GitHub 仓库/API 显示 anthropics/skills 为 Public repository for Agent Skills，157,365 stars、18,540 forks；README 说明该仓库包含 Claude skills 实现、示例 skills、document skills，并链接 Agent Skills standard 与 Anthropic 官方资料。",
+      "summary": "Anthropic 官方技能样例与插件入口，覆盖 Claude Code、Claude.ai 与 Claude API 的技能安装和使用路径，是观察 Agent Skills 目录结构、SKILL.md 元数据和官方技能分发方式的核心样本。",
+      "competitors": [
+        {
+          "name": "OpenAI Skills in API",
+          "link": "https://developers.openai.com/cookbook/examples/skills_in_api",
+          "verdict": "OpenAI 更强调托管/本地 shell 环境中的 versioned skill bundle，适合 API 与 Codex 侧复用。"
+        },
+        {
+          "name": "Agent Skills specification",
+          "link": "https://agentskills.io/specification",
+          "verdict": "规范层定义可移植格式，Anthropic 仓库则给出产品实现和样例。"
+        }
+      ],
+      "recommendation": "官方来源、超高 star、明确的安装入口和生产文档技能样例同时成立，适合作为团队设计内部 skill 目录和安全审查规则的首要参照。",
+      "usage_paradigm": "用于 implementation 与 ops 阶段：先参考仓库中技能结构设计内部 SKILL.md，再将高频文档、测试、MCP 生成等流程封装为可审计技能；上线前按 README 的免责声明逐项测试。",
+      "stage_tags": [
+        "implementation",
+        "testing",
+        "ops"
+      ],
+      "is_update": false,
+      "links": [
+        "https://github.com/anthropics/skills",
+        "https://agentskills.io/specification",
+        "https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills"
+      ]
+    },
+    {
+      "id": "https://developers.openai.com/codex/skills",
+      "name": "OpenAI Codex Skills / Skills API",
+      "type": "skill",
+      "evidence_tier": "official",
+      "evidence_notes": "采集时间 2026-07-02T09:43+08:00。OpenAI Codex Skills 官方文档说明 skill 用于扩展 Codex 任务能力，打包 instructions、resources、optional scripts，并基于 open Agent Skills standard；OpenAI API Skills guide 说明 skill 是 versioned bundle + SKILL.md manifest，可用于 hosted/local shell。openai/codex API 显示 94,907 stars，latest release rust-v0.142.5 发布于 2026-07-01T01:15:44Z；openai/skills GitHub 页面显示 23.1k stars 且 README 标注 deprecated。",
+      "summary": "OpenAI 侧的技能路线已从单一 skills 仓库转向 Codex Skills 文档、Skills API 与 plugin/skill-only plugin 工作流；对 Codex 用户而言，关键不是盲目拉取旧仓库，而是把可重复流程沉淀为小而明确的 skill，并按分发范围选择本地 skill 或 plugin。",
+      "competitors": [
+        {
+          "name": "Anthropic Skills",
+          "link": "https://github.com/anthropics/skills",
+          "verdict": "Anthropic 仓库更像官方样例库和插件市场入口，OpenAI 文档更强调 Codex/Hosted Shell/API 里的复用方式。"
+        },
+        {
+          "name": "firecrawl/openai-skills",
+          "link": "https://github.com/firecrawl/openai-skills",
+          "verdict": "社区目录型仓库仅 1 star，本期只作补充发现源，不满足 community-verified。"
+        }
+      ],
+      "recommendation": "这是本期最需要避免误用的 OpenAI 侧信号：Codex Skills 与 API Skills 文档是当前权威入口，旧 `openai/skills` 虽仍有 23.1k stars，但官方仓库页面已标注 deprecated，SOP 与后续周报应优先引用 developers.openai.com。",
+      "usage_paradigm": "用于 requirements、implementation 与 ops 阶段：把重复迁移、评审、发布、事故复盘流程写成小 skill；每个 skill 明确输入输出和触发描述，避免把长提示词作为长期工作流。",
+      "stage_tags": [
+        "requirements",
+        "implementation",
+        "ops"
+      ],
+      "is_update": false,
+      "links": [
+        "https://developers.openai.com/codex/skills",
+        "https://developers.openai.com/api/docs/guides/tools-skills",
+        "https://developers.openai.com/codex/learn/best-practices#turn-repeatable-work-into-skills",
+        "https://github.com/openai/codex",
+        "https://github.com/openai/skills"
+      ]
+    },
+    {
+      "id": "modelcontextprotocol/registry",
+      "name": "MCP Registry",
+      "type": "mcp",
+      "evidence_tier": "official",
+      "evidence_notes": "采集时间 2026-07-02T09:43+08:00。MCP 官方文档说明 Registry 是 official centralized metadata repository，提供 REST API、namespace management 与标准安装/配置元数据；GitHub 页面显示 modelcontextprotocol/registry 约 6,974 stars、885 forks、92 issues、30 PRs、648 commits，latest release v1.7.9 于 2026-05-12 发布；官方 Registry 页面提供 production API base URL。",
+      "summary": "MCP Registry 正在把 MCP server 发现从 awesome 清单推向可消费的官方元数据层。它不是直接托管 server 代码，而是托管指向包、远程 server、安装方式和能力描述的标准化 metadata。",
+      "competitors": [
+        {
+          "name": "modelcontextprotocol/servers",
+          "link": "https://github.com/modelcontextprotocol/servers",
+          "verdict": "servers 仓库是参考实现与示例，README 明确建议浏览 Registry 查找已发布 servers。"
+        },
+        {
+          "name": "punkpeye/awesome-mcp-servers",
+          "link": "https://github.com/punkpeye/awesome-mcp-servers",
+          "verdict": "awesome 清单覆盖面更广，但可信同步和机器消费应回到官方 Registry/API。"
+        }
+      ],
+      "recommendation": "对周更雷达来说，Registry 是 MCP 类资产的优先同步源：它有官方背书、API、namespace 验证和安全/反垃圾机制，比单纯抓 awesome 清单更适合自动化。",
+      "usage_paradigm": "用于 implementation 与 ops 阶段：先从 Registry 同步候选 server 元数据，再回到对应 GitHub/包管理器验证代码、license、维护状态；企业内部可按官方 OpenAPI 形态派生私有 registry。",
+      "stage_tags": [
+        "implementation",
+        "ops"
+      ],
+      "is_update": false,
+      "links": [
+        "https://modelcontextprotocol.io/registry/about",
+        "https://registry.modelcontextprotocol.io/",
+        "https://github.com/modelcontextprotocol/registry",
+        "https://blog.modelcontextprotocol.io/posts/2025-09-08-mcp-registry-preview/"
+      ]
+    },
+    {
+      "id": "github/spec-kit",
+      "name": "GitHub Spec Kit",
+      "type": "paradigm",
+      "evidence_tier": "official",
+      "evidence_notes": "采集时间 2026-07-02T09:43+08:00。GitHub 仓库页面显示 github/spec-kit 有 117k stars、10.4k forks、225 issues、140 PRs、1,302 commits；官方文档页显示 106K+ GitHub stars、200+ contributors、30+ integrations、Last updated May 27, 2026；release 页面显示 v0.12.3 Latest 于 01 Jul 16:37 发布，v0.12.2 于 30 Jun 14:37 发布。",
+      "summary": "Spec Kit 将 AI 辅助开发前置为 Spec -> Plan -> Tasks -> Implement 的结构化流程，把需求、计划、任务和实现上下文串联为可审计制品，而不是一次性 vibe coding。",
+      "competitors": [
+        {
+          "name": "mattpocock/skills",
+          "link": "https://github.com/mattpocock/skills",
+          "verdict": "更偏小型可组合技能，适合保留人工控制感；Spec Kit 更偏完整方法论与 CLI/集成生态。"
+        },
+        {
+          "name": "addyosmani/agent-skills",
+          "link": "https://github.com/addyosmani/agent-skills",
+          "verdict": "以工程质量门禁和 lifecycle commands 组织，适合作为 Spec Kit 后半程质量补强。"
+        }
+      ],
+      "recommendation": "本周 release 密集且官方仓库/文档均活跃，适合列为工作范式重点；它直接对应项目关注的 spec-driven 与反 vibe coding 方向。",
+      "usage_paradigm": "用于 requirements、design、implementation、review、testing 全周期：先用 spec 固定要解决的问题，再产出计划和任务，最后让 agent 按任务切片实现并接受检查。",
+      "stage_tags": [
+        "requirements",
+        "design",
+        "implementation",
+        "review",
+        "testing"
+      ],
+      "is_update": false,
+      "links": [
+        "https://github.com/github/spec-kit",
+        "https://github.github.com/spec-kit/",
+        "https://github.com/github/spec-kit/releases"
+      ]
+    },
+    {
+      "id": "addyosmani/agent-skills",
+      "name": "Addy Osmani Agent Skills",
+      "type": "skill",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "采集时间 2026-07-02T09:43+08:00。GitHub 页面显示 addyosmani/agent-skills 有 68.4k stars、7.4k forks、63 issues、83 PRs、298 commits，MIT license，页面无归档信号（archived=false），并包含 agents、commands、hooks、skills、references、scripts 等目录；README 将 8 个 slash commands 映射到 define/plan/build/verify/review/ship 生命周期。",
+      "summary": "这是一个社区高星的工程技能库，将高级工程实践拆成 skills、commands、hooks 与 agents，强调 spec before code、small atomic tasks、tests are proof、review gate 等可执行质量门禁。",
+      "competitors": [
+        {
+          "name": "Anthropic Skills",
+          "link": "https://github.com/anthropics/skills",
+          "verdict": "官方样例更权威，Addy 仓库更像工程团队可直接借鉴的 SDLC 操作层。"
+        },
+        {
+          "name": "mattpocock/skills",
+          "link": "https://github.com/mattpocock/skills",
+          "verdict": "Matt Pocock 仓库 star 更高且强调小技能组合，Addy 仓库更强调全生命周期命令和质量门禁。"
+        }
+      ],
+      "recommendation": "满足 community-verified：stars 远超 1k，license 明确，仓库结构覆盖 skills/hooks/agents/commands，issue/PR 与 commit 数据显示有维护面，README 给出生命周期化使用路径。",
+      "usage_paradigm": "用于 design、implementation、review、testing、ops 阶段：将 `/spec`、`/plan`、`/build`、`/test`、`/review`、`/ship` 作为团队 agent 工作流骨架，再按项目约束裁剪具体 skill。",
+      "stage_tags": [
+        "design",
+        "implementation",
+        "review",
+        "testing",
+        "ops"
+      ],
+      "is_update": false,
+      "links": [
+        "https://github.com/addyosmani/agent-skills",
+        "https://addyosmani.com/blog/agent-skills/"
+      ]
+    }
+  ],
+  "briefs": [
+    {
+      "name": "Agent Skills specification",
+      "one_liner": "采集时间 2026-07-02T09:43+08:00。agentskills.io 规范要求 skill 至少包含 `SKILL.md`，并定义 `name`、`description` 等 frontmatter 约束，是跨 Claude/Codex 等 agent 复用技能的格式基础。",
+      "link": "https://agentskills.io/specification"
+    },
+    {
+      "name": "modelcontextprotocol/servers",
+      "one_liner": "采集时间 2026-07-02T09:43+08:00。GitHub 页面/API 显示 87.9k stars；README 明确该仓库是参考实现集合，找已发布 MCP servers 应优先浏览官方 Registry。",
+      "link": "https://github.com/modelcontextprotocol/servers"
+    },
+    {
+      "name": "mattpocock/skills",
+      "one_liner": "采集时间 2026-07-02T09:43+08:00。GitHub 页面显示 153k stars，README 强调小而可组合的 real engineering skills，可作为社区技能库对照样本。",
+      "link": "https://github.com/mattpocock/skills"
+    },
+    {
+      "name": "wshobson/agents",
+      "one_liner": "采集时间 2026-07-02T09:43+08:00。GitHub 页面显示 37.4k stars，README 描述 88 plugins、194 agents、158 skills、106 commands 的多 harness 插件市场。",
+      "link": "https://github.com/wshobson/agents"
+    },
+    {
+      "name": "obra/superpowers",
+      "one_liner": "采集时间 2026-07-02T09:43+08:00。社区巡检显示 243k stars、W27 有提交、MIT license，topics 含 skills 与 subagent-driven-development，可作为高热度 skill/paradigm 后续观察面。",
+      "link": "https://github.com/obra/superpowers"
+    },
+    {
+      "name": "VoltAgent/awesome-agent-skills",
+      "one_liner": "采集时间 2026-07-02T09:43+08:00。社区巡检显示 27k stars、2026-06-30 有提交，README 定位为跨 Claude Code、Codex、Gemini、Cursor 的 1000+ agent skills 索引。",
+      "link": "https://github.com/VoltAgent/awesome-agent-skills"
+    },
+    {
+      "name": "intellectronica/ruler",
+      "one_liner": "采集时间 2026-07-02T09:43+08:00。社区巡检显示 2.8k stars、2026-07-02 有提交，定位为多 agent 规则同步与配置桥接工具，适合 rules 方向后续深挖。",
+      "link": "https://github.com/intellectronica/ruler"
+    },
+    {
+      "name": "Claude Code 官方仓库与技能/子代理文档",
+      "one_liner": "采集时间 2026-07-02T09:43+08:00。anthropics/claude-code API 显示 135,347 stars，latest release v2.1.198 发布于 2026-07-01T20:45:36Z；Anthropic docs 覆盖 skills 与 subagents。",
+      "link": "https://github.com/anthropics/claude-code"
+    },
+    {
+      "name": "Cursor Customize / Automations",
+      "one_liner": "采集时间 2026-07-02T09:43+08:00。Cursor 2026-06-22 changelog 说明 Customize page 可管理 plugins、skills、MCPs、subagents、rules、commands、hooks；2026-06-18 changelog 说明 `/automate` skill 可从本地 agent session 创建 automation。",
+      "link": "https://cursor.com/changelog/customize"
+    }
+  ],
+  "source_gaps": [
+    "主窗口本机 PowerShell Invoke-RestMethod 与 curl.exe 直连 GitHub API 失败，社区巡检子代理的未认证 REST API 也遇到 403；本期改用官方文档、子代理可取得的 API 巡检结果、GitHub 仓库/release/commits 页面交叉验证。对仅从 GitHub 页面取得的 star 使用页面展示值（如 117k），未伪造精确 API 数字。"
+  ]
+}

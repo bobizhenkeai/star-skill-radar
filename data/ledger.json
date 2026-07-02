@@ -1,0 +1,102 @@
+[
+  {
+    "id": "anthropics/skills",
+    "name": "Anthropic Skills",
+    "type": "skill",
+    "evidence_tier": "official",
+    "first_reported": "2026-W27",
+    "last_updates": [],
+    "state_snapshot": "2026-07-02T09:43+08:00 GitHub/API: 157,365 stars, 18,540 forks; official Anthropic Agent Skills repository and Claude skill/plugin entry.",
+    "stage_tags": [
+      "implementation",
+      "testing",
+      "ops"
+    ],
+    "links": [
+      "https://github.com/anthropics/skills",
+      "https://agentskills.io/specification",
+      "https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills"
+    ]
+  },
+  {
+    "id": "https://developers.openai.com/codex/skills",
+    "name": "OpenAI Codex Skills / Skills API",
+    "type": "skill",
+    "evidence_tier": "official",
+    "first_reported": "2026-W27",
+    "last_updates": [],
+    "state_snapshot": "2026-07-02T09:43+08:00 OpenAI Codex Skills and API Skills docs current; openai/codex API: 94,907 stars, latest release rust-v0.142.5 on 2026-07-01T01:15:44Z; openai/skills GitHub page shows 23.1k stars and deprecated notice.",
+    "stage_tags": [
+      "requirements",
+      "implementation",
+      "ops"
+    ],
+    "links": [
+      "https://developers.openai.com/codex/skills",
+      "https://developers.openai.com/api/docs/guides/tools-skills",
+      "https://developers.openai.com/codex/learn/best-practices#turn-repeatable-work-into-skills",
+      "https://github.com/openai/codex",
+      "https://github.com/openai/skills"
+    ]
+  },
+  {
+    "id": "modelcontextprotocol/registry",
+    "name": "MCP Registry",
+    "type": "mcp",
+    "evidence_tier": "official",
+    "first_reported": "2026-W27",
+    "last_updates": [],
+    "state_snapshot": "2026-07-02T09:43+08:00 GitHub page/org: about 6,974 stars, 885 forks, 92 issues, 30 PRs, 648 commits, latest release v1.7.9 on 2026-05-12; official MCP Registry docs describe official centralized metadata repository and REST API.",
+    "stage_tags": [
+      "implementation",
+      "ops"
+    ],
+    "links": [
+      "https://modelcontextprotocol.io/registry/about",
+      "https://registry.modelcontextprotocol.io/",
+      "https://github.com/modelcontextprotocol/registry",
+      "https://blog.modelcontextprotocol.io/posts/2025-09-08-mcp-registry-preview/"
+    ]
+  },
+  {
+    "id": "github/spec-kit",
+    "name": "GitHub Spec Kit",
+    "type": "paradigm",
+    "evidence_tier": "official",
+    "first_reported": "2026-W27",
+    "last_updates": [],
+    "state_snapshot": "2026-07-02T09:43+08:00 GitHub page: 117k stars, 10.4k forks, 225 issues, 140 PRs, 1,302 commits; latest release v0.12.3 on 2026-07-01.",
+    "stage_tags": [
+      "requirements",
+      "design",
+      "implementation",
+      "review",
+      "testing"
+    ],
+    "links": [
+      "https://github.com/github/spec-kit",
+      "https://github.github.com/spec-kit/",
+      "https://github.com/github/spec-kit/releases"
+    ]
+  },
+  {
+    "id": "addyosmani/agent-skills",
+    "name": "Addy Osmani Agent Skills",
+    "type": "skill",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-W27",
+    "last_updates": [],
+    "state_snapshot": "2026-07-02T09:43+08:00 GitHub page: 68.4k stars, 7.4k forks, 63 issues, 83 PRs, 298 commits, MIT license, archived=false/page no archive signal; lifecycle commands and skills/hooks/agents directories visible.",
+    "stage_tags": [
+      "design",
+      "implementation",
+      "review",
+      "testing",
+      "ops"
+    ],
+    "links": [
+      "https://github.com/addyosmani/agent-skills",
+      "https://addyosmani.com/blog/agent-skills/"
+    ]
+  }
+]
