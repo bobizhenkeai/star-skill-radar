@@ -8,7 +8,8 @@
 2. 读取 `AGENTS.md`、`docs/specs/data-contract.md`、本目录全部 SOP。
 3. 用系统时间换算北京时间运行日期，文件名必须是 `YYYY-MM-DD`，例如 `2026-07-02`。
 4. 读取 `data/ledger.json`；不存在时创建空数组，存在时必须先解析成功。
-5. 建立候选表，字段至少包含：`id`、`name`、`type`、`source_kind`、`stars`、`dates`、`links`、`evidence_signals`、`ledger_state`。
+5. 读取 `data/issues/index.json`；不存在时先按 `data/issues/YYYY-MM-DD.json` 实际文件重建日期数组，存在时必须先解析成功。
+6. 建立候选表，字段至少包含：`id`、`name`、`type`、`source_kind`、`stars`、`dates`、`links`、`evidence_signals`、`ledger_state`。
 
 ## 2. 官方源巡检
 
@@ -109,7 +110,16 @@ topic:mcp-servers stars:>50
 - Markdown 可扩展分析正文，但不得引入 JSON 中没有来源支撑的新事实。
 - 所有事实仍需附链接，不要只写“据 GitHub 显示”。
 
-## 8. 更新 ledger
+## 8. 更新日期清单
+
+更新 `data/issues/index.json`：
+
+- 将当期 `date` 加入清单；如果已存在则不重复写入，保证幂等。
+- 清单只包含 `data/issues/` 下实际存在的 `YYYY-MM-DD.json` 文件对应日期，不包含 `index.json` 本身。
+- 为减少无意义 diff，建议按日期升序输出。
+- 更新后必须重新扫描 `data/issues/*.json`，确认清单集合与实际日期文件集合完全一致。
+
+## 9. 更新 ledger
 
 对每个 highlight：
 
@@ -123,14 +133,15 @@ topic:mcp-servers stars:>50
 2026-07-02T09:43+08:00 GitHub page: 117k stars, 10.4k forks, latest release v0.12.3 on 2026-07-01.
 ```
 
-## 9. 校验与提交
+## 10. 校验与提交
 
 1. 解析 JSON。
 2. 校验必填字段与枚举。
-3. 对比 Markdown 和 JSON highlights。
-4. 确认禁止范围未改动：`docs/prds/`、`docs/specs/`、`site/`。
-5. `git status --short` 检查改动范围。
-6. 提交信息使用（替换为当期日期）：
+3. 校验 `data/issues/index.json` 是 JSON 数组，元素均为 `YYYY-MM-DD`，且与 `data/issues/` 下实际日期文件集合一致。
+4. 对比 Markdown 和 JSON highlights。
+5. 确认禁止范围未改动：`docs/prds/`、`docs/specs/`、`site/`。
+6. `git status --short` 检查改动范围。
+7. 提交信息使用（替换为当期日期）：
 
 ```text
 docs: add YYYY-MM-DD daily issue
