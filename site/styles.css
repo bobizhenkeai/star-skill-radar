@@ -1,9 +1,10 @@
 :root {
+  /* 暖色羊皮纸基调：所有中性色统一偏暖（R≈G>B），实测对比度见 docs/research/frontend-redesign-parchment-cjk-typography.md */
   --bg: #f6f3ec;
   --paper: #fffdf8;
   --paper-strong: #ffffff;
-  --ink: #17201d;
-  --muted: #65706c;
+  --ink: #1c1917;
+  --muted: #6b6259;
   --line: #ddd5c8;
   --line-strong: #beb3a4;
   --accent: #0e6f5c;
@@ -13,10 +14,33 @@
   --signal-soft: #f9e0d6;
   --blue: #2f5f98;
   --blue-soft: #dce8f6;
-  --shadow: 0 18px 50px rgba(37, 43, 39, 0.12);
+  /* "耳语阴影"：近乎扁平的层次感，主要靠发丝级描边区分层级而非投影，见暖色调研 §4 反模式 4 */
+  --shadow: 0 4px 24px rgba(28, 25, 23, 0.06);
   --radius: 8px;
+
+  /* 数据/时间戳专用等宽字体 */
   --mono: "SFMono-Regular", "Cascadia Mono", "Liberation Mono", Consolas, monospace;
-  --sans: "Aptos", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  /* 密集正文/UI：系统级中文黑体优先，零外部字体网络依赖（面向中文移动端读者，避免境外字体 CDN 不可达导致渲染失败） */
+  --sans: "PingFang SC", "Microsoft YaHei", "Source Han Sans SC", "Noto Sans SC", -apple-system,
+    "Segoe UI", Roboto, sans-serif;
+  /* 大标题/板块分隔专用：系统自带中文衬线，仅用于稀疏的展示场景，营造人文/编辑气质，不用于正文 */
+  --serif: "Songti SC", "STSong", "Noto Serif SC", Georgia, "Source Serif 4", serif;
+
+  /* 分类专用低饱和色（仅用于 type 徽标/摘要看板分类头，不作为品牌强调色使用） */
+  --cat-skill: #3d648f;
+  --cat-skill-soft: #dfe7ee;
+  --cat-mcp: #5c6b47;
+  --cat-mcp-soft: #e4e8dc;
+  --cat-rules: #7d5c25;
+  --cat-rules-soft: #ede3d0;
+  --cat-hooks: #7a4a63;
+  --cat-hooks-soft: #eee0e6;
+  --cat-subagent: #935a3a;
+  --cat-subagent-soft: #f0e2d7;
+  --cat-promptlib: #3d6b64;
+  --cat-promptlib-soft: #dfe9e6;
+  --cat-paradigm: #6e5f52;
+  --cat-paradigm-soft: #e9e4dd;
 }
 
 * {
@@ -29,6 +53,9 @@ html {
   color: var(--ink);
   font-family: var(--sans);
   line-height: 1.5;
+  text-autospace: normal;
+  text-spacing-trim: trim-start;
+  font-feature-settings: "halt" 1;
 }
 
 body {
@@ -101,8 +128,10 @@ p {
 h1 {
   margin: 0;
   max-width: 760px;
+  font-family: var(--serif);
   font-size: 44px;
-  line-height: 0.92;
+  font-weight: 600;
+  line-height: 0.98;
   letter-spacing: 0;
 }
 
@@ -111,6 +140,17 @@ h1 {
   margin: 18px 0 0;
   color: var(--muted);
   font-size: 17px;
+}
+
+.hero-permalink {
+  margin: 12px 0 0;
+  font-size: 14px;
+  color: var(--muted);
+  word-break: break-all;
+}
+
+.hero-permalink a {
+  color: var(--accent);
 }
 
 .hero-stats {
@@ -131,6 +171,7 @@ h1 {
   display: block;
   color: var(--ink);
   font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
   font-size: 20px;
   line-height: 1.1;
 }
@@ -395,8 +436,10 @@ h1 {
 
 .issue-header h2 {
   margin: 0;
+  font-family: var(--serif);
   font-size: 30px;
-  line-height: 1.02;
+  font-weight: 600;
+  line-height: 1.08;
   letter-spacing: 0;
 }
 
@@ -416,6 +459,7 @@ h1 {
 .summary-tile strong {
   display: block;
   font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
   font-size: 20px;
 }
 
@@ -423,6 +467,150 @@ h1 {
   display: block;
   color: var(--muted);
   font-size: 12px;
+}
+
+/* 摘要看板：一眼看清"今天发生了多少内容 + 每类最关键的是什么"，证据类细节不在此层出现 */
+.overview-board {
+  display: grid;
+  gap: 10px;
+  margin: 20px 0 28px;
+}
+
+.overview-lede {
+  margin: 0;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.overview-lede strong {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-ink);
+}
+
+.overview-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr;
+}
+
+.overview-category {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper-strong);
+  padding: 12px;
+}
+
+.overview-category-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.overview-category-head h4 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.overview-dot {
+  width: 9px;
+  height: 9px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--cat-color, var(--muted));
+}
+
+.overview-category-count {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+}
+
+.overview-bullets {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.overview-bullet {
+  display: block;
+  width: 100%;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  padding: 6px 8px;
+  margin: 0 -8px;
+  text-align: left;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.overview-bullet:hover,
+.overview-bullet:focus-visible {
+  background: var(--bg);
+  outline: none;
+}
+
+.overview-bullet[data-external]::after {
+  content: " ↗";
+  color: var(--muted);
+}
+
+.overview-bullet-title {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.overview-bullet-note {
+  display: block;
+  margin-top: 1px;
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.4;
+}
+
+.overview-more {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  background: none;
+  border: 0;
+  padding: 2px 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.overview-more:hover,
+.overview-more:focus-visible {
+  color: var(--accent-ink);
+  outline: none;
+}
+
+@media (min-width: 640px) {
+  .overview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1080px) {
+  .overview-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 .section-title {
@@ -454,7 +642,14 @@ h1 {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--paper-strong);
+  box-shadow: var(--shadow);
   padding: 15px;
+  scroll-margin-top: 16px;
+}
+
+.highlight-card:target,
+.highlight-card.is-jump-target {
+  border-color: var(--accent);
 }
 
 .highlight-top {
@@ -492,12 +687,6 @@ h1 {
   font-weight: 700;
 }
 
-.chip.type {
-  border-color: rgba(47, 95, 152, 0.28);
-  background: var(--blue-soft);
-  color: #183b64;
-}
-
 .chip.evidence {
   border-color: rgba(14, 111, 92, 0.28);
   background: var(--accent-soft);
@@ -509,6 +698,15 @@ h1 {
   background: var(--signal-soft);
   color: #7b2415;
 }
+
+/* 分类专用低饱和色：同一色号在摘要看板与卡片间复用，帮助用户建立"颜色=类别"的扫描记忆 */
+.chip.cat-skill { border-color: rgba(61, 100, 143, 0.3); background: var(--cat-skill-soft); color: var(--cat-skill); }
+.chip.cat-mcp { border-color: rgba(92, 107, 71, 0.3); background: var(--cat-mcp-soft); color: var(--cat-mcp); }
+.chip.cat-rules { border-color: rgba(125, 92, 37, 0.3); background: var(--cat-rules-soft); color: var(--cat-rules); }
+.chip.cat-hooks { border-color: rgba(122, 74, 99, 0.3); background: var(--cat-hooks-soft); color: var(--cat-hooks); }
+.chip.cat-subagent { border-color: rgba(147, 90, 58, 0.3); background: var(--cat-subagent-soft); color: var(--cat-subagent); }
+.chip.cat-prompt-lib { border-color: rgba(61, 107, 100, 0.3); background: var(--cat-promptlib-soft); color: var(--cat-promptlib); }
+.chip.cat-paradigm { border-color: rgba(110, 95, 82, 0.3); background: var(--cat-paradigm-soft); color: var(--cat-paradigm); }
 
 .copy-block {
   display: grid;
@@ -524,6 +722,41 @@ h1 {
 .copy-block p {
   margin: 0;
   color: var(--muted);
+}
+
+/* 核心态"为什么重要 / 怎么用"：推荐理由与使用范式，语义上属于 positioning+value+workflow 的"价值/工作流"层，
+   视觉权重介于标题与普通正文之间——比 copy-block 更突出，但不与证据态争夺注意力 */
+.value-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.value-block {
+  border-left: 3px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+  background: var(--accent-soft);
+  padding: 10px 12px;
+}
+
+.value-block h4 {
+  margin: 0 0 3px;
+  color: var(--accent-ink);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.value-block p {
+  margin: 0;
+  color: var(--ink);
+  font-size: 14px;
+}
+
+@media (min-width: 640px) {
+  .value-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 .field-grid {
@@ -545,6 +778,61 @@ h1 {
 .field-box p {
   margin: 0;
   color: var(--muted);
+}
+
+/* 证据态：默认折叠，原生 details/summary 承载，与站点已有的归档折叠交互保持一致 */
+.evidence-panel {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+
+.evidence-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 10px 12px;
+  color: var(--accent-ink);
+  font-size: 13px;
+  font-weight: 800;
+  list-style: none;
+}
+
+.evidence-trigger::-webkit-details-marker {
+  display: none;
+}
+
+.evidence-trigger::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform 150ms ease;
+}
+
+.evidence-panel[open] > .evidence-trigger::before {
+  transform: rotate(45deg);
+}
+
+.evidence-trigger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.evidence-trigger-count {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.evidence-body {
+  display: grid;
+  gap: 10px;
+  border-top: 1px solid var(--line);
+  padding: 12px;
 }
 
 .competitor-list,

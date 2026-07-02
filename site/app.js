@@ -45,6 +45,19 @@ const EVIDENCE_LABELS = {
   "community-verified": "社区验证"
 };
 
+const TYPE_COLOR_VAR = {
+  skill: "var(--cat-skill)",
+  mcp: "var(--cat-mcp)",
+  rules: "var(--cat-rules)",
+  hooks: "var(--cat-hooks)",
+  subagent: "var(--cat-subagent)",
+  "prompt-lib": "var(--cat-promptlib)",
+  paradigm: "var(--cat-paradigm)"
+};
+
+const OVERVIEW_BULLET_LIMIT = 3;
+const OVERVIEW_NOTE_LENGTH = 46;
+
 const state = {
   ledger: [],
   issueDates: [],
@@ -581,6 +594,7 @@ function renderIssueDetail() {
   const filteredHighlights = issue.highlights.filter(matchesFilters);
   const container = document.createDocumentFragment();
   container.append(issueHeader(issue, filteredHighlights.length));
+  container.append(overviewBoard(issue, filteredHighlights));
   container.append(sectionTitle("重点条目", `${filteredHighlights.length}/${issue.highlights.length} 个匹配`));
 
   if (filteredHighlights.length === 0) {
@@ -634,9 +648,204 @@ function summaryTile(value, label) {
   return tile;
 }
 
+function overviewBoard(issue, highlights) {
+  const section = document.createElement("section");
+  section.className = "overview-board";
+  section.setAttribute("aria-label", "今日摘要看板");
+
+  const totalCount = highlights.length + issue.briefs.length;
+  if (totalCount === 0) {
+    section.append(sectionTitle("今日摘要", "暂无条目"));
+    section.append(emptyMini("今日暂无可展示的情报条目"));
+    return section;
+  }
+
+  section.append(sectionTitle("今日摘要", "点击任意条目跳转至完整卡片"));
+
+  const lede = document.createElement("p");
+  lede.className = "overview-lede";
+  const countEl = document.createElement("strong");
+  countEl.textContent = String(totalCount);
+  lede.append(
+    "今日共 ",
+    countEl,
+    ` 条情报 · ${highlights.length} 个重点 · ${issue.briefs.length} 条简讯`
+  );
+  if (highlights[0] && safeText(highlights[0].name, "")) {
+    lede.append(`；头条：${highlights[0].name}`);
+  }
+  section.append(lede);
+
+  const grid = document.createElement("div");
+  grid.className = "overview-grid";
+  for (const [type, items] of groupHighlightsByType(highlights)) {
+    grid.append(overviewCategoryCard(type, items));
+  }
+  if (issue.briefs.length > 0) {
+    grid.append(overviewBriefsCard(issue.briefs));
+  }
+  section.append(grid);
+
+  return section;
+}
+
+function groupHighlightsByType(highlights) {
+  const groups = new Map();
+  for (const item of highlights) {
+    if (!isPlainObject(item)) continue;
+    const key = TYPE_LABELS[item.type] ? item.type : "other";
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(item);
+  }
+  const ordered = [];
+  for (const [value] of TYPE_OPTIONS) {
+    if (value === "all") continue;
+    if (groups.has(value)) ordered.push([value, groups.get(value)]);
+  }
+  if (groups.has("other")) ordered.push(["other", groups.get("other")]);
+  return ordered;
+}
+
+function overviewCategoryCard(type, items) {
+  const card = document.createElement("div");
+  card.className = "overview-category";
+  card.append(overviewCategoryHead(TYPE_LABELS[type] || "其他", items.length, TYPE_COLOR_VAR[type]));
+
+  const list = document.createElement("ul");
+  list.className = "overview-bullets";
+  list.append(...items.slice(0, OVERVIEW_BULLET_LIMIT).map(overviewBulletItem));
+  card.append(list);
+
+  const remaining = items.length - OVERVIEW_BULLET_LIMIT;
+  if (remaining > 0) {
+    card.append(overviewMoreButton(remaining, () => {
+      list.append(...items.slice(OVERVIEW_BULLET_LIMIT).map(overviewBulletItem));
+    }));
+  }
+
+  return card;
+}
+
+function overviewBriefsCard(briefs) {
+  const card = document.createElement("div");
+  card.className = "overview-category";
+  card.append(overviewCategoryHead("简讯", briefs.length));
+
+  const list = document.createElement("ul");
+  list.className = "overview-bullets";
+  list.append(...briefs.slice(0, OVERVIEW_BULLET_LIMIT).map(overviewBriefBulletItem));
+  card.append(list);
+
+  const remaining = briefs.length - OVERVIEW_BULLET_LIMIT;
+  if (remaining > 0) {
+    card.append(overviewMoreButton(remaining, () => {
+      list.append(...briefs.slice(OVERVIEW_BULLET_LIMIT).map(overviewBriefBulletItem));
+    }));
+  }
+
+  return card;
+}
+
+function overviewCategoryHead(label, count, colorVar) {
+  const head = document.createElement("div");
+  head.className = "overview-category-head";
+
+  const h4 = document.createElement("h4");
+  const dot = document.createElement("span");
+  dot.className = "overview-dot";
+  if (colorVar) dot.style.setProperty("--cat-color", colorVar);
+  h4.append(dot, document.createTextNode(label));
+
+  const countEl = document.createElement("span");
+  countEl.className = "overview-category-count";
+  countEl.textContent = `${count} 条`;
+
+  head.append(h4, countEl);
+  return head;
+}
+
+function overviewMoreButton(remaining, onExpand) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "overview-more";
+  button.textContent = `展开其余 ${remaining} 条`;
+  button.addEventListener("click", () => {
+    onExpand();
+    button.remove();
+  });
+  return button;
+}
+
+function overviewBulletItem(item) {
+  const li = document.createElement("li");
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "overview-bullet";
+  button.append(overviewBulletTitle(safeText(item.name, "未命名条目")));
+  const note = truncateText(item.summary || item.recommendation, OVERVIEW_NOTE_LENGTH);
+  if (note) button.append(overviewBulletNote(note));
+  button.addEventListener("click", () => scrollToHighlight(item));
+  li.append(button);
+  return li;
+}
+
+function overviewBriefBulletItem(brief) {
+  const li = document.createElement("li");
+  const note = truncateText(brief.one_liner, OVERVIEW_NOTE_LENGTH);
+  if (brief.link && isSafeHref(brief.link)) {
+    const a = document.createElement("a");
+    a.className = "overview-bullet";
+    a.href = brief.link;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    a.setAttribute("data-external", "");
+    a.append(overviewBulletTitle(safeText(brief.name, "未命名简讯")));
+    if (note) a.append(overviewBulletNote(note));
+    li.append(a);
+  } else {
+    li.append(overviewBulletTitle(safeText(brief.name, "未命名简讯")));
+  }
+  return li;
+}
+
+function overviewBulletTitle(text) {
+  const span = document.createElement("span");
+  span.className = "overview-bullet-title";
+  span.textContent = text;
+  return span;
+}
+
+function overviewBulletNote(text) {
+  const span = document.createElement("span");
+  span.className = "overview-bullet-note";
+  span.textContent = text;
+  return span;
+}
+
+function scrollToHighlight(item) {
+  const target = document.getElementById(highlightAnchorId(item));
+  if (!target) return;
+  target.scrollIntoView({ behavior: "smooth", block: "start" });
+  target.classList.add("is-jump-target");
+  window.setTimeout(() => target.classList.remove("is-jump-target"), 1600);
+}
+
+function highlightAnchorId(item) {
+  const raw = item && (item.id || item.name) ? String(item.id || item.name) : "item";
+  return `highlight-${raw.replace(/[^a-zA-Z0-9_-]+/g, "-")}`;
+}
+
+function truncateText(value, limit) {
+  const text = safeText(value, "");
+  if (!text) return "";
+  if (text.length <= limit) return text;
+  return `${text.slice(0, limit)}…`;
+}
+
 function highlightCard(item) {
   const card = document.createElement("section");
   card.className = "highlight-card";
+  card.id = highlightAnchorId(item);
 
   const top = document.createElement("div");
   top.className = "highlight-top";
@@ -645,8 +854,9 @@ function highlightCard(item) {
   titleBlock.className = "highlight-title";
   const title = document.createElement("h3");
   title.textContent = safeText(item.name, "未命名条目");
+  const typeChipClass = TYPE_LABELS[item.type] ? `cat-${item.type}` : "";
   titleBlock.append(title, chipRow([
-    chip(TYPE_LABELS[item.type] || safeText(item.type, "未分类"), "type"),
+    chip(TYPE_LABELS[item.type] || safeText(item.type, "未分类"), typeChipClass),
     chip(EVIDENCE_LABELS[item.evidence_tier] || safeText(item.evidence_tier, "证据未标注"), "evidence"),
     item.is_update ? chip("追踪更新", "update") : null
   ].filter(Boolean)));
@@ -655,27 +865,70 @@ function highlightCard(item) {
   top.append(titleBlock, chipRow(stageTags));
   card.append(top);
 
+  // 核心态：项目介绍 + 价值/工作流，始终展示，回答"这是什么、为什么重要、怎么用"
   card.append(copyBlock("项目介绍", item.summary, "暂无项目介绍。"));
+
+  const values = document.createElement("div");
+  values.className = "value-grid";
+  values.append(valueBlock("为什么重要", item.recommendation, "暂无推荐理由。"));
+  values.append(valueBlock("怎么用", item.usage_paradigm, "暂无使用范式说明。"));
+  card.append(values);
+
+  // 证据态：默认折叠，仅在用户主动点击后展示来源、竞品、原始证据文本与条目标识
+  card.append(evidencePanel(item));
+
+  return card;
+}
+
+function valueBlock(title, value, fallback) {
+  const box = document.createElement("div");
+  box.className = "value-block";
+  const heading = document.createElement("h4");
+  heading.textContent = title;
+  const paragraph = document.createElement("p");
+  paragraph.textContent = safeText(value, fallback);
+  box.append(heading, paragraph);
+  return box;
+}
+
+function evidencePanel(item) {
+  const links = toArray(item.links).filter(Boolean);
+  const competitors = toArray(item.competitors).filter(isPlainObject);
+
+  const details = document.createElement("details");
+  details.className = "evidence-panel";
+
+  const trigger = document.createElement("summary");
+  trigger.className = "evidence-trigger";
+  trigger.append("证据与来源");
+  const scentParts = [];
+  if (links.length > 0) scentParts.push(`${links.length} 条链接`);
+  if (competitors.length > 0) scentParts.push(`${competitors.length} 项竞品对比`);
+  const scent = document.createElement("span");
+  scent.className = "evidence-trigger-count";
+  scent.textContent = scentParts.length > 0 ? `· ${scentParts.join(" · ")}` : "· 点击展开";
+  trigger.append(scent);
+  details.append(trigger);
+
+  const body = document.createElement("div");
+  body.className = "evidence-body";
 
   const fields = document.createElement("div");
   fields.className = "field-grid";
   fields.append(fieldBox("证据要点", item.evidence_notes, "暂无证据说明。"));
-  fields.append(fieldBox("推荐理由", item.recommendation, "暂无推荐理由。"));
-  fields.append(fieldBox("使用范式", item.usage_paradigm, "暂无使用范式说明。"));
   fields.append(fieldBox("条目标识", item.id, "未提供 ID。"));
-  card.append(fields);
+  body.append(fields);
 
-  const competitors = toArray(item.competitors).filter(isPlainObject);
   if (competitors.length > 0) {
-    card.append(listBlock("竞品对比", competitorList(competitors)));
+    body.append(listBlock("竞品对比", competitorList(competitors)));
   }
 
-  const links = toArray(item.links).filter(Boolean);
   if (links.length > 0) {
-    card.append(listBlock("来源链接", linkList(links)));
+    body.append(listBlock("来源链接", linkList(links)));
   }
 
-  return card;
+  details.append(body);
+  return details;
 }
 
 function chipRow(items) {

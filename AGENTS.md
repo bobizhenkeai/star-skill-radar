@@ -33,4 +33,6 @@
 
 ## 踩坑 Ledger
 
-（暂无，遇坑一行一条追加）
+- `site/` 本地验证：需先起静态服务器（如 `python -m http.server`），`file://` 直开会因 `fetch()` 读不到 JSON 而卡在 loading。用 chrome-devtools MCP 测移动端视口时优先用 `emulate`（`viewport: "390x844x3,mobile,touch"`），`resize_page` 在浏览器窗口已最大化时会报 "Restore window to normal state" 错误。
+- `browser-use` subagent 在本环境曾出现浏览器 MCP 连接中途断开、或声称找不到 `CallMcpTool` 而退化为纯代码走读（未真正验证）的情况；本地站点验证优先由主窗口直接调用 `user-chrome-devtools` MCP 工具（先读 `mcps/user-chrome-devtools/tools/*.json` 确认参数）驱动，比委派子代理更可靠。
+- Cursor 云端 Automation 的账户归属状态无法从 agent 对话内查询/核实（`automate` 技能明确仅限创建、禁止查询已有自动化；隔离浏览器无用户真实登录态）；换号后需人工登录 cursor.com/dashboard 自查，参考 `docs/automation-recipe.md`。
