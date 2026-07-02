@@ -148,6 +148,10 @@ h1 {
   padding: 0 0 34px;
 }
 
+.no-script-fallback {
+  padding: 0 0 24px;
+}
+
 .issue-panel,
 .content-panel {
   min-width: 0;
@@ -544,6 +548,13 @@ h1 {
   max-width: 620px;
   margin: 0;
   color: var(--muted);
+}
+
+.empty-state a {
+  color: var(--accent-ink);
+  font-weight: 800;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
 
 @media (min-width: 740px) {

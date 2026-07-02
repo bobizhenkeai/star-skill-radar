@@ -82,8 +82,11 @@ async function init() {
     }
     setStatus(statusMessage());
   } catch (error) {
-    setStatus("读取数据时发生错误，页面已切换到空状态。", true);
+    const message = error instanceof Error ? error.message : String(error);
+    setStatus(`数据读取失败：${message}`, true);
+    state.ledger = [];
     state.issues = [];
+    state.selectedWeek = null;
   }
   render();
 }
@@ -146,23 +149,30 @@ async function discoverIssues(ledger) {
 }
 
 async function fetchJson(url, { optional = false } = {}) {
+  let response;
   try {
-    const response = await fetch(url, { cache: "no-store" });
-    if (!response.ok) {
-      return optional ? null : Promise.reject(new Error(`${url} ${response.status}`));
-    }
+    response = await fetch(url, { cache: "no-store" });
+  } catch (error) {
+    throw new Error(`无法连接 ${url}：${error instanceof Error ? error.message : "网络异常"}`);
+  }
+
+  if (!response.ok) {
+    if (optional && [404, 410].includes(response.status)) return null;
+    throw new Error(`读取 ${url} 失败：HTTP ${response.status}`);
+  }
+
+  try {
     return await response.json();
   } catch (error) {
-    if (optional) return null;
-    throw error;
+    throw new Error(`解析 ${url} 失败：${error instanceof Error ? error.message : "JSON 格式错误"}`);
   }
 }
 
 function generateCandidateWeeks() {
   const weeks = [];
   const today = new Date();
-  const endDate = new Date(today);
-  endDate.setDate(today.getDate() + DISCOVERY_LOOKAHEAD_WEEKS * 7);
+  const endDate = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()));
+  endDate.setUTCDate(endDate.getUTCDate() + DISCOVERY_LOOKAHEAD_WEEKS * 7);
   const end = isoWeek(endDate);
   let cursor = { ...DISCOVERY_START };
 
@@ -184,7 +194,7 @@ function weeksInIsoYear(year) {
 }
 
 function isoWeek(date) {
-  const target = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  const target = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
   const day = target.getUTCDay() || 7;
   target.setUTCDate(target.getUTCDate() + 4 - day);
   const yearStart = new Date(Date.UTC(target.getUTCFullYear(), 0, 1));
