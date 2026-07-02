@@ -1,8 +1,9 @@
 const DATA_ROOT = "../data";
 const ISSUE_ROOT = `${DATA_ROOT}/issues`;
-const DISCOVERY_START_DATE = "2026-07-02";
-const DISCOVERY_LOOKAHEAD_DAYS = 7;
-const DISCOVERY_CONCURRENCY = 20;
+const ISSUE_INDEX_URL = `${ISSUE_ROOT}/index.json`;
+const FALLBACK_RECENT_DAYS = 3;
+const PREFETCH_RECENT_LIMIT = 14;
+const DISCOVERY_CONCURRENCY = 6;
 
 const TYPE_OPTIONS = [
   ["all", "全部"],
@@ -46,10 +47,15 @@ const EVIDENCE_LABELS = {
 
 const state = {
   ledger: [],
-  issues: [],
+  issueDates: [],
+  issueCache: new Map(),
+  issueErrors: new Map(),
+  pendingDates: new Set(),
   selectedDate: null,
   loadErrors: [],
   routeNotice: "",
+  discoveryMode: "index",
+  ledgerSupplementCount: 0,
   filters: {
     type: "all",
     stage: "all"
@@ -69,10 +75,15 @@ const nodes = {
 };
 
 document.addEventListener("DOMContentLoaded", init);
-window.addEventListener("hashchange", () => {
+window.addEventListener("hashchange", async () => {
   syncRoute();
   setStatus(statusMessage(), hasVisibleError());
   render();
+  if (state.selectedDate) {
+    await loadIssueByDate(state.selectedDate);
+    setStatus(statusMessage(), hasVisibleError());
+    render();
+  }
 });
 
 async function init() {
@@ -80,9 +91,14 @@ async function init() {
   setArchiveDefaultOpen();
 
   state.loadErrors = [];
+  state.issueCache = new Map();
+  state.issueErrors = new Map();
+  state.pendingDates = new Set();
   state.ledger = await loadLedger();
-  const discovery = await discoverIssues(state.ledger);
-  state.issues = discovery.issues;
+  const discovery = await discoverIssueDates(state.ledger);
+  state.issueDates = discovery.dates;
+  state.discoveryMode = discovery.mode;
+  state.ledgerSupplementCount = discovery.ledgerSupplementCount;
   state.loadErrors.push(...discovery.errors);
 
   const initialHash = window.location.hash;
@@ -93,6 +109,13 @@ async function init() {
 
   setStatus(statusMessage(), hasVisibleError());
   render();
+
+  if (state.selectedDate) {
+    await loadIssueByDate(state.selectedDate);
+    setStatus(statusMessage(), hasVisibleError());
+    render();
+    prefetchRecentIssues();
+  }
 }
 
 function setArchiveDefaultOpen() {
@@ -140,8 +163,51 @@ async function loadLedger() {
   }
 }
 
-async function discoverIssues(ledger) {
-  const dates = new Set(generateCandidateDates());
+async function discoverIssueDates(ledger) {
+  const errors = [];
+  const dates = new Set();
+  const index = await loadIssueIndex();
+  let mode = index.loaded ? "index" : "fallback";
+
+  if (index.error) errors.push(index.error);
+  for (const date of index.dates) dates.add(date);
+
+  const beforeLedger = dates.size;
+  addLedgerDates(dates, ledger);
+  const ledgerSupplementCount = dates.size - beforeLedger;
+
+  if (!index.loaded && dates.size === 0) {
+    const fallback = await discoverRecentIssues();
+    for (const date of fallback.dates) dates.add(date);
+    errors.push(...fallback.errors);
+  }
+
+  return {
+    dates: Array.from(dates).sort(compareDatesDesc),
+    errors,
+    mode,
+    ledgerSupplementCount
+  };
+}
+
+async function loadIssueIndex() {
+  try {
+    const result = await fetchJson(ISSUE_INDEX_URL, { optional: true });
+    if (result === null) return { loaded: false, dates: [], error: "" };
+    if (!Array.isArray(result)) {
+      return { loaded: false, dates: [], error: "解析 data/issues/index.json 失败：日期清单必须是数组。" };
+    }
+    return {
+      loaded: true,
+      dates: uniqueValidDates(result),
+      error: ""
+    };
+  } catch (error) {
+    return { loaded: false, dates: [], error: errorMessage(error) };
+  }
+}
+
+function addLedgerDates(dates, ledger) {
   for (const item of Array.isArray(ledger) ? ledger : []) {
     addDateIfValid(dates, item && item.first_reported);
     const updates = Array.isArray(item && item.last_updates) ? item.last_updates : [];
@@ -149,30 +215,32 @@ async function discoverIssues(ledger) {
       addDateIfValid(dates, update && update.date);
     }
   }
+}
 
-  const candidates = Array.from(dates).sort(compareDatesDesc);
-  const results = await mapWithConcurrency(candidates, DISCOVERY_CONCURRENCY, fetchIssueByDate);
+async function discoverRecentIssues() {
+  const recentDates = recentIsoDates(FALLBACK_RECENT_DAYS);
+  const results = await mapWithConcurrency(
+    recentDates,
+    DISCOVERY_CONCURRENCY,
+    (date) => fetchIssueForDiscovery(date)
+  );
+  const dates = [];
   const errors = [];
-  const issuesByDate = new Map();
-
   for (const result of results) {
     if (!result) continue;
     if (result.error) {
       errors.push(result.error);
       continue;
     }
-    if (result.issue && !issuesByDate.has(result.issue.date)) {
-      issuesByDate.set(result.issue.date, result.issue);
+    if (result.issue) {
+      state.issueCache.set(result.issue.date, result.issue);
+      dates.push(result.issue.date);
     }
   }
-
-  return {
-    issues: Array.from(issuesByDate.values()).sort((a, b) => compareDatesDesc(a.date, b.date)),
-    errors
-  };
+  return { dates, errors };
 }
 
-async function fetchIssueByDate(date) {
+async function fetchIssueForDiscovery(date) {
   const url = `${ISSUE_ROOT}/${date}.json`;
   try {
     const data = await fetchJson(url, { optional: true });
@@ -181,6 +249,46 @@ async function fetchIssueByDate(date) {
   } catch (error) {
     return { error: errorMessage(error) };
   }
+}
+
+async function loadIssueByDate(date) {
+  if (!parseIsoDate(date) || state.issueCache.has(date) || state.pendingDates.has(date)) return;
+
+  state.pendingDates.add(date);
+  state.issueErrors.delete(date);
+  render();
+
+  const url = `${ISSUE_ROOT}/${date}.json`;
+  try {
+    const data = await fetchJson(url);
+    if (!isIssue(data)) throw new Error(`解析 ${url} 失败：JSON 顶层必须是对象`);
+    const issue = normalizeIssue(data, date);
+    state.issueCache.set(issue.date, issue);
+    if (issue.date !== date) {
+      state.issueCache.set(date, issue);
+    }
+  } catch (error) {
+    const message = errorMessage(error);
+    state.issueErrors.set(date, message);
+    addLoadError(message);
+  } finally {
+    state.pendingDates.delete(date);
+  }
+}
+
+function prefetchRecentIssues() {
+  const dates = state.issueDates
+    .filter((date) => !state.issueCache.has(date) && !state.issueErrors.has(date))
+    .slice(0, PREFETCH_RECENT_LIMIT);
+  if (dates.length === 0) return;
+
+  setTimeout(async () => {
+    await mapWithConcurrency(dates, DISCOVERY_CONCURRENCY, async (date) => {
+      await loadIssueByDate(date);
+    });
+    setStatus(statusMessage(), hasVisibleError());
+    render();
+  }, 0);
 }
 
 async function fetchJson(url, { optional = false } = {}) {
@@ -218,20 +326,6 @@ async function mapWithConcurrency(items, limit, mapper) {
   return results;
 }
 
-function generateCandidateDates() {
-  const dates = [];
-  const start = parseIsoDate(DISCOVERY_START_DATE);
-  const end = addUtcDays(parseIsoDate(todayIsoDate()), DISCOVERY_LOOKAHEAD_DAYS);
-  if (!start || !end) return dates;
-
-  let cursor = start;
-  while (cursor.getTime() <= end.getTime()) {
-    dates.push(formatIsoDate(cursor));
-    cursor = addUtcDays(cursor, 1);
-  }
-  return dates;
-}
-
 function todayIsoDate() {
   const today = new Date();
   return [
@@ -239,6 +333,12 @@ function todayIsoDate() {
     String(today.getMonth() + 1).padStart(2, "0"),
     String(today.getDate()).padStart(2, "0")
   ].join("-");
+}
+
+function recentIsoDates(days) {
+  const today = parseIsoDate(todayIsoDate());
+  if (!today) return [];
+  return Array.from({ length: days }, (_, offset) => formatIsoDate(addUtcDays(today, -offset)));
 }
 
 function parseIsoDate(value) {
@@ -275,6 +375,14 @@ function addUtcDays(date, days) {
 
 function addDateIfValid(dates, date) {
   if (parseIsoDate(date)) dates.add(date);
+}
+
+function uniqueValidDates(value) {
+  const dates = new Set();
+  for (const item of toArray(value)) {
+    addDateIfValid(dates, item);
+  }
+  return Array.from(dates);
 }
 
 function compareDatesAsc(a, b) {
@@ -342,12 +450,12 @@ function syncRoute() {
   const match = /^#\/date\/([^/]+)$/.exec(hash);
   const requestedDate = match ? safeDecode(match[1]) : null;
 
-  if (requestedDate && state.issues.some((issue) => issue.date === requestedDate)) {
+  if (requestedDate && state.issueDates.includes(requestedDate)) {
     state.selectedDate = requestedDate;
     return;
   }
 
-  state.selectedDate = state.issues.length > 0 ? state.issues[0].date : null;
+  state.selectedDate = state.issueDates.length > 0 ? state.issueDates[0] : null;
 
   if (!hash || hash === "#/") return;
 
@@ -369,37 +477,39 @@ function render() {
 }
 
 function renderStats() {
-  const highlightCount = state.issues.reduce((sum, issue) => sum + issue.highlights.length, 0);
-  nodes.statIssueCount.textContent = String(state.issues.length);
+  const highlightCount = Array.from(state.issueCache.values())
+    .filter(uniqueIssueByDate())
+    .reduce((sum, issue) => sum + issue.highlights.length, 0);
+  nodes.statIssueCount.textContent = String(state.issueDates.length);
   nodes.statHighlightCount.textContent = String(highlightCount);
-  nodes.statLatestDate.textContent = state.issues[0] ? state.issues[0].date : "--";
+  nodes.statLatestDate.textContent = state.issueDates[0] || "--";
 }
 
 function renderIssueList() {
-  if (state.issues.length === 0) {
+  if (state.issueDates.length === 0) {
     nodes.issueList.replaceChildren(emptyMini("暂无可展示的日报"));
     return;
   }
 
-  const groups = groupIssuesByMonth(state.issues);
-  const latestMonth = state.issues[0].date.slice(0, 7);
+  const groups = groupDatesByMonth(state.issueDates);
+  const latestMonth = state.issueDates[0].slice(0, 7);
   const selectedMonth = state.selectedDate ? state.selectedDate.slice(0, 7) : latestMonth;
   nodes.issueList.replaceChildren(
-    ...groups.map(([month, issues]) => issueMonthGroup(month, issues, latestMonth, selectedMonth))
+    ...groups.map(([month, dates]) => issueMonthGroup(month, dates, latestMonth, selectedMonth))
   );
 }
 
-function groupIssuesByMonth(issues) {
+function groupDatesByMonth(dates) {
   const groups = new Map();
-  for (const issue of issues) {
-    const month = issue.date.slice(0, 7);
+  for (const date of dates) {
+    const month = date.slice(0, 7);
     if (!groups.has(month)) groups.set(month, []);
-    groups.get(month).push(issue);
+    groups.get(month).push(date);
   }
   return Array.from(groups.entries());
 }
 
-function issueMonthGroup(month, issues, latestMonth, selectedMonth) {
+function issueMonthGroup(month, dates, latestMonth, selectedMonth) {
   const details = document.createElement("details");
   details.className = "issue-month";
   details.open = month === latestMonth || month === selectedMonth;
@@ -408,38 +518,63 @@ function issueMonthGroup(month, issues, latestMonth, selectedMonth) {
   const label = document.createElement("span");
   label.textContent = monthLabel(month);
   const count = document.createElement("strong");
-  count.textContent = `${issues.length} 期`;
+  count.textContent = `${dates.length} 期`;
   summary.append(label, count);
 
   const list = document.createElement("div");
   list.className = "issue-month-list";
-  list.append(...issues.map(issueLink));
+  list.append(...dates.map(issueLink));
 
   details.append(summary, list);
   return details;
 }
 
-function issueLink(issue) {
+function issueLink(date) {
   const template = document.querySelector("#issueButtonTemplate");
   const fragment = template.content.cloneNode(true);
   const link = fragment.querySelector("a");
-  const title = issue.highlights[0] ? safeText(issue.highlights[0].name, "本期情报") : "本期无重点条目";
-  link.href = `#/date/${encodeURIComponent(issue.date)}`;
-  link.classList.toggle("is-active", issue.date === state.selectedDate);
-  if (issue.date === state.selectedDate) link.setAttribute("aria-current", "page");
-  fragment.querySelector(".issue-date").textContent = issue.date;
+  const issue = state.issueCache.get(date);
+  const error = state.issueErrors.get(date);
+  const isPending = state.pendingDates.has(date);
+  const title = issue && issue.highlights[0] ? safeText(issue.highlights[0].name, "本期情报") : "点击查看日报";
+  link.href = `#/date/${encodeURIComponent(date)}`;
+  link.classList.toggle("is-active", date === state.selectedDate);
+  if (date === state.selectedDate) link.setAttribute("aria-current", "page");
+  fragment.querySelector(".issue-date").textContent = date;
   fragment.querySelector(".issue-title").textContent = title;
-  fragment.querySelector(".issue-meta").textContent = `${issue.highlights.length} 重点 · ${issue.briefs.length} 简讯`;
+  fragment.querySelector(".issue-meta").textContent = issue
+    ? `${issue.highlights.length} 重点 · ${issue.briefs.length} 简讯`
+    : error
+      ? "读取失败"
+      : isPending
+        ? "正在读取"
+        : "按需加载";
   return fragment;
 }
 
 function renderIssueDetail() {
-  const issue = state.issues.find((item) => item.date === state.selectedDate);
-  if (!issue) {
+  if (!state.selectedDate) {
     const message = state.loadErrors.length > 0
       ? "部分数据读取失败，详情见上方状态栏。修复 JSON 后刷新即可恢复。"
-      : "当 `data/issues/YYYY-MM-DD.json` 加入仓库后，站点会在下一次加载时自动尝试发现并展示。";
+      : "当 `data/issues/index.json` 与 `data/issues/YYYY-MM-DD.json` 加入仓库后，站点会在下一次加载时自动发现并展示。";
     nodes.issueDetail.replaceChildren(emptyState("暂无情报数据", message));
+    return;
+  }
+
+  if (state.pendingDates.has(state.selectedDate)) {
+    nodes.issueDetail.replaceChildren(emptyState("正在读取日报", `${state.selectedDate} 的结构化数据正在加载。`));
+    return;
+  }
+
+  const issueError = state.issueErrors.get(state.selectedDate);
+  if (issueError) {
+    nodes.issueDetail.replaceChildren(emptyState("日报读取失败", issueError));
+    return;
+  }
+
+  const issue = state.issueCache.get(state.selectedDate);
+  if (!issue) {
+    nodes.issueDetail.replaceChildren(emptyState("尚未读取日报", "选择日期后将按需读取对应 JSON。"));
     return;
   }
 
@@ -710,12 +845,15 @@ function statusMessage() {
   const messages = [];
   if (state.routeNotice) messages.push(state.routeNotice);
 
-  if (state.issues.length === 0) {
-    messages.push("未发现可读取的日报。请添加 data/issues/YYYY-MM-DD.json 后刷新。");
+  if (state.issueDates.length === 0) {
+    messages.push("未发现可读取的日报。请添加 data/issues/index.json 与 data/issues/YYYY-MM-DD.json 后刷新。");
+  } else if (state.discoveryMode === "fallback") {
+    messages.push(`日期清单缺失，已用降级策略发现 ${state.issueDates.length} 期日报；已加载 ${loadedIssueCount()} 期详情。`);
   } else if (state.ledger.length === 0) {
-    messages.push(`已读取 ${state.issues.length} 期日报；ledger.json 缺失或为空，站点按契约降级展示。`);
+    messages.push(`已从日期清单发现 ${state.issueDates.length} 期日报；已加载 ${loadedIssueCount()} 期详情；ledger.json 缺失或为空，站点按契约降级展示。`);
   } else {
-    messages.push(`数据读取完成，已发现 ${state.issues.length} 期日报。`);
+    const supplement = state.ledgerSupplementCount > 0 ? `，ledger 补充 ${state.ledgerSupplementCount} 期` : "";
+    messages.push(`已从日期清单发现 ${state.issueDates.length} 期日报${supplement}；已加载 ${loadedIssueCount()} 期详情。`);
   }
 
   if (state.loadErrors.length > 0) {
@@ -729,6 +867,19 @@ function statusMessage() {
 
 function hasVisibleError() {
   return state.loadErrors.length > 0 || Boolean(state.routeNotice);
+}
+
+function loadedIssueCount() {
+  return Array.from(state.issueCache.values()).filter(uniqueIssueByDate()).length;
+}
+
+function uniqueIssueByDate() {
+  const seen = new Set();
+  return (issue) => {
+    if (!issue || seen.has(issue.date)) return false;
+    seen.add(issue.date);
+    return true;
+  };
 }
 
 function monthLabel(month) {
@@ -799,4 +950,10 @@ function safeDecode(value) {
 
 function errorMessage(error) {
   return error instanceof Error ? error.message : String(error);
+}
+
+function addLoadError(message) {
+  if (message && !state.loadErrors.includes(message)) {
+    state.loadErrors.push(message);
+  }
 }
