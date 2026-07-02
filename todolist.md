@@ -10,7 +10,7 @@
 | Phase 2 / Round 1 | 窗口B：采集/验证/报告 SOP 体系（feat/sop-pipeline）；窗口C：HTML 情报站（feat/html-site）— 并行 | 完成并合并 |
 | Phase 3 | 合并 → GitHub 仓库推送 → Pages 上线 → 手动全链路试跑首期报告 | 推送完成；待用户启用 Pages（首期 W27 已由 SOP 演练产出，全链路试跑视为完成） |
 | Phase 3.5 / Round 2 | 周报→日报改造：窗口B：SOP 日报化 + 存量迁移（feat/daily-sop）；窗口C：站点按日发现（feat/daily-site）— 并行 | 完成并合并 |
-| Phase 4 | 创建 Cursor Automation（每日 10:00 北京时间 cron）→ 观察首次自动运行 → 验收 | Automation 已创建并激活（用户手动完成，界面截图核验通过）；微信推送 Secret 已配置；待首次真实运行验证 |
+| Phase 4 | 创建 Cursor Automation（每日 10:00 北京时间 cron）→ 观察首次自动运行 → 验收 | 完成：Automation 已创建激活，首次真实运行（手动触发）全链路验证通过，同日重复运行的幂等保护已补齐 |
 
 ## 关键决策摘要
 
@@ -23,6 +23,7 @@
 - 契约 v2.1：新增 data/issues/index.json 日期清单（SOP 写、站点读），根治站点逐日探测线性膨胀问题（代码审查高危项）。旧 #/week/ 深链兼容经裁决豁免（零流量）。
 - Server酱 推送链路已实测可用（pushid 43788474）；SERVERCHAN_SENDKEY 已由用户加入 GitHub Secrets。
 - open_automation 预填两次均未能将草案送达用户可见界面（原因未明），最终改为手动指导用户在 UI 内逐字段创建，创建成功。经验记录：该环境下预填自动打开在实践中不可靠，需备好手动配方兜底——已固化为 docs/automation-recipe.md。
+- 首次真实运行（14:38 手动 Test run）验证全链路打通：commit b230bd7、情报站更新、微信推送均确认成功。同时发现同日两次生成（今晨 SOP 演练 + 今下午真实测试）会静默覆盖，因两者共用同一天文件名主键。根因已查明（git log 证实 b230bd7 为"修改"而非"新增"）。用户选择"跳过"策略：已在 daily-runbook.md/README.md 加入幂等保护（27495ac）——当天文件已存在则整次运行直接跳过，不覆盖不提交。
 
 ## 进度日志
 
