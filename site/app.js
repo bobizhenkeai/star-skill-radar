@@ -1,7 +1,9 @@
 const DATA_ROOT = "../data";
 const ISSUE_ROOT = `${DATA_ROOT}/issues`;
-const DISCOVERY_START = { year: 2026, week: 1 };
-const DISCOVERY_LOOKAHEAD_WEEKS = 8;
+const ISSUE_INDEX_URL = `${ISSUE_ROOT}/index.json`;
+const FALLBACK_RECENT_DAYS = 3;
+const PREFETCH_RECENT_LIMIT = 14;
+const DISCOVERY_CONCURRENCY = 6;
 
 const TYPE_OPTIONS = [
   ["all", "全部"],
@@ -45,8 +47,15 @@ const EVIDENCE_LABELS = {
 
 const state = {
   ledger: [],
-  issues: [],
-  selectedWeek: null,
+  issueDates: [],
+  issueCache: new Map(),
+  issueErrors: new Map(),
+  pendingDates: new Set(),
+  selectedDate: null,
+  loadErrors: [],
+  routeNotice: "",
+  discoveryMode: "index",
+  ledgerSupplementCount: 0,
   filters: {
     type: "all",
     stage: "all"
@@ -54,6 +63,7 @@ const state = {
 };
 
 const nodes = {
+  archiveShell: document.querySelector("#archiveShell"),
   issueList: document.querySelector("#issueList"),
   issueDetail: document.querySelector("#issueDetail"),
   statusBar: document.querySelector("#statusBar"),
@@ -61,34 +71,56 @@ const nodes = {
   stageFilters: document.querySelector("#stageFilters"),
   statIssueCount: document.querySelector("#statIssueCount"),
   statHighlightCount: document.querySelector("#statHighlightCount"),
-  statLatestWeek: document.querySelector("#statLatestWeek")
+  statLatestDate: document.querySelector("#statLatestDate")
 };
 
 document.addEventListener("DOMContentLoaded", init);
-window.addEventListener("hashchange", () => {
+window.addEventListener("hashchange", async () => {
   syncRoute();
+  setStatus(statusMessage(), hasVisibleError());
   render();
+  if (state.selectedDate) {
+    await loadIssueByDate(state.selectedDate);
+    setStatus(statusMessage(), hasVisibleError());
+    render();
+  }
 });
 
 async function init() {
   renderFilterButtons();
-  try {
-    state.ledger = await loadLedger();
-    state.issues = await discoverIssues(state.ledger);
-    const initialHash = window.location.hash;
-    syncRoute();
-    if (!initialHash && state.selectedWeek) {
-      history.replaceState(null, "", `#/week/${state.selectedWeek}`);
-    }
-    setStatus(statusMessage());
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    setStatus(`数据读取失败：${message}`, true);
-    state.ledger = [];
-    state.issues = [];
-    state.selectedWeek = null;
+  setArchiveDefaultOpen();
+
+  state.loadErrors = [];
+  state.issueCache = new Map();
+  state.issueErrors = new Map();
+  state.pendingDates = new Set();
+  state.ledger = await loadLedger();
+  const discovery = await discoverIssueDates(state.ledger);
+  state.issueDates = discovery.dates;
+  state.discoveryMode = discovery.mode;
+  state.ledgerSupplementCount = discovery.ledgerSupplementCount;
+  state.loadErrors.push(...discovery.errors);
+
+  const initialHash = window.location.hash;
+  syncRoute();
+  if (!initialHash && state.selectedDate) {
+    history.replaceState(null, "", `#/date/${state.selectedDate}`);
   }
+
+  setStatus(statusMessage(), hasVisibleError());
   render();
+
+  if (state.selectedDate) {
+    await loadIssueByDate(state.selectedDate);
+    setStatus(statusMessage(), hasVisibleError());
+    render();
+    prefetchRecentIssues();
+  }
+}
+
+function setArchiveDefaultOpen() {
+  if (!nodes.archiveShell) return;
+  nodes.archiveShell.open = window.matchMedia("(min-width: 740px)").matches;
 }
 
 function renderFilterButtons() {
@@ -122,30 +154,141 @@ function filterButton(label, active, onClick) {
 }
 
 async function loadLedger() {
-  const result = await fetchJson(`${DATA_ROOT}/ledger.json`, { optional: true });
-  return Array.isArray(result) ? result : [];
+  try {
+    const result = await fetchJson(`${DATA_ROOT}/ledger.json`, { optional: true });
+    return Array.isArray(result) ? result.filter(isPlainObject) : [];
+  } catch (error) {
+    state.loadErrors.push(errorMessage(error));
+    return [];
+  }
 }
 
-async function discoverIssues(ledger) {
-  const weeks = new Set(generateCandidateWeeks());
-  for (const item of Array.isArray(ledger) ? ledger : []) {
-    addWeekIfValid(weeks, item && item.first_reported);
-    const updates = Array.isArray(item && item.last_updates) ? item.last_updates : [];
-    for (const update of updates) {
-      addWeekIfValid(weeks, update && update.week);
-    }
+async function discoverIssueDates(ledger) {
+  const errors = [];
+  const dates = new Set();
+  const index = await loadIssueIndex();
+  let mode = index.loaded ? "index" : "fallback";
+
+  if (index.error) errors.push(index.error);
+  for (const date of index.dates) dates.add(date);
+
+  const beforeLedger = dates.size;
+  addLedgerDates(dates, ledger);
+  const ledgerSupplementCount = dates.size - beforeLedger;
+
+  if (!index.loaded && dates.size === 0) {
+    const fallback = await discoverRecentIssues();
+    for (const date of fallback.dates) dates.add(date);
+    errors.push(...fallback.errors);
   }
 
-  const candidates = Array.from(weeks).sort(compareWeeksDesc);
-  const issueResults = await Promise.all(
-    candidates.map(async (week) => {
-      const data = await fetchJson(`${ISSUE_ROOT}/${week}.json`, { optional: true });
-      if (!isIssue(data)) return null;
-      return normalizeIssue(data, week);
-    })
-  );
+  return {
+    dates: Array.from(dates).sort(compareDatesDesc),
+    errors,
+    mode,
+    ledgerSupplementCount
+  };
+}
 
-  return issueResults.filter(Boolean).sort((a, b) => compareWeeksDesc(a.week, b.week));
+async function loadIssueIndex() {
+  try {
+    const result = await fetchJson(ISSUE_INDEX_URL, { optional: true });
+    if (result === null) return { loaded: false, dates: [], error: "" };
+    if (!Array.isArray(result)) {
+      return { loaded: false, dates: [], error: "解析 data/issues/index.json 失败：日期清单必须是数组。" };
+    }
+    return {
+      loaded: true,
+      dates: uniqueValidDates(result),
+      error: ""
+    };
+  } catch (error) {
+    return { loaded: false, dates: [], error: errorMessage(error) };
+  }
+}
+
+function addLedgerDates(dates, ledger) {
+  for (const item of Array.isArray(ledger) ? ledger : []) {
+    addDateIfValid(dates, item && item.first_reported);
+    const updates = Array.isArray(item && item.last_updates) ? item.last_updates : [];
+    for (const update of updates) {
+      addDateIfValid(dates, update && update.date);
+    }
+  }
+}
+
+async function discoverRecentIssues() {
+  const recentDates = recentIsoDates(FALLBACK_RECENT_DAYS);
+  const results = await mapWithConcurrency(
+    recentDates,
+    DISCOVERY_CONCURRENCY,
+    (date) => fetchIssueForDiscovery(date)
+  );
+  const dates = [];
+  const errors = [];
+  for (const result of results) {
+    if (!result) continue;
+    if (result.error) {
+      errors.push(result.error);
+      continue;
+    }
+    if (result.issue) {
+      state.issueCache.set(result.issue.date, result.issue);
+      dates.push(result.issue.date);
+    }
+  }
+  return { dates, errors };
+}
+
+async function fetchIssueForDiscovery(date) {
+  const url = `${ISSUE_ROOT}/${date}.json`;
+  try {
+    const data = await fetchJson(url, { optional: true });
+    if (!isIssue(data)) return null;
+    return { issue: normalizeIssue(data, date) };
+  } catch (error) {
+    return { error: errorMessage(error) };
+  }
+}
+
+async function loadIssueByDate(date) {
+  if (!parseIsoDate(date) || state.issueCache.has(date) || state.pendingDates.has(date)) return;
+
+  state.pendingDates.add(date);
+  state.issueErrors.delete(date);
+  render();
+
+  const url = `${ISSUE_ROOT}/${date}.json`;
+  try {
+    const data = await fetchJson(url);
+    if (!isIssue(data)) throw new Error(`解析 ${url} 失败：JSON 顶层必须是对象`);
+    const issue = normalizeIssue(data, date);
+    state.issueCache.set(issue.date, issue);
+    if (issue.date !== date) {
+      state.issueCache.set(date, issue);
+    }
+  } catch (error) {
+    const message = errorMessage(error);
+    state.issueErrors.set(date, message);
+    addLoadError(message);
+  } finally {
+    state.pendingDates.delete(date);
+  }
+}
+
+function prefetchRecentIssues() {
+  const dates = state.issueDates
+    .filter((date) => !state.issueCache.has(date) && !state.issueErrors.has(date))
+    .slice(0, PREFETCH_RECENT_LIMIT);
+  if (dates.length === 0) return;
+
+  setTimeout(async () => {
+    await mapWithConcurrency(dates, DISCOVERY_CONCURRENCY, async (date) => {
+      await loadIssueByDate(date);
+    });
+    setStatus(statusMessage(), hasVisibleError());
+    render();
+  }, 0);
 }
 
 async function fetchJson(url, { optional = false } = {}) {
@@ -168,90 +311,162 @@ async function fetchJson(url, { optional = false } = {}) {
   }
 }
 
-function generateCandidateWeeks() {
-  const weeks = [];
+async function mapWithConcurrency(items, limit, mapper) {
+  const results = new Array(items.length);
+  let cursor = 0;
+  const workerCount = Math.min(Math.max(limit, 1), items.length);
+  const workers = Array.from({ length: workerCount }, async () => {
+    while (cursor < items.length) {
+      const index = cursor;
+      cursor += 1;
+      results[index] = await mapper(items[index]);
+    }
+  });
+  await Promise.all(workers);
+  return results;
+}
+
+function todayIsoDate() {
   const today = new Date();
-  const endDate = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()));
-  endDate.setUTCDate(endDate.getUTCDate() + DISCOVERY_LOOKAHEAD_WEEKS * 7);
-  const end = isoWeek(endDate);
-  let cursor = { ...DISCOVERY_START };
-
-  while (compareWeeksAsc(formatWeek(cursor), formatWeek(end)) <= 0) {
-    weeks.push(formatWeek(cursor));
-    cursor = nextWeek(cursor);
-  }
-  return weeks;
+  return [
+    today.getFullYear(),
+    String(today.getMonth() + 1).padStart(2, "0"),
+    String(today.getDate()).padStart(2, "0")
+  ].join("-");
 }
 
-function nextWeek({ year, week }) {
-  const max = weeksInIsoYear(year);
-  if (week < max) return { year, week: week + 1 };
-  return { year: year + 1, week: 1 };
+function recentIsoDates(days) {
+  const today = parseIsoDate(todayIsoDate());
+  if (!today) return [];
+  return Array.from({ length: days }, (_, offset) => formatIsoDate(addUtcDays(today, -offset)));
 }
 
-function weeksInIsoYear(year) {
-  return isoWeek(new Date(Date.UTC(year, 11, 28))).week;
-}
-
-function isoWeek(date) {
-  const target = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
-  const day = target.getUTCDay() || 7;
-  target.setUTCDate(target.getUTCDate() + 4 - day);
-  const yearStart = new Date(Date.UTC(target.getUTCFullYear(), 0, 1));
-  const week = Math.ceil(((target - yearStart) / 86400000 + 1) / 7);
-  return { year: target.getUTCFullYear(), week };
-}
-
-function formatWeek({ year, week }) {
-  return `${year}-W${String(week).padStart(2, "0")}`;
-}
-
-function parseWeek(week) {
-  const match = /^(\d{4})-W(\d{2})$/.exec(String(week || ""));
+function parseIsoDate(value) {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(value || ""));
   if (!match) return null;
-  return { year: Number(match[1]), week: Number(match[2]) };
+
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  if (
+    date.getUTCFullYear() !== year ||
+    date.getUTCMonth() !== month - 1 ||
+    date.getUTCDate() !== day
+  ) {
+    return null;
+  }
+  return date;
 }
 
-function addWeekIfValid(weeks, week) {
-  if (parseWeek(week)) weeks.add(week);
+function formatIsoDate(date) {
+  return [
+    date.getUTCFullYear(),
+    String(date.getUTCMonth() + 1).padStart(2, "0"),
+    String(date.getUTCDate()).padStart(2, "0")
+  ].join("-");
 }
 
-function compareWeeksAsc(a, b) {
-  const left = parseWeek(a);
-  const right = parseWeek(b);
+function addUtcDays(date, days) {
+  const next = new Date(date.getTime());
+  next.setUTCDate(next.getUTCDate() + days);
+  return next;
+}
+
+function addDateIfValid(dates, date) {
+  if (parseIsoDate(date)) dates.add(date);
+}
+
+function uniqueValidDates(value) {
+  const dates = new Set();
+  for (const item of toArray(value)) {
+    addDateIfValid(dates, item);
+  }
+  return Array.from(dates);
+}
+
+function compareDatesAsc(a, b) {
+  const left = parseIsoDate(a);
+  const right = parseIsoDate(b);
   if (!left || !right) return String(a).localeCompare(String(b));
-  if (left.year !== right.year) return left.year - right.year;
-  return left.week - right.week;
+  return left.getTime() - right.getTime();
 }
 
-function compareWeeksDesc(a, b) {
-  return -compareWeeksAsc(a, b);
+function compareDatesDesc(a, b) {
+  return -compareDatesAsc(a, b);
 }
 
 function isIssue(data) {
-  return data && typeof data === "object" && !Array.isArray(data);
+  return isPlainObject(data);
 }
 
-function normalizeIssue(data, fallbackWeek) {
+function isPlainObject(value) {
+  return value && typeof value === "object" && !Array.isArray(value);
+}
+
+function normalizeIssue(data, fallbackDate) {
+  const date = parseIsoDate(data.date) ? data.date : fallbackDate;
   return {
-    week: parseWeek(data.week) ? data.week : fallbackWeek,
+    date,
     generated_at: typeof data.generated_at === "string" ? data.generated_at : "",
-    highlights: Array.isArray(data.highlights) ? data.highlights : [],
-    briefs: Array.isArray(data.briefs) ? data.briefs : [],
-    source_gaps: Array.isArray(data.source_gaps) ? data.source_gaps : []
+    highlights: normalizeHighlights(data.highlights),
+    briefs: normalizeBriefs(data.briefs),
+    source_gaps: toArray(data.source_gaps).map((gap) => String(gap)).filter(Boolean)
   };
 }
 
+function normalizeHighlights(value) {
+  return toArray(value)
+    .filter(isPlainObject)
+    .map((item) => ({
+      id: item.id,
+      name: item.name,
+      type: item.type,
+      evidence_tier: item.evidence_tier,
+      evidence_notes: item.evidence_notes,
+      summary: item.summary,
+      competitors: toArray(item.competitors).filter(isPlainObject),
+      recommendation: item.recommendation,
+      usage_paradigm: item.usage_paradigm,
+      stage_tags: toArray(item.stage_tags).map((tag) => String(tag)).filter(Boolean),
+      is_update: Boolean(item.is_update),
+      links: toArray(item.links).map((link) => String(link)).filter(Boolean)
+    }));
+}
+
+function normalizeBriefs(value) {
+  return toArray(value)
+    .filter(isPlainObject)
+    .map((brief) => ({
+      name: brief.name,
+      one_liner: brief.one_liner,
+      link: brief.link
+    }));
+}
+
 function syncRoute() {
-  const match = /^#\/week\/([^/]+)$/.exec(window.location.hash || "");
-  const requestedWeek = match ? decodeURIComponent(match[1]) : null;
-  if (requestedWeek && state.issues.some((issue) => issue.week === requestedWeek)) {
-    state.selectedWeek = requestedWeek;
-  } else if (state.issues.length > 0) {
-    state.selectedWeek = state.issues[0].week;
-  } else {
-    state.selectedWeek = null;
+  state.routeNotice = "";
+  const hash = window.location.hash || "";
+  const match = /^#\/date\/([^/]+)$/.exec(hash);
+  const requestedDate = match ? safeDecode(match[1]) : null;
+
+  if (requestedDate && state.issueDates.includes(requestedDate)) {
+    state.selectedDate = requestedDate;
+    return;
   }
+
+  state.selectedDate = state.issueDates.length > 0 ? state.issueDates[0] : null;
+
+  if (!hash || hash === "#/") return;
+
+  if (requestedDate) {
+    state.routeNotice = parseIsoDate(requestedDate)
+      ? `未找到 ${requestedDate} 的日报，已显示最新日报。`
+      : "日期路由格式无效，已显示最新日报。";
+    return;
+  }
+
+  state.routeNotice = "未识别的路由，已显示最新日报。";
 }
 
 function render() {
@@ -262,38 +477,104 @@ function render() {
 }
 
 function renderStats() {
-  const highlightCount = state.issues.reduce((sum, issue) => sum + issue.highlights.length, 0);
-  nodes.statIssueCount.textContent = String(state.issues.length);
+  const highlightCount = Array.from(state.issueCache.values())
+    .filter(uniqueIssueByDate())
+    .reduce((sum, issue) => sum + issue.highlights.length, 0);
+  nodes.statIssueCount.textContent = String(state.issueDates.length);
   nodes.statHighlightCount.textContent = String(highlightCount);
-  nodes.statLatestWeek.textContent = state.issues[0] ? state.issues[0].week : "--";
+  nodes.statLatestDate.textContent = state.issueDates[0] || "--";
 }
 
 function renderIssueList() {
-  if (state.issues.length === 0) {
-    nodes.issueList.replaceChildren(emptyMini("暂无可展示的期数"));
+  if (state.issueDates.length === 0) {
+    nodes.issueList.replaceChildren(emptyMini("暂无可展示的日报"));
     return;
   }
 
-  const template = document.querySelector("#issueButtonTemplate");
+  const groups = groupDatesByMonth(state.issueDates);
+  const latestMonth = state.issueDates[0].slice(0, 7);
+  const selectedMonth = state.selectedDate ? state.selectedDate.slice(0, 7) : latestMonth;
   nodes.issueList.replaceChildren(
-    ...state.issues.map((issue) => {
-      const fragment = template.content.cloneNode(true);
-      const link = fragment.querySelector("a");
-      const title = issue.highlights[0] ? safeText(issue.highlights[0].name, "本期情报") : "本期无重点条目";
-      link.href = `#/week/${encodeURIComponent(issue.week)}`;
-      link.classList.toggle("is-active", issue.week === state.selectedWeek);
-      fragment.querySelector(".issue-week").textContent = issue.week;
-      fragment.querySelector(".issue-title").textContent = title;
-      fragment.querySelector(".issue-meta").textContent = `${issue.highlights.length} 个重点 · ${issue.briefs.length} 条简讯`;
-      return fragment;
-    })
+    ...groups.map(([month, dates]) => issueMonthGroup(month, dates, latestMonth, selectedMonth))
   );
 }
 
+function groupDatesByMonth(dates) {
+  const groups = new Map();
+  for (const date of dates) {
+    const month = date.slice(0, 7);
+    if (!groups.has(month)) groups.set(month, []);
+    groups.get(month).push(date);
+  }
+  return Array.from(groups.entries());
+}
+
+function issueMonthGroup(month, dates, latestMonth, selectedMonth) {
+  const details = document.createElement("details");
+  details.className = "issue-month";
+  details.open = month === latestMonth || month === selectedMonth;
+
+  const summary = document.createElement("summary");
+  const label = document.createElement("span");
+  label.textContent = monthLabel(month);
+  const count = document.createElement("strong");
+  count.textContent = `${dates.length} 期`;
+  summary.append(label, count);
+
+  const list = document.createElement("div");
+  list.className = "issue-month-list";
+  list.append(...dates.map(issueLink));
+
+  details.append(summary, list);
+  return details;
+}
+
+function issueLink(date) {
+  const template = document.querySelector("#issueButtonTemplate");
+  const fragment = template.content.cloneNode(true);
+  const link = fragment.querySelector("a");
+  const issue = state.issueCache.get(date);
+  const error = state.issueErrors.get(date);
+  const isPending = state.pendingDates.has(date);
+  const title = issue && issue.highlights[0] ? safeText(issue.highlights[0].name, "本期情报") : "点击查看日报";
+  link.href = `#/date/${encodeURIComponent(date)}`;
+  link.classList.toggle("is-active", date === state.selectedDate);
+  if (date === state.selectedDate) link.setAttribute("aria-current", "page");
+  fragment.querySelector(".issue-date").textContent = date;
+  fragment.querySelector(".issue-title").textContent = title;
+  fragment.querySelector(".issue-meta").textContent = issue
+    ? `${issue.highlights.length} 重点 · ${issue.briefs.length} 简讯`
+    : error
+      ? "读取失败"
+      : isPending
+        ? "正在读取"
+        : "按需加载";
+  return fragment;
+}
+
 function renderIssueDetail() {
-  const issue = state.issues.find((item) => item.week === state.selectedWeek);
+  if (!state.selectedDate) {
+    const message = state.loadErrors.length > 0
+      ? "部分数据读取失败，详情见上方状态栏。修复 JSON 后刷新即可恢复。"
+      : "当 `data/issues/index.json` 与 `data/issues/YYYY-MM-DD.json` 加入仓库后，站点会在下一次加载时自动发现并展示。";
+    nodes.issueDetail.replaceChildren(emptyState("暂无情报数据", message));
+    return;
+  }
+
+  if (state.pendingDates.has(state.selectedDate)) {
+    nodes.issueDetail.replaceChildren(emptyState("正在读取日报", `${state.selectedDate} 的结构化数据正在加载。`));
+    return;
+  }
+
+  const issueError = state.issueErrors.get(state.selectedDate);
+  if (issueError) {
+    nodes.issueDetail.replaceChildren(emptyState("日报读取失败", issueError));
+    return;
+  }
+
+  const issue = state.issueCache.get(state.selectedDate);
   if (!issue) {
-    nodes.issueDetail.replaceChildren(emptyState("暂无情报数据", "当 `data/issues/YYYY-Www.json` 加入仓库后，站点会在下一次加载时自动尝试发现并展示。"));
+    nodes.issueDetail.replaceChildren(emptyState("尚未读取日报", "选择日期后将按需读取对应 JSON。"));
     return;
   }
 
@@ -321,10 +602,10 @@ function issueHeader(issue, filteredCount) {
   header.className = "issue-header";
 
   const copy = document.createElement("div");
-  copy.append(textBlock("eyebrow", "Issue"));
+  copy.append(textBlock("eyebrow", "Daily Issue"));
   const title = document.createElement("h2");
   title.id = "contentTitle";
-  title.textContent = `${issue.week} 情报周报`;
+  title.textContent = `${issue.date} 情报日报`;
   copy.append(title);
   const generated = document.createElement("p");
   generated.className = "hero-text";
@@ -384,7 +665,7 @@ function highlightCard(item) {
   fields.append(fieldBox("条目标识", item.id, "未提供 ID。"));
   card.append(fields);
 
-  const competitors = toArray(item.competitors);
+  const competitors = toArray(item.competitors).filter(isPlainObject);
   if (competitors.length > 0) {
     card.append(listBlock("竞品对比", competitorList(competitors)));
   }
@@ -547,6 +828,7 @@ function textBlock(className, value) {
 }
 
 function matchesFilters(item) {
+  if (!isPlainObject(item)) return false;
   const typeOk = state.filters.type === "all" || item.type === state.filters.type;
   if (!typeOk) return false;
   if (state.filters.stage === "all") return true;
@@ -560,13 +842,50 @@ function setStatus(message, isError = false) {
 }
 
 function statusMessage() {
-  if (state.issues.length === 0) {
-    return "未发现可读取的期数。请添加 data/issues/YYYY-Www.json 后刷新。";
+  const messages = [];
+  if (state.routeNotice) messages.push(state.routeNotice);
+
+  if (state.issueDates.length === 0) {
+    messages.push("未发现可读取的日报。请添加 data/issues/index.json 与 data/issues/YYYY-MM-DD.json 后刷新。");
+  } else if (state.discoveryMode === "fallback") {
+    messages.push(`日期清单缺失，已用降级策略发现 ${state.issueDates.length} 期日报；已加载 ${loadedIssueCount()} 期详情。`);
+  } else if (state.ledger.length === 0) {
+    messages.push(`已从日期清单发现 ${state.issueDates.length} 期日报；已加载 ${loadedIssueCount()} 期详情；ledger.json 缺失或为空，站点按契约降级展示。`);
+  } else {
+    const supplement = state.ledgerSupplementCount > 0 ? `，ledger 补充 ${state.ledgerSupplementCount} 期` : "";
+    messages.push(`已从日期清单发现 ${state.issueDates.length} 期日报${supplement}；已加载 ${loadedIssueCount()} 期详情。`);
   }
-  if (state.ledger.length === 0) {
-    return "已读取期数数据；ledger.json 缺失或为空，站点按契约降级展示。";
+
+  if (state.loadErrors.length > 0) {
+    const sample = state.loadErrors.slice(0, 3).join("；");
+    const suffix = state.loadErrors.length > 3 ? `；另有 ${state.loadErrors.length - 3} 项` : "";
+    messages.push(`读取异常 ${state.loadErrors.length} 项：${sample}${suffix}`);
   }
-  return "数据读取完成。";
+
+  return messages.join(" ");
+}
+
+function hasVisibleError() {
+  return state.loadErrors.length > 0 || Boolean(state.routeNotice);
+}
+
+function loadedIssueCount() {
+  return Array.from(state.issueCache.values()).filter(uniqueIssueByDate()).length;
+}
+
+function uniqueIssueByDate() {
+  const seen = new Set();
+  return (issue) => {
+    if (!issue || seen.has(issue.date)) return false;
+    seen.add(issue.date);
+    return true;
+  };
+}
+
+function monthLabel(month) {
+  const match = /^(\d{4})-(\d{2})$/.exec(month);
+  if (!match) return month;
+  return `${match[1]} 年 ${match[2]} 月`;
 }
 
 function formatDate(value) {
@@ -588,16 +907,18 @@ function toArray(value) {
 }
 
 function linkOrText(href, label) {
+  const safeLabel = safeText(label, "未命名链接");
   if (!href || !isSafeHref(href)) {
     const span = document.createElement("span");
-    span.textContent = label;
+    span.textContent = safeLabel;
     return span;
   }
   const a = document.createElement("a");
   a.href = href;
   a.target = "_blank";
   a.rel = "noopener noreferrer";
-  a.textContent = label;
+  a.title = href;
+  a.textContent = safeLabel;
   return a;
 }
 
@@ -616,5 +937,23 @@ function readableLink(href) {
     return `${url.hostname}${url.pathname}`.replace(/\/$/, "");
   } catch {
     return String(href);
+  }
+}
+
+function safeDecode(value) {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return "";
+  }
+}
+
+function errorMessage(error) {
+  return error instanceof Error ? error.message : String(error);
+}
+
+function addLoadError(message) {
+  if (message && !state.loadErrors.includes(message)) {
+    state.loadErrors.push(message);
   }
 }

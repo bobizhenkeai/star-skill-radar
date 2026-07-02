@@ -13,24 +13,24 @@
 
     <header class="shell hero">
       <div class="hero-copy">
-        <p class="eyebrow">AI 技术资产周报</p>
+        <p class="eyebrow">AI 技术资产日报</p>
         <h1>Star-Skill Radar</h1>
         <p class="hero-text">
-          面向 AI 编程实践的静态情报站。按周浏览高价值 skills、MCP、rules、hooks、subagents、提示词库与工作范式。
+          面向 AI 编程实践的静态情报站。按日期浏览高价值 skills、MCP、rules、hooks、subagents、提示词库与工作范式。
         </p>
       </div>
       <div class="hero-stats" aria-label="站点数据概览">
         <div>
           <strong id="statIssueCount">--</strong>
-          <span>期报告</span>
+          <span>期日报</span>
         </div>
         <div>
           <strong id="statHighlightCount">--</strong>
-          <span>重点条目</span>
+          <span>已加载重点</span>
         </div>
         <div>
-          <strong id="statLatestWeek">--</strong>
-          <span>最新周期</span>
+          <strong id="statLatestDate">--</strong>
+          <span>最新日期</span>
         </div>
       </div>
     </header>
@@ -43,7 +43,7 @@
           <p>
             当前浏览器禁用了脚本，无法读取结构化 JSON 并渲染筛选视图。你仍可前往
             <a href="../reports/">Markdown 报告归档</a>
-            阅读每周报告。
+            阅读 Markdown 日报。
           </p>
         </section>
       </main>
@@ -54,11 +54,14 @@
         <div class="panel-heading">
           <div>
             <p class="eyebrow">Archive</p>
-            <h2 id="issuePanelTitle">历期索引</h2>
+            <h2 id="issuePanelTitle">日报归档</h2>
           </div>
-          <a class="home-link" href="#/" aria-label="返回最新期">最新</a>
+          <a class="home-link" href="#/" aria-label="返回最新日报">最新</a>
         </div>
-        <div id="issueList" class="issue-list" aria-live="polite"></div>
+        <details id="archiveShell" class="archive-shell">
+          <summary>浏览日报归档</summary>
+          <div id="issueList" class="issue-list" aria-live="polite"></div>
+        </details>
       </aside>
 
       <section class="content-panel" aria-labelledby="contentTitle">
@@ -86,8 +89,8 @@
     </main>
 
     <template id="issueButtonTemplate">
-      <a class="issue-card" href="#">
-        <span class="issue-week"></span>
+      <a class="issue-row" href="#">
+        <span class="issue-date"></span>
         <strong class="issue-title"></strong>
         <span class="issue-meta"></span>
       </a>
