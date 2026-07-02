@@ -1,9 +1,9 @@
-# 周报 Markdown 模板
+# 日报 Markdown 模板
 
-文件路径：`reports/YYYY-Www.md`
+文件路径：`reports/YYYY-MM-DD.md`
 
 ```markdown
-# Star-Skill Radar 周报 YYYY-Www
+# Star-Skill Radar 日报 YYYY-MM-DD
 
 生成时间：YYYY-MM-DDTHH:mm:ss+08:00
 
@@ -50,7 +50,7 @@
 当没有条目达到准入门槛时使用：
 
 ```markdown
-# Star-Skill Radar 周报 YYYY-Www
+# Star-Skill Radar 日报 YYYY-MM-DD
 
 生成时间：YYYY-MM-DDTHH:mm:ss+08:00
 
@@ -75,7 +75,7 @@
 
 | JSON 字段 | Markdown 位置 |
 |---|---|
-| `week` | H1 周编号 |
+| `date` | H1 日期 |
 | `generated_at` | 生成时间 |
 | `highlights[].name` | 重点条目标题 |
 | `highlights[].type` | 类型 |
@@ -92,4 +92,3 @@
 | `source_gaps` | 来源缺口 |
 
 Markdown 可以比 JSON 有更自然的中文段落，但不得引入未经链接支撑的新事实。
-

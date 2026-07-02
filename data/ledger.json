@@ -4,7 +4,7 @@
     "name": "Anthropic Skills",
     "type": "skill",
     "evidence_tier": "official",
-    "first_reported": "2026-W27",
+    "first_reported": "2026-07-02",
     "last_updates": [],
     "state_snapshot": "2026-07-02T09:43+08:00 GitHub/API: 157,365 stars, 18,540 forks; official Anthropic Agent Skills repository and Claude skill/plugin entry.",
     "stage_tags": [
@@ -23,7 +23,7 @@
     "name": "OpenAI Codex Skills / Skills API",
     "type": "skill",
     "evidence_tier": "official",
-    "first_reported": "2026-W27",
+    "first_reported": "2026-07-02",
     "last_updates": [],
     "state_snapshot": "2026-07-02T09:43+08:00 OpenAI Codex Skills and API Skills docs current; openai/codex API: 94,907 stars, latest release rust-v0.142.5 on 2026-07-01T01:15:44Z; openai/skills GitHub page shows 23.1k stars and deprecated notice.",
     "stage_tags": [
@@ -44,7 +44,7 @@
     "name": "MCP Registry",
     "type": "mcp",
     "evidence_tier": "official",
-    "first_reported": "2026-W27",
+    "first_reported": "2026-07-02",
     "last_updates": [],
     "state_snapshot": "2026-07-02T09:43+08:00 GitHub page/org: about 6,974 stars, 885 forks, 92 issues, 30 PRs, 648 commits, latest release v1.7.9 on 2026-05-12; official MCP Registry docs describe official centralized metadata repository and REST API.",
     "stage_tags": [
@@ -63,7 +63,7 @@
     "name": "GitHub Spec Kit",
     "type": "paradigm",
     "evidence_tier": "official",
-    "first_reported": "2026-W27",
+    "first_reported": "2026-07-02",
     "last_updates": [],
     "state_snapshot": "2026-07-02T09:43+08:00 GitHub page: 117k stars, 10.4k forks, 225 issues, 140 PRs, 1,302 commits; latest release v0.12.3 on 2026-07-01.",
     "stage_tags": [
@@ -84,7 +84,7 @@
     "name": "Addy Osmani Agent Skills",
     "type": "skill",
     "evidence_tier": "community-verified",
-    "first_reported": "2026-W27",
+    "first_reported": "2026-07-02",
     "last_updates": [],
     "state_snapshot": "2026-07-02T09:43+08:00 GitHub page: 68.4k stars, 7.4k forks, 63 issues, 83 PRs, 298 commits, MIT license, archived=false/page no archive signal; lifecycle commands and skills/hooks/agents directories visible.",
     "stage_tags": [

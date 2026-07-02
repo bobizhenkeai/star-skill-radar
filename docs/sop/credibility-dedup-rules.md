@@ -98,6 +98,7 @@
 
 ledger 中已有条目只有符合以下条件才可再次进入 highlights：
 
+- 日报节奏下，不得用同一 release、commit、changelog、registry 状态或页面快照连续重复收录；必须有晚于该条目 `first_reported` 或最新 `last_updates[].date` 的可验证新证据。
 - 发布大版本、重要 release，或官方 changelog 明确说明核心能力变化。
 - 从社区项目进入官方 docs/registry/examples。
 - 增加新的主流 agent/harness 支持，改变使用范式。
