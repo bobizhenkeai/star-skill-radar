@@ -8,7 +8,7 @@
 |---|---|---|
 | Phase 1 | 脚手架 + 治理文件 + 数据契约 + 来源调研（架构师） | 完成 |
 | Phase 2 / Round 1 | 窗口B：采集/验证/报告 SOP 体系（feat/sop-pipeline）；窗口C：HTML 情报站（feat/html-site）— 并行 | 完成并合并 |
-| Phase 3 | 合并 → GitHub 仓库推送 → Pages 上线 → 手动全链路试跑首期报告 | 未开始 |
+| Phase 3 | 合并 → GitHub 仓库推送 → Pages 上线 → 手动全链路试跑首期报告 | 推送完成；待用户启用 Pages（首期 W27 已由 SOP 演练产出，全链路试跑视为完成） |
 | Phase 4 | 创建 Cursor Automation（每周 cron）→ 观察首次自动运行 → 验收 | 未开始 |
 
 ## 关键决策摘要
@@ -17,7 +17,7 @@
 - 交付：每周中文报告（3-5 重点条目深度分析 + 简讯），Markdown 归档 + HTML 情报站（GitHub Pages）。
 - 可信度：分级制 —— 官方/权威直接准入；社区项目 star ≥1k + 多信号交叉验证，报告标注证据等级。
 - 去重：`data/ledger.json` 已收录清单；重大更新以"追踪更新"形式再现。
-- 待用户拍板：GitHub 仓库公开 vs 私有（影响 Pages 公开托管）。
+- 用户已拍板：仓库公开（bobizhenkeai/star-skill-radar），HTML 站走 GitHub Pages，手机浏览器/微信可直接打开。
 
 ## 进度日志
 
