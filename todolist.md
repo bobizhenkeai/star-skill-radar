@@ -9,7 +9,8 @@
 | Phase 1 | 脚手架 + 治理文件 + 数据契约 + 来源调研（架构师） | 完成 |
 | Phase 2 / Round 1 | 窗口B：采集/验证/报告 SOP 体系（feat/sop-pipeline）；窗口C：HTML 情报站（feat/html-site）— 并行 | 完成并合并 |
 | Phase 3 | 合并 → GitHub 仓库推送 → Pages 上线 → 手动全链路试跑首期报告 | 推送完成；待用户启用 Pages（首期 W27 已由 SOP 演练产出，全链路试跑视为完成） |
-| Phase 4 | 创建 Cursor Automation（每周 cron）→ 观察首次自动运行 → 验收 | 未开始 |
+| Phase 3.5 / Round 2 | 周报→日报改造：窗口B：SOP 日报化 + 存量迁移（feat/daily-sop）；窗口C：站点按日发现（feat/daily-site）— 并行 | 指令已下发 |
+| Phase 4 | 创建 Cursor Automation（每日 10:00 北京时间 cron）→ 观察首次自动运行 → 验收 | 未开始 |
 
 ## 关键决策摘要
 
@@ -17,7 +18,8 @@
 - 交付：每周中文报告（3-5 重点条目深度分析 + 简讯），Markdown 归档 + HTML 情报站（GitHub Pages）。
 - 可信度：分级制 —— 官方/权威直接准入；社区项目 star ≥1k + 多信号交叉验证，报告标注证据等级。
 - 去重：`data/ledger.json` 已收录清单；重大更新以"追踪更新"形式再现。
-- 用户已拍板：仓库公开（bobizhenkeai/star-skill-radar），HTML 站走 GitHub Pages，手机浏览器/微信可直接打开。
+- 用户已拍板：仓库公开（bobizhenkeai/star-skill-radar），HTML 站走 GitHub Pages，手机浏览器/微信可直接打开。Pages 已上线。
+- 用户 Round 2 反馈（PRD v1.1）：改日报（每日 10:00 北京时间）；微信推送经 GitHub Actions + Server酱（文件传输助手无接口，不可行）；契约升级 v2（YYYY-MM-DD）。
 
 ## 进度日志
 
