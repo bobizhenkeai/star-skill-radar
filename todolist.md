@@ -6,8 +6,8 @@
 
 | 阶段 | 内容 | 状态 |
 |---|---|---|
-| Phase 1 | 脚手架 + 治理文件 + 数据契约 + 来源调研（架构师） | 进行中 |
-| Phase 2 / Round 1 | 窗口B：采集/验证/报告 SOP 体系（feat/sop-pipeline）；窗口C：HTML 情报站（feat/html-site）— 并行 | 未开始 |
+| Phase 1 | 脚手架 + 治理文件 + 数据契约 + 来源调研（架构师） | 完成 |
+| Phase 2 / Round 1 | 窗口B：采集/验证/报告 SOP 体系（feat/sop-pipeline）；窗口C：HTML 情报站（feat/html-site）— 并行 | 指令已下发 |
 | Phase 3 | 合并 → GitHub 仓库推送 → Pages 上线 → 手动全链路试跑首期报告 | 未开始 |
 | Phase 4 | 创建 Cursor Automation（每周 cron）→ 观察首次自动运行 → 验收 | 未开始 |
 
@@ -21,4 +21,4 @@
 
 ## 进度日志
 
-- 2026-07-02：需求澄清 3 轮完成，PRD v1.0 落盘；仓库脚手架初始化；来源调研启动。
+- 2026-07-02：需求澄清 3 轮完成，PRD v1.0 落盘；仓库脚手架初始化（5dc9f8f）；来源调研报告落盘（fb4f2ce）；Round 1 双窗口指令下发（B=feat/sop-pipeline，C=feat/html-site）。
