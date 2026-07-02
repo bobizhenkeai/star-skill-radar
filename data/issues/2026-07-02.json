@@ -1,5 +1,5 @@
 {
-  "week": "2026-W27",
+  "date": "2026-07-02",
   "generated_at": "2026-07-02T09:43:47+08:00",
   "highlights": [
     {
@@ -54,7 +54,7 @@
           "verdict": "社区目录型仓库仅 1 star，本期只作补充发现源，不满足 community-verified。"
         }
       ],
-      "recommendation": "这是本期最需要避免误用的 OpenAI 侧信号：Codex Skills 与 API Skills 文档是当前权威入口，旧 `openai/skills` 虽仍有 23.1k stars，但官方仓库页面已标注 deprecated，SOP 与后续周报应优先引用 developers.openai.com。",
+      "recommendation": "这是本期最需要避免误用的 OpenAI 侧信号：Codex Skills 与 API Skills 文档是当前权威入口，旧 `openai/skills` 虽仍有 23.1k stars，但官方仓库页面已标注 deprecated，SOP 与后续报告应优先引用 developers.openai.com。",
       "usage_paradigm": "用于 requirements、implementation 与 ops 阶段：把重复迁移、评审、发布、事故复盘流程写成小 skill；每个 skill 明确输入输出和触发描述，避免把长提示词作为长期工作流。",
       "stage_tags": [
         "requirements",
@@ -89,7 +89,7 @@
           "verdict": "awesome 清单覆盖面更广，但可信同步和机器消费应回到官方 Registry/API。"
         }
       ],
-      "recommendation": "对周更雷达来说，Registry 是 MCP 类资产的优先同步源：它有官方背书、API、namespace 验证和安全/反垃圾机制，比单纯抓 awesome 清单更适合自动化。",
+      "recommendation": "对自动化雷达来说，Registry 是 MCP 类资产的优先同步源：它有官方背书、API、namespace 验证和安全/反垃圾机制，比单纯抓 awesome 清单更适合自动化。",
       "usage_paradigm": "用于 implementation 与 ops 阶段：先从 Registry 同步候选 server 元数据，再回到对应 GitHub/包管理器验证代码、license、维护状态；企业内部可按官方 OpenAPI 形态派生私有 registry。",
       "stage_tags": [
         "implementation",
@@ -122,7 +122,7 @@
           "verdict": "以工程质量门禁和 lifecycle commands 组织，适合作为 Spec Kit 后半程质量补强。"
         }
       ],
-      "recommendation": "本周 release 密集且官方仓库/文档均活跃，适合列为工作范式重点；它直接对应项目关注的 spec-driven 与反 vibe coding 方向。",
+      "recommendation": "近期 release 密集且官方仓库/文档均活跃，适合列为工作范式重点；它直接对应项目关注的 spec-driven 与反 vibe coding 方向。",
       "usage_paradigm": "用于 requirements、design、implementation、review、testing 全周期：先用 spec 固定要解决的问题，再产出计划和任务，最后让 agent 按任务切片实现并接受检查。",
       "stage_tags": [
         "requirements",
@@ -196,7 +196,7 @@
     },
     {
       "name": "obra/superpowers",
-      "one_liner": "采集时间 2026-07-02T09:43+08:00。社区巡检显示 243k stars、W27 有提交、MIT license，topics 含 skills 与 subagent-driven-development，可作为高热度 skill/paradigm 后续观察面。",
+      "one_liner": "采集时间 2026-07-02T09:43+08:00。社区巡检显示 243k stars、近期有提交、MIT license，topics 含 skills 与 subagent-driven-development，可作为高热度 skill/paradigm 后续观察面。",
       "link": "https://github.com/obra/superpowers"
     },
     {
