@@ -89,6 +89,7 @@
 | `highlights[].stage_tags` | 适用阶段 |
 | `highlights[].is_update` | 更新状态 |
 | `highlights[].links` | 关键来源 |
+| `briefs[].gist` | 不直接进入 Markdown；仅供站点 overview 简讯层使用，不替代 `one_liner` |
 | `briefs[].name/link/one_liner` | 简讯 |
 | `source_gaps` | 来源缺口 |
 

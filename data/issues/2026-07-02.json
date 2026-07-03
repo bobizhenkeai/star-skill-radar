@@ -179,36 +179,43 @@
   "briefs": [
     {
       "name": "punkpeye/awesome-mcp-servers",
+      "gist": "广覆盖MCP服务器发现清单，辅助回到Registry核验",
       "one_liner": "社区最广 MCP server 清单之一，发现后应回到官方 Registry 核验元数据；GitHub Search/API 显示 90,153 stars。",
       "link": "https://github.com/punkpeye/awesome-mcp-servers"
     },
     {
       "name": "Fission-AI/OpenSpec",
+      "gist": "社区Spec-driven范式观察样本，关注Stores Beta",
       "one_liner": "Spec-driven 范式观察面，latest release v1.5.0（Stores Beta）发布于 2026-06-28；GitHub API 显示 58,258 stars。",
       "link": "https://github.com/Fission-AI/OpenSpec"
     },
     {
       "name": "PrefectHQ/fastmcp",
+      "gist": "Python MCP服务器框架，适合作为topic检索前列样本",
       "one_liner": "Python MCP server 框架，topic:mcp-servers 检索前列，latest release v3.4.2；GitHub API 显示 25,919 stars。",
       "link": "https://github.com/PrefectHQ/fastmcp"
     },
     {
       "name": "shanraisshan/claude-code-best-practice",
+      "gist": "Claude Code规则最佳实践合集，适合rules方向观察",
       "one_liner": "Claude Code 最佳实践 rules 合集，适合 rules 方向观察；GitHub Search 显示 61,789 stars，2026-07-02 有 push。",
       "link": "https://github.com/shanraisshan/claude-code-best-practice"
     },
     {
       "name": "Cursor Customize（3.9 changelog）",
+      "gist": "Cursor自定义页统一管理插件技能子代理并展示榜单",
       "one_liner": "Cursor Customize 页面可统一管理 plugins、skills、MCPs、subagents、rules、commands、hooks，并展示 marketplace leaderboard；changelog 发布于 2026-06-22。",
       "link": "https://cursor.com/changelog/customize"
     },
     {
       "name": "VoltAgent/awesome-agent-skills",
+      "gist": "跨Claude Code、Codex、Gemini和Cursor的技能发现索引",
       "one_liner": "跨 Claude Code、Codex、Gemini、Cursor 的 agent skills 索引，作发现源使用；GitHub Search 显示 27,068 stars。",
       "link": "https://github.com/VoltAgent/awesome-agent-skills"
     },
     {
       "name": "intellectronica/ruler",
+      "gist": "多agent规则同步工具，适合rules主题后续深挖",
       "one_liner": "多 agent 规则同步工具，rules 主题后续可深挖；GitHub Search 显示 2,800 stars 量级。",
       "link": "https://github.com/intellectronica/ruler"
     }

@@ -180,26 +180,31 @@
   "briefs": [
     {
       "name": "PrefectHQ/fastmcp",
+      "gist": "Python MCP服务器与客户端框架，连接官方SDK语境",
       "one_liner": "Python MCP server/client 框架，README 称 FastMCP 1.0 已并入官方 MCP Python SDK；25,933 stars，Apache-2.0，v3.4.2（2026-06-06）。",
       "link": "https://github.com/PrefectHQ/fastmcp"
     },
     {
       "name": "nexu-io/open-design",
+      "gist": "本地优先开源设计工作台，支持主流编码代理",
       "one_liner": "本地优先开源设计工作台，支持 Claude Code/Codex/Cursor 等 21+ coding agents；74,306 stars，Apache-2.0，topic:agent-skills，open-design-v0.13.0（2026-07-02）。",
       "link": "https://github.com/nexu-io/open-design"
     },
     {
       "name": "punkpeye/awesome-mcp-servers",
+      "gist": "MCP服务器辅助发现清单，强调回源核验",
       "one_liner": "MCP server 发现清单，作辅助发现源，核心事实需回到各 server 仓库验证；90,196 stars，MIT license。",
       "link": "https://github.com/punkpeye/awesome-mcp-servers"
     },
     {
       "name": "awslabs/mcp",
+      "gist": "AWS Labs官方MCP服务器集合，适合官方生态观察",
       "one_liner": "AWS Labs 官方 MCP servers 集合；9,375 stars，Apache-2.0，latest release 2026.07.20260702161703（2026-07-02），2026-07-02 有 push。",
       "link": "https://github.com/awslabs/mcp"
     },
     {
       "name": "hesreallyhim/awesome-claude-code",
+      "gist": "Claude Code资源精选清单，兼作技能发现源",
       "one_liner": "Claude Code 资源精选清单，topic 含 agent-skills，作发现源使用；47,813 stars，2026-07-03 有 push。",
       "link": "https://github.com/hesreallyhim/awesome-claude-code"
     }
