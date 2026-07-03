@@ -64,8 +64,13 @@
     "type": "paradigm",
     "evidence_tier": "official",
     "first_reported": "2026-07-02",
-    "last_updates": [],
-    "state_snapshot": "2026-07-02T09:43+08:00 GitHub page: 117k stars, 10.4k forks, 225 issues, 140 PRs, 1,302 commits; latest release v0.12.3 on 2026-07-01.",
+    "last_updates": [
+      {
+        "date": "2026-07-03",
+        "note": "v0.12.4 release (2026-07-02): Python script type, bug-fix agent, Analytics extension."
+      }
+    ],
+    "state_snapshot": "2026-07-03T10:02+08:00 GitHub API: 117,474 stars, 10,387 forks, 374 issues; latest release v0.12.4 on 2026-07-02T10:57:06Z.",
     "stage_tags": [
       "requirements",
       "design",
@@ -76,7 +81,7 @@
     "links": [
       "https://github.com/github/spec-kit",
       "https://github.github.com/spec-kit/",
-      "https://github.com/github/spec-kit/releases"
+      "https://github.com/github/spec-kit/releases/tag/v0.12.4"
     ]
   },
   {
@@ -146,8 +151,13 @@
     "type": "paradigm",
     "evidence_tier": "official",
     "first_reported": "2026-07-02",
-    "last_updates": [],
-    "state_snapshot": "2026-07-02T14:41+08:00 GitHub API: 135,379 stars, 21,819 forks, 9,493 issues; latest release v2.1.198 on 2026-07-01; official skills docs at code.claude.com.",
+    "last_updates": [
+      {
+        "date": "2026-07-03",
+        "note": "v2.1.199 release (2026-07-02): stacked slash-skills (up to 5), subagent partial work on errors, SSL cert guidance."
+      }
+    ],
+    "state_snapshot": "2026-07-03T10:02+08:00 GitHub API: 135,528 stars, 21,841 forks, 9,690 issues; latest release v2.1.199 on 2026-07-02T23:35:18Z.",
     "stage_tags": [
       "implementation",
       "review",
@@ -156,7 +166,7 @@
     "links": [
       "https://github.com/anthropics/claude-code",
       "https://code.claude.com/docs/en/skills",
-      "https://github.com/anthropics/claude-code/releases/tag/v2.1.198"
+      "https://github.com/anthropics/claude-code/releases/tag/v2.1.199"
     ]
   },
   {
@@ -195,6 +205,65 @@
       "https://github.com/wshobson/agents",
       "https://github.com/wshobson/agents/blob/main/docs/harnesses.md",
       "https://github.com/wshobson/agents/blob/main/docs/plugins.md"
+    ]
+  },
+  {
+    "id": "affaan-m/ECC",
+    "name": "ECC (Everything Claude Code)",
+    "type": "paradigm",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-07-03",
+    "last_updates": [],
+    "state_snapshot": "2026-07-03T10:02+08:00 GitHub API: 225,218 stars, 34,460 forks, 88 issues; latest release v2.0.0 on 2026-06-10; cross-harness skills/rules/hooks/MCP operator system.",
+    "stage_tags": [
+      "design",
+      "implementation",
+      "review",
+      "testing",
+      "ops"
+    ],
+    "links": [
+      "https://github.com/affaan-m/ECC",
+      "https://github.com/affaan-m/ECC/releases/tag/v2.0.0",
+      "https://ecc.tools"
+    ]
+  },
+  {
+    "id": "Fission-AI/OpenSpec",
+    "name": "OpenSpec",
+    "type": "paradigm",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-07-03",
+    "last_updates": [],
+    "state_snapshot": "2026-07-03T10:02+08:00 GitHub API: 58,409 stars, 4,056 forks, 450 issues; latest release v1.5.0 on 2026-06-28; community SDD framework with /opsx slash workflow.",
+    "stage_tags": [
+      "requirements",
+      "design",
+      "implementation"
+    ],
+    "links": [
+      "https://github.com/Fission-AI/OpenSpec",
+      "https://github.com/Fission-AI/OpenSpec/releases/tag/v1.5.0",
+      "https://www.npmjs.com/package/@fission-ai/openspec"
+    ]
+  },
+  {
+    "id": "msitarzewski/agency-agents",
+    "name": "The Agency",
+    "type": "subagent",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-07-03",
+    "last_updates": [],
+    "state_snapshot": "2026-07-03T10:02+08:00 GitHub API: 125,563 stars, 20,374 forks, 98 issues; agencyagents.app desktop app for one-click install to Claude Code/Cursor/Codex.",
+    "stage_tags": [
+      "design",
+      "implementation",
+      "review"
+    ],
+    "links": [
+      "https://github.com/msitarzewski/agency-agents",
+      "https://agencyagents.app",
+      "https://github.com/msitarzewski/agency-agents-app/releases/latest"
     ]
   }
 ]
