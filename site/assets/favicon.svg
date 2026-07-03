@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Star-Skill Radar">
+  <rect width="64" height="64" rx="12" fill="#fffdf8"/>
+  <path d="M10 47c10-16 24-26 44-30" fill="none" stroke="#ddd5c8" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="32" cy="32" r="20" fill="none" stroke="#0e6f5c" stroke-width="4"/>
+  <path d="M32 13l3.9 10.4L47 27.2l-10.3 4.1L32 51l-4.7-19.7L17 27.2l11.1-3.8L32 13z" fill="#0e6f5c"/>
+  <circle cx="32" cy="32" r="4" fill="#fffdf8"/>
+</svg>

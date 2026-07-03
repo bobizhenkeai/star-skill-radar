@@ -91,6 +91,7 @@ const nodes = {
   typeFilters: document.querySelector("#typeFilters"),
   stageFilters: document.querySelector("#stageFilters"),
   stageFilterGroup: document.querySelector("#stageFilters")?.closest(".filter-group"),
+  siteNavLinks: Array.from(document.querySelectorAll("[data-view-link]")),
   statIssueCount: document.querySelector("#statIssueCount"),
   statHighlightCount: document.querySelector("#statHighlightCount"),
   statLatestDate: document.querySelector("#statLatestDate")
@@ -546,6 +547,7 @@ function render() {
   renderStats();
   renderIssueList();
   renderToolbarState();
+  renderSiteNavigation();
   if (state.view === "catalog") {
     renderCatalog();
   } else {
@@ -556,6 +558,18 @@ function render() {
 function renderToolbarState() {
   if (nodes.stageFilterGroup) {
     nodes.stageFilterGroup.hidden = state.view === "catalog";
+  }
+}
+
+function renderSiteNavigation() {
+  for (const link of nodes.siteNavLinks) {
+    const isCurrent = link.dataset.viewLink === state.view;
+    link.classList.toggle("is-active", isCurrent);
+    if (isCurrent) {
+      link.setAttribute("aria-current", "page");
+    } else {
+      link.removeAttribute("aria-current");
+    }
   }
 }
 
