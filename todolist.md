@@ -12,6 +12,7 @@
 | Phase 3.5 / Round 2 | 周报→日报改造：窗口B：SOP 日报化 + 存量迁移（feat/daily-sop）；窗口C：站点按日发现（feat/daily-site）— 并行 | 完成并合并 |
 | Phase 4 | 创建 Cursor Automation（每日 10:00 北京时间 cron）→ 观察首次自动运行 → 验收 | 完成：Automation 已创建激活，首次真实运行（手动触发）全链路验证通过，同日重复运行的幂等保护已补齐 |
 | Phase 5 | 情报站前端信息架构与视觉系统改版：多 subagent 调研设计哲学 → 摘要看板（按 type 分类的一眼概览）+ 卡片证据态默认折叠 + 暖色可读性系统 | 完成（单窗口直接实施），本地桌面/移动端渲染 + 交互回归验证通过 |
+| Phase 6 | 情报站前端 v2：用户实测反馈（Q1 简讯展开不可逆 / Q2 头部统计块不协调 + "现代看板/高可读"方向）→ 两条线并行 5 份循证调研 → 架构师决策简报 → 单窗口实施 | 实施完成并本地验证（commit `f3bd9f8`，**未推送**，origin 仍 `a8446ae`）；code-review 无阻断项，遗留 1 项 should-fix（`累计重点` 文案 vs 仅统计已加载期，拟改用 `ledger.length`）待定 |
 
 ## 关键决策摘要
 
@@ -27,8 +28,10 @@
 - 首次真实运行（14:38 手动 Test run）验证全链路打通：commit b230bd7、情报站更新、微信推送均确认成功。同时发现同日两次生成（今晨 SOP 演练 + 今下午真实测试）会静默覆盖，因两者共用同一天文件名主键。根因已查明（git log 证实 b230bd7 为"修改"而非"新增"）。用户选择"跳过"策略：已在 daily-runbook.md/README.md 加入幂等保护（27495ac）——当天文件已存在则整次运行直接跳过，不覆盖不提交。
 - 用户反馈 Cursor 本地+云端账户已切换，自动化绑定账户与当前账户不一致。诊断结论：GitHub 侧（Actions、Pages、数据文件）经公开 API 直接核实健康；Cursor 云端 Automation 的账户归属**无法由 agent 侧工具验证**——`automate` 技能明确禁止从对话中查询/列出已有 Automation，隔离浏览器也没有用户的 Cursor 登录态。已请用户自行在 cursor.com/dashboard 核实，换号补救配方见 `docs/automation-recipe.md`（已有幂等保护兜底，重建不会导致重复出报）。
 - 情报站前端改版（Phase 5）：用户设计方向为"羊皮卷手写纸"暖色基调 + 摘要优先/证据默认折叠的渐进式披露。3 个 subagent 完成 Anthropic 品牌语言、渐进式披露 UX、暖色+中文排版三方向调研（落盘 `docs/research/frontend-redesign-*.md`），经用户确认保留原有墨绿主题色（`--accent` 不变）后单窗口直接实施：新增"今日摘要"看板（按 `type` 分类分组、点击跳转对应卡片）；`highlight-card` 拆分为核心态（项目介绍+为什么重要+怎么用，始终可见）与证据态（证据要点/竞品对比/来源链接/条目标识，`<details>` 默认折叠，触发文案含数量提示）；中性色系去除冷绿色偏（`--ink`/`--muted` 改为暖褐黑/暖灰，均重新验算 WCAG 对比度）；新增 7 类目专用低饱和配色；正文/UI 字体改为系统级中文字体优先（不接入 Google Fonts，避免境外字体 CDN 在中文移动端不可达的风险），大标题新增系统衬线字体做展示层。本地起静态服务器 + chrome-devtools MCP 直接验证：桌面/移动视口渲染正常，摘要看板跳转、证据折叠展开、类型/阶段筛选、归档导航均无回归，控制台无报错。
+- 情报站前端 v2（Phase 6）：用户实测反馈 Q1（简讯展开不可逆）/Q2（头部统计块不协调），并要求以"现代看板/日报/高可读第一性原理"为依据、启用多 subagent 两条线并行调研。架构师执行：Line A 主窗口 3 个 `deep-tech-researcher` subagent（看板一眼可读第一性原理 / 可逆渐进披露交互 / 头部 KPI 展示）+ Line B 子窗口 2 任务（高可读性排版+`ui-ux-pro-max` 工具落地 / 现代看板×羊皮纸美学融合含参考图）→ 5 份报告落盘 `docs/research/frontend-v2-*.md` → 架构师汇总裁决为 `docs/specs/frontend-v2-design-decisions.md`（关键裁决：① Q1 硬底线消灭单向展开，保留展开须为可逆 disclosure；② 不做同权三列/masonry，以"总览条+分组短列表+少量加权"为主；③ overview 独立 briefing copy 字段属数据契约变更，本轮不做）。单窗口实施（`f3bd9f8`）：hero grouped brief band 修 Q2（`最新日期` 主指标 `<time>`+nowrap、文案改「累计重点」）、`overviewMoreButton` 改常驻可逆 `button[aria-expanded][aria-controls]`+`panel[hidden]` 修 Q1、overview masthead+分组短列表+内联 SVG 类目图标、语义截断替代纯字符裁剪、16px 阅读基线+`--line-ui`/暖纸 token+reduced-motion。本地 headless Chrome（playwright-core 兜底）桌面/移动验证通过。code-review 无阻断项；遗留 should-fix：`累计重点` 文案与"仅累加已加载期"的计算不符（数据增多后会少算），拟改用 `state.ledger.length` 做真·累计收录。**尚未推送**，origin/master 仍 `a8446ae`。
 
 ## 进度日志
 
 - 2026-07-02：需求澄清 3 轮完成，PRD v1.0 落盘；仓库脚手架初始化（5dc9f8f）；来源调研报告落盘（fb4f2ce）；Round 1 双窗口指令下发（B=feat/sop-pipeline，C=feat/html-site）。
 - 2026-07-02：Round 1 验收完成。SOP 线（49da9d5）自审通过，runbook 提交信息模板参数化修正（3a2923b）后并入 master；HTML 线经代码审查发现 3 项问题（跨年 W53 时区 bug / optional 加载吞错 / 无 JS 降级），窗口C 修复（f50b876）后合并（72aed00），冲突文件 2026-W27.json 保留真实数据，删除虚构示例 W28。合并后契约校验通过（5 highlights / 9 briefs / 5 ledger items）。
+- 2026-07-03：Phase 5 前端改版落库（`b03f329` 永久链接文档、`a8446ae` 摘要看板+渐进式披露）并推送，Pages 部署验证线上生效。随后 Phase 6 前端 v2：两条线并行 5 份调研 → 决策简报 → 单窗口实施（`f3bd9f8`，本地验证通过、未推送），code-review 无阻断项、遗留 1 项 should-fix 待定。

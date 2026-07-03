@@ -36,3 +36,5 @@
 - `site/` 本地验证：需先起静态服务器（如 `python -m http.server`），`file://` 直开会因 `fetch()` 读不到 JSON 而卡在 loading。用 chrome-devtools MCP 测移动端视口时优先用 `emulate`（`viewport: "390x844x3,mobile,touch"`），`resize_page` 在浏览器窗口已最大化时会报 "Restore window to normal state" 错误。
 - `browser-use` subagent 在本环境曾出现浏览器 MCP 连接中途断开、或声称找不到 `CallMcpTool` 而退化为纯代码走读（未真正验证）的情况；本地站点验证优先由主窗口直接调用 `user-chrome-devtools` MCP 工具（先读 `mcps/user-chrome-devtools/tools/*.json` 确认参数）驱动，比委派子代理更可靠。
 - Cursor 云端 Automation 的账户归属状态无法从 agent 对话内查询/核实（`automate` 技能明确仅限创建、禁止查询已有自动化；隔离浏览器无用户真实登录态）；换号后需人工登录 cursor.com/dashboard 自查，参考 `docs/automation-recipe.md`。
+- 本地站点验证兜底：当 chrome-devtools / browser MCP 本地导航连续断开时，可用临时 `playwright-core` + 本机 Chrome（headless）跑桌面/移动视口回归；临时依赖装在 `%TEMP%`，勿写入仓库。
+- Pages 部署有排队延迟（实测偶尔 6-8 分钟）：push 后线上不立即更新属正常，可用 GitHub Actions API 查 "pages build and deployment" 运行状态 + 抓线上文件比对改版标记确认，别急着当 bug 排查；用户端看不到更新多为浏览器/CDN 缓存，强刷或等 CDN TTL 即可。
