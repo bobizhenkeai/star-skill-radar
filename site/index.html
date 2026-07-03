@@ -23,17 +23,17 @@
         </p>
       </div>
       <div class="hero-stats" aria-label="站点数据概览">
-        <div>
-          <strong id="statIssueCount">--</strong>
-          <span>期日报</span>
-        </div>
-        <div>
-          <strong id="statHighlightCount">--</strong>
-          <span>已加载重点</span>
-        </div>
-        <div>
-          <strong id="statLatestDate">--</strong>
+        <div class="hero-stat hero-stat-primary">
           <span>最新日期</span>
+          <strong><time id="statLatestDate">--</time></strong>
+        </div>
+        <div class="hero-stat">
+          <span>期日报数</span>
+          <strong id="statIssueCount">--</strong>
+        </div>
+        <div class="hero-stat">
+          <span>累计重点</span>
+          <strong id="statHighlightCount">--</strong>
         </div>
       </div>
     </header>

@@ -55,8 +55,15 @@ const TYPE_COLOR_VAR = {
   paradigm: "var(--cat-paradigm)"
 };
 
+const TYPE_ORDER = TYPE_OPTIONS
+  .map(([value]) => value)
+  .filter((value) => value !== "all");
+const TYPE_RANK = new Map(TYPE_ORDER.map((value, index) => [value, index]));
+const SVG_NS = "http://www.w3.org/2000/svg";
 const OVERVIEW_BULLET_LIMIT = 3;
-const OVERVIEW_NOTE_LENGTH = 46;
+const OVERVIEW_NOTE_MAX_LENGTH = 54;
+
+let overviewDisclosureId = 0;
 
 const state = {
   ledger: [],
@@ -493,9 +500,15 @@ function renderStats() {
   const highlightCount = Array.from(state.issueCache.values())
     .filter(uniqueIssueByDate())
     .reduce((sum, issue) => sum + issue.highlights.length, 0);
+  const latestDate = state.issueDates[0] || "--";
   nodes.statIssueCount.textContent = String(state.issueDates.length);
   nodes.statHighlightCount.textContent = String(highlightCount);
-  nodes.statLatestDate.textContent = state.issueDates[0] || "--";
+  nodes.statLatestDate.textContent = latestDate;
+  if (state.issueDates[0]) {
+    nodes.statLatestDate.setAttribute("datetime", state.issueDates[0]);
+  } else {
+    nodes.statLatestDate.removeAttribute("datetime");
+  }
 }
 
 function renderIssueList() {
@@ -661,24 +674,12 @@ function overviewBoard(issue, highlights) {
   }
 
   section.append(sectionTitle("今日摘要", "点击任意条目跳转至完整卡片"));
-
-  const lede = document.createElement("p");
-  lede.className = "overview-lede";
-  const countEl = document.createElement("strong");
-  countEl.textContent = String(totalCount);
-  lede.append(
-    "今日共 ",
-    countEl,
-    ` 条情报 · ${highlights.length} 个重点 · ${issue.briefs.length} 条简讯`
-  );
-  if (highlights[0] && safeText(highlights[0].name, "")) {
-    lede.append(`；头条：${highlights[0].name}`);
-  }
-  section.append(lede);
+  const groupedHighlights = groupHighlightsByType(highlights, highlights[0] && highlights[0].type);
+  section.append(overviewMasthead(totalCount, highlights, issue.briefs, groupedHighlights.length));
 
   const grid = document.createElement("div");
   grid.className = "overview-grid";
-  for (const [type, items] of groupHighlightsByType(highlights)) {
+  for (const [type, items] of groupedHighlights) {
     grid.append(overviewCategoryCard(type, items));
   }
   if (issue.briefs.length > 0) {
@@ -689,7 +690,49 @@ function overviewBoard(issue, highlights) {
   return section;
 }
 
-function groupHighlightsByType(highlights) {
+function overviewMasthead(totalCount, highlights, briefs, categoryCount) {
+  const masthead = document.createElement("div");
+  masthead.className = "overview-lede";
+
+  const total = document.createElement("div");
+  total.className = "overview-total";
+  const totalNumber = document.createElement("strong");
+  totalNumber.textContent = String(totalCount);
+  const totalLabel = document.createElement("span");
+  totalLabel.textContent = "条情报";
+  total.append(totalNumber, totalLabel);
+
+  const summary = document.createElement("div");
+  summary.className = "overview-breakdown";
+  summary.append(
+    overviewPill("重点", highlights.length),
+    overviewPill("简讯", briefs.length),
+    overviewPill("类目", categoryCount)
+  );
+
+  const headliner = document.createElement("p");
+  headliner.className = "overview-headline";
+  const headlineName = highlights[0]
+    ? safeText(highlights[0].name, "")
+    : briefs[0]
+      ? safeText(briefs[0].name, "")
+      : "";
+  headliner.textContent = headlineName ? `头条：${headlineName}` : "头条：暂无";
+
+  masthead.append(total, summary, headliner);
+  return masthead;
+}
+
+function overviewPill(label, value) {
+  const pill = document.createElement("span");
+  pill.className = "overview-pill";
+  const strong = document.createElement("strong");
+  strong.textContent = String(value);
+  pill.append(document.createTextNode(label), strong);
+  return pill;
+}
+
+function groupHighlightsByType(highlights, headlinerType = "") {
   const groups = new Map();
   for (const item of highlights) {
     if (!isPlainObject(item)) continue;
@@ -697,19 +740,23 @@ function groupHighlightsByType(highlights) {
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(item);
   }
-  const ordered = [];
-  for (const [value] of TYPE_OPTIONS) {
-    if (value === "all") continue;
-    if (groups.has(value)) ordered.push([value, groups.get(value)]);
-  }
-  if (groups.has("other")) ordered.push(["other", groups.get("other")]);
-  return ordered;
+  return Array.from(groups.entries()).sort(([typeA, itemsA], [typeB, itemsB]) => {
+    if (typeA === headlinerType && typeB !== headlinerType) return -1;
+    if (typeB === headlinerType && typeA !== headlinerType) return 1;
+    if (itemsA.length !== itemsB.length) return itemsB.length - itemsA.length;
+    return typeRank(typeA) - typeRank(typeB);
+  });
+}
+
+function typeRank(type) {
+  return TYPE_RANK.has(type) ? TYPE_RANK.get(type) : TYPE_ORDER.length;
 }
 
 function overviewCategoryCard(type, items) {
   const card = document.createElement("div");
   card.className = "overview-category";
-  card.append(overviewCategoryHead(TYPE_LABELS[type] || "其他", items.length, TYPE_COLOR_VAR[type]));
+  if (TYPE_COLOR_VAR[type]) card.style.setProperty("--cat-color", TYPE_COLOR_VAR[type]);
+  card.append(overviewCategoryHead(type, TYPE_LABELS[type] || "其他", items.length));
 
   const list = document.createElement("ul");
   list.className = "overview-bullets";
@@ -718,9 +765,7 @@ function overviewCategoryCard(type, items) {
 
   const remaining = items.length - OVERVIEW_BULLET_LIMIT;
   if (remaining > 0) {
-    card.append(overviewMoreButton(remaining, () => {
-      list.append(...items.slice(OVERVIEW_BULLET_LIMIT).map(overviewBulletItem));
-    }));
+    card.append(overviewDisclosure(remaining, items.slice(OVERVIEW_BULLET_LIMIT), overviewBulletItem));
   }
 
   return card;
@@ -728,8 +773,8 @@ function overviewCategoryCard(type, items) {
 
 function overviewBriefsCard(briefs) {
   const card = document.createElement("div");
-  card.className = "overview-category";
-  card.append(overviewCategoryHead("简讯", briefs.length));
+  card.className = "overview-category overview-briefs";
+  card.append(overviewCategoryHead("briefs", "简讯", briefs.length));
 
   const list = document.createElement("ul");
   list.className = "overview-bullets";
@@ -738,23 +783,23 @@ function overviewBriefsCard(briefs) {
 
   const remaining = briefs.length - OVERVIEW_BULLET_LIMIT;
   if (remaining > 0) {
-    card.append(overviewMoreButton(remaining, () => {
-      list.append(...briefs.slice(OVERVIEW_BULLET_LIMIT).map(overviewBriefBulletItem));
-    }));
+    card.append(overviewDisclosure(remaining, briefs.slice(OVERVIEW_BULLET_LIMIT), overviewBriefBulletItem));
   }
 
   return card;
 }
 
-function overviewCategoryHead(label, count, colorVar) {
+function overviewCategoryHead(type, label, count) {
   const head = document.createElement("div");
   head.className = "overview-category-head";
 
   const h4 = document.createElement("h4");
-  const dot = document.createElement("span");
-  dot.className = "overview-dot";
-  if (colorVar) dot.style.setProperty("--cat-color", colorVar);
-  h4.append(dot, document.createTextNode(label));
+  const badge = document.createElement("span");
+  badge.className = "overview-icon-badge";
+  const colorVar = TYPE_COLOR_VAR[type];
+  if (colorVar) badge.style.setProperty("--cat-color", colorVar);
+  badge.append(overviewIcon(type));
+  h4.append(badge, document.createTextNode(label));
 
   const countEl = document.createElement("span");
   countEl.className = "overview-category-count";
@@ -764,15 +809,122 @@ function overviewCategoryHead(label, count, colorVar) {
   return head;
 }
 
-function overviewMoreButton(remaining, onExpand) {
+function overviewIcon(type) {
+  const paths = {
+    skill: [
+      "M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6L12 3Z",
+      "M5 15l.8 2.2L8 18l-2.2.8L5 21l-.8-2.2L2 18l2.2-.8L5 15Z"
+    ],
+    mcp: [
+      "M5 5h5v5H5z",
+      "M14 5h5v5h-5z",
+      "M5 14h5v5H5z",
+      "M10 7.5h4",
+      "M7.5 10v4",
+      "M16.5 10v2a2 2 0 0 1-2 2H10"
+    ],
+    rules: [
+      "M7 5h11",
+      "M7 10h11",
+      "M7 15h8",
+      "M4 5h.01",
+      "M4 10h.01",
+      "M4 15h.01"
+    ],
+    hooks: [
+      "M8 5v8a4 4 0 0 0 8 0v-1",
+      "M16 5v7",
+      "M12 5h8"
+    ],
+    subagent: [
+      "M12 7a3 3 0 1 0 0.01 0",
+      "M6 20a6 6 0 0 1 12 0",
+      "M4 11h2",
+      "M18 11h2",
+      "M12 2v2"
+    ],
+    "prompt-lib": [
+      "M5 5h14v10H8l-3 3V5Z",
+      "M9 9h6",
+      "M9 12h4"
+    ],
+    paradigm: [
+      "M12 3l7 4v5c0 4-3 7-7 9-4-2-7-5-7-9V7l7-4Z",
+      "M9 12l2 2 4-5"
+    ],
+    briefs: [
+      "M5 4h11l3 3v13H5z",
+      "M16 4v4h4",
+      "M8 11h8",
+      "M8 15h8",
+      "M8 18h5"
+    ],
+    chevron: ["M6 9l6 6 6-6"],
+    other: ["M12 5v14", "M5 12h14"]
+  };
+  const svg = document.createElementNS(SVG_NS, "svg");
+  svg.setAttribute("viewBox", "0 0 24 24");
+  svg.setAttribute("fill", "none");
+  svg.setAttribute("stroke", "currentColor");
+  svg.setAttribute("stroke-width", "1.9");
+  svg.setAttribute("stroke-linecap", "round");
+  svg.setAttribute("stroke-linejoin", "round");
+  svg.setAttribute("aria-hidden", "true");
+  svg.setAttribute("focusable", "false");
+  for (const d of paths[type] || paths.other) {
+    const path = document.createElementNS(SVG_NS, "path");
+    path.setAttribute("d", d);
+    svg.append(path);
+  }
+  return svg;
+}
+
+function overviewDisclosure(remaining, items, renderer) {
+  const fragment = document.createDocumentFragment();
+  const panelId = `overview-extra-${++overviewDisclosureId}`;
+  const button = overviewMoreButton(remaining, panelId);
+  const buttonText = button.querySelector(".overview-more-text");
+
+  const panel = document.createElement("div");
+  panel.id = panelId;
+  panel.className = "overview-extra";
+  panel.hidden = true;
+
+  const list = document.createElement("ul");
+  list.className = "overview-bullets overview-bullets-extra";
+  list.append(...items.map(renderer));
+  panel.append(list);
+
+  const setExpanded = (expanded) => {
+    if (!expanded && panel.contains(document.activeElement)) {
+      button.focus();
+    }
+    button.setAttribute("aria-expanded", String(expanded));
+    panel.hidden = !expanded;
+    buttonText.textContent = expanded ? "收起，回到前 3 条" : `展开其余 ${remaining} 条`;
+  };
+
+  button.addEventListener("click", () => {
+    setExpanded(button.getAttribute("aria-expanded") !== "true");
+  });
+
+  fragment.append(button, panel);
+  return fragment;
+}
+
+function overviewMoreButton(remaining, panelId) {
   const button = document.createElement("button");
   button.type = "button";
   button.className = "overview-more";
-  button.textContent = `展开其余 ${remaining} 条`;
-  button.addEventListener("click", () => {
-    onExpand();
-    button.remove();
-  });
+  button.setAttribute("aria-expanded", "false");
+  button.setAttribute("aria-controls", panelId);
+  const text = document.createElement("span");
+  text.className = "overview-more-text";
+  text.textContent = `展开其余 ${remaining} 条`;
+  const icon = document.createElement("span");
+  icon.className = "overview-more-icon";
+  icon.append(overviewIcon("chevron"));
+  button.append(text, icon);
   return button;
 }
 
@@ -782,7 +934,7 @@ function overviewBulletItem(item) {
   button.type = "button";
   button.className = "overview-bullet";
   button.append(overviewBulletTitle(safeText(item.name, "未命名条目")));
-  const note = truncateText(item.summary || item.recommendation, OVERVIEW_NOTE_LENGTH);
+  const note = semanticExcerpt(item.summary || item.recommendation);
   if (note) button.append(overviewBulletNote(note));
   button.addEventListener("click", () => scrollToHighlight(item));
   li.append(button);
@@ -791,7 +943,7 @@ function overviewBulletItem(item) {
 
 function overviewBriefBulletItem(brief) {
   const li = document.createElement("li");
-  const note = truncateText(brief.one_liner, OVERVIEW_NOTE_LENGTH);
+  const note = semanticExcerpt(brief.one_liner);
   if (brief.link && isSafeHref(brief.link)) {
     const a = document.createElement("a");
     a.className = "overview-bullet";
@@ -825,9 +977,13 @@ function overviewBulletNote(text) {
 function scrollToHighlight(item) {
   const target = document.getElementById(highlightAnchorId(item));
   if (!target) return;
-  target.scrollIntoView({ behavior: "smooth", block: "start" });
+  target.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth", block: "start" });
   target.classList.add("is-jump-target");
   window.setTimeout(() => target.classList.remove("is-jump-target"), 1600);
+}
+
+function prefersReducedMotion() {
+  return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
 function highlightAnchorId(item) {
@@ -835,11 +991,24 @@ function highlightAnchorId(item) {
   return `highlight-${raw.replace(/[^a-zA-Z0-9_-]+/g, "-")}`;
 }
 
-function truncateText(value, limit) {
-  const text = safeText(value, "");
+function semanticExcerpt(value) {
+  const text = safeText(value, "")
+    .replace(/\s+/g, " ")
+    .replace(/^采集时间\s+\S+。/, "")
+    .trim();
   if (!text) return "";
-  if (text.length <= limit) return text;
-  return `${text.slice(0, limit)}…`;
+  if (text.length <= OVERVIEW_NOTE_MAX_LENGTH) return text;
+
+  const semanticBreaks = "。！？!?；;：:，,";
+  for (let index = 18; index < Math.min(text.length, 44); index += 1) {
+    if (semanticBreaks.includes(text[index])) {
+      return text.slice(0, index + 1);
+    }
+  }
+
+  const spaceBreak = text.lastIndexOf(" ", OVERVIEW_NOTE_MAX_LENGTH);
+  if (spaceBreak >= 24) return `${text.slice(0, spaceBreak)}…`;
+  return `${text.slice(0, OVERVIEW_NOTE_MAX_LENGTH)}…`;
 }
 
 function highlightCard(item) {

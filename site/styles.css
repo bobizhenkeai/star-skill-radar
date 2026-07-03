@@ -2,15 +2,17 @@
   /* 暖色羊皮纸基调：所有中性色统一偏暖（R≈G>B），实测对比度见 docs/research/frontend-redesign-parchment-cjk-typography.md */
   --bg: #f6f3ec;
   --paper: #fffdf8;
-  --paper-strong: #ffffff;
+  --paper-strong: #fffdf8;
   --ink: #1c1917;
   --muted: #6b6259;
   --line: #ddd5c8;
   --line-strong: #beb3a4;
+  --line-ui: #948978;
   --accent: #0e6f5c;
   --accent-ink: #06382f;
   --accent-soft: #dcefe9;
   --signal: #d4502f;
+  --signal-ink: #a9371f;
   --signal-soft: #f9e0d6;
   --blue: #2f5f98;
   --blue-soft: #dce8f6;
@@ -35,7 +37,7 @@
   --cat-rules-soft: #ede3d0;
   --cat-hooks: #7a4a63;
   --cat-hooks-soft: #eee0e6;
-  --cat-subagent: #935a3a;
+  --cat-subagent: #874c2f;
   --cat-subagent-soft: #f0e2d7;
   --cat-promptlib: #3d6b64;
   --cat-promptlib-soft: #dfe9e6;
@@ -155,16 +157,30 @@ h1 {
 
 .hero-stats {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid var(--line-ui);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(180deg, rgba(255, 253, 248, 0.9), rgba(247, 242, 232, 0.9)),
+    var(--paper);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
 }
 
-.hero-stats div {
+.hero-stat {
   min-width: 0;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: rgba(255, 253, 248, 0.78);
-  padding: 14px 12px;
+  padding: 12px 14px;
+}
+
+.hero-stat-primary {
+  grid-column: 1 / -1;
+  border-bottom: 1px solid var(--line);
+  padding: 15px 16px 14px;
+}
+
+.hero-stat:not(.hero-stat-primary) + .hero-stat {
+  border-left: 1px solid var(--line);
 }
 
 .hero-stats strong {
@@ -172,15 +188,25 @@ h1 {
   color: var(--ink);
   font-family: var(--mono);
   font-variant-numeric: tabular-nums;
-  font-size: 20px;
+  font-size: 21px;
   line-height: 1.1;
+}
+
+.hero-stat-primary strong {
+  margin-top: 4px;
+  color: var(--accent-ink);
+  font-size: 26px;
+}
+
+#statLatestDate {
+  white-space: nowrap;
 }
 
 .hero-stats span {
   display: block;
-  margin-top: 4px;
   color: var(--muted);
   font-size: 12px;
+  font-weight: 700;
 }
 
 .app-shell {
@@ -221,7 +247,7 @@ h1 {
 
 .home-link {
   flex: 0 0 auto;
-  border: 1px solid var(--line-strong);
+  border: 1px solid var(--line-ui);
   border-radius: var(--radius);
   padding: 8px 10px;
   color: var(--accent-ink);
@@ -243,7 +269,7 @@ h1 {
 
 .archive-shell > summary {
   min-height: 40px;
-  border: 1px solid var(--line-strong);
+  border: 1px solid var(--line-ui);
   border-radius: var(--radius);
   background: var(--paper-strong);
   color: var(--accent-ink);
@@ -388,7 +414,7 @@ h1 {
 .filter-button {
   flex: 0 0 auto;
   min-height: 36px;
-  border: 1px solid var(--line-strong);
+  border: 1px solid var(--line-ui);
   border-radius: var(--radius);
   background: var(--paper-strong);
   color: var(--ink);
@@ -420,7 +446,7 @@ h1 {
 
 .status-bar.is-error {
   background: var(--signal-soft);
-  color: #7b2415;
+  color: var(--signal-ink);
 }
 
 .issue-detail {
@@ -472,21 +498,80 @@ h1 {
 /* 摘要看板：一眼看清"今天发生了多少内容 + 每类最关键的是什么"，证据类细节不在此层出现 */
 .overview-board {
   display: grid;
-  gap: 10px;
+  gap: 12px;
   margin: 20px 0 28px;
 }
 
 .overview-lede {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px 16px;
+  align-items: center;
   margin: 0;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(180deg, rgba(255, 253, 248, 0.84), rgba(247, 242, 232, 0.72)),
+    var(--paper);
+  padding: 14px;
   color: var(--ink);
-  font-size: 15px;
-  font-weight: 700;
 }
 
-.overview-lede strong {
+.overview-total {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+}
+
+.overview-total strong {
+  color: var(--accent-ink);
   font-family: var(--mono);
   font-variant-numeric: tabular-nums;
+  font-size: 42px;
+  line-height: 0.95;
+}
+
+.overview-total span {
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.overview-breakdown {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.overview-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 30px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 253, 248, 0.72);
+  color: var(--muted);
+  padding: 5px 9px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.overview-pill strong {
   color: var(--accent-ink);
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.overview-headline {
+  grid-column: 1 / -1;
+  margin: 0;
+  max-inline-size: 38em;
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.56;
 }
 
 .overview-grid {
@@ -496,35 +581,54 @@ h1 {
 }
 
 .overview-category {
+  position: relative;
   border: 1px solid var(--line);
+  border-left: 3px solid var(--cat-color, var(--line-ui));
   border-radius: var(--radius);
-  background: var(--paper-strong);
-  padding: 12px;
+  background: rgba(255, 253, 248, 0.64);
+  padding: 12px 12px 10px;
+}
+
+.overview-briefs {
+  border-left-color: var(--accent);
+  background: rgba(220, 239, 233, 0.28);
 }
 
 .overview-category-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 8px;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
 .overview-category-head h4 {
   margin: 0;
   display: flex;
   align-items: center;
-  gap: 7px;
-  font-size: 13px;
+  gap: 9px;
+  min-width: 0;
+  font-size: 15px;
   font-weight: 800;
 }
 
-.overview-dot {
-  width: 9px;
-  height: 9px;
+.overview-icon-badge {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
   flex: 0 0 auto;
-  border-radius: 50%;
-  background: var(--cat-color, var(--muted));
+  border: 1px solid var(--line);
+  border: 1px solid color-mix(in srgb, var(--cat-color, var(--accent)) 34%, var(--line));
+  border-radius: var(--radius);
+  background: var(--paper);
+  background: color-mix(in srgb, var(--cat-color, var(--accent)) 12%, var(--paper));
+  color: var(--cat-color, var(--accent-ink));
+}
+
+.overview-icon-badge svg {
+  width: 19px;
+  height: 19px;
 }
 
 .overview-category-count {
@@ -536,7 +640,7 @@ h1 {
 
 .overview-bullets {
   display: grid;
-  gap: 2px;
+  gap: 4px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -548,7 +652,7 @@ h1 {
   border: 0;
   border-radius: 6px;
   background: none;
-  padding: 6px 8px;
+  padding: 8px 8px;
   margin: 0 -8px;
   text-align: left;
   text-decoration: none;
@@ -559,7 +663,8 @@ h1 {
 .overview-bullet:hover,
 .overview-bullet:focus-visible {
   background: var(--bg);
-  outline: none;
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
 }
 
 .overview-bullet[data-external]::after {
@@ -569,47 +674,94 @@ h1 {
 
 .overview-bullet-title {
   display: block;
-  font-size: 13.5px;
+  color: var(--ink);
+  font-size: 16px;
   font-weight: 700;
-  line-height: 1.4;
+  line-height: 1.46;
 }
 
 .overview-bullet-note {
-  display: block;
-  margin-top: 1px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  max-inline-size: 38em;
+  margin-top: 2px;
   color: var(--muted);
-  font-size: 12.5px;
-  line-height: 1.4;
+  font-size: 16px;
+  line-height: 1.56;
 }
 
 .overview-more {
-  margin: 4px 0 0;
-  color: var(--muted);
-  font-size: 12px;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  background: none;
-  border: 0;
-  padding: 2px 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 44px;
+  margin: 6px 0 0;
+  border: 1px solid var(--line-ui);
+  border-radius: var(--radius);
+  background: rgba(255, 253, 248, 0.62);
+  color: var(--accent-ink);
+  padding: 9px 11px;
   cursor: pointer;
   font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
 }
 
 .overview-more:hover,
 .overview-more:focus-visible {
-  color: var(--accent-ink);
-  outline: none;
+  background: var(--accent-soft);
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.overview-more-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  transition: transform 150ms ease;
+}
+
+.overview-more-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.overview-more[aria-expanded="true"] .overview-more-icon {
+  transform: rotate(180deg);
+}
+
+.overview-extra {
+  animation: overviewFadeIn 140ms ease-out;
+  padding-top: 4px;
+}
+
+@keyframes overviewFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (min-width: 640px) {
   .overview-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-}
 
-@media (min-width: 1080px) {
-  .overview-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .overview-briefs {
+    grid-column: 1 / -1;
+  }
+
+  .overview-briefs .overview-bullets {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -696,7 +848,7 @@ h1 {
 .chip.update {
   border-color: rgba(212, 80, 47, 0.28);
   background: var(--signal-soft);
-  color: #7b2415;
+  color: var(--signal-ink);
 }
 
 /* 分类专用低饱和色：同一色号在摘要看板与卡片间复用，帮助用户建立"颜色=类别"的扫描记忆 */
@@ -721,7 +873,10 @@ h1 {
 
 .copy-block p {
   margin: 0;
+  max-inline-size: 38em;
   color: var(--muted);
+  font-size: 16px;
+  line-height: 1.62;
 }
 
 /* 核心态"为什么重要 / 怎么用"：推荐理由与使用范式，语义上属于 positioning+value+workflow 的"价值/工作流"层，
@@ -749,8 +904,10 @@ h1 {
 
 .value-block p {
   margin: 0;
+  max-inline-size: 38em;
   color: var(--ink);
-  font-size: 14px;
+  font-size: 16px;
+  line-height: 1.58;
 }
 
 @media (min-width: 640px) {
@@ -777,7 +934,10 @@ h1 {
 
 .field-box p {
   margin: 0;
+  max-inline-size: 38em;
   color: var(--muted);
+  font-size: 16px;
+  line-height: 1.62;
 }
 
 /* 证据态：默认折叠，原生 details/summary 承载，与站点已有的归档折叠交互保持一致 */
@@ -915,6 +1075,21 @@ h1 {
   text-underline-offset: 3px;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .overview-extra {
+    animation: none;
+  }
+}
+
 @media (min-width: 740px) {
   .shell {
     width: min(1180px, calc(100% - 48px));
@@ -934,7 +1109,7 @@ h1 {
     align-self: stretch;
   }
 
-  .hero-stats div {
+  .hero-stat {
     display: grid;
     align-content: center;
   }
@@ -985,10 +1160,6 @@ h1 {
 @media (max-width: 420px) {
   .shell {
     width: min(100% - 20px, 1180px);
-  }
-
-  .hero-stats {
-    grid-template-columns: 1fr;
   }
 
   h1 {
