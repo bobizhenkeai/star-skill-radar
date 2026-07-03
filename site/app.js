@@ -480,6 +480,10 @@ function normalizeIssue(data, fallbackDate) {
   };
 }
 
+function normalizeGistString(value) {
+  return typeof value === "string" && value.trim() ? value.trim() : "";
+}
+
 function normalizeHighlights(value) {
   return toArray(value)
     .filter(isPlainObject)
@@ -489,7 +493,7 @@ function normalizeHighlights(value) {
       type: item.type,
       evidence_tier: item.evidence_tier,
       evidence_notes: item.evidence_notes,
-      gist: item.gist,
+      gist: normalizeGistString(item.gist),
       summary: item.summary,
       competitors: toArray(item.competitors).filter(isPlainObject),
       recommendation: item.recommendation,
@@ -1173,9 +1177,8 @@ function overviewBriefBulletItem(brief) {
 }
 
 function overviewHighlightNote(item) {
-  const gist = safeText(item && item.gist, "").trim();
-  if (gist) return { text: gist, isGist: true };
-  return { text: semanticExcerpt(item && (item.summary || item.recommendation)), isGist: false };
+  if (item && item.gist) return { text: item.gist, isGist: true };
+  return { text: semanticExcerpt(item && item.summary), isGist: false };
 }
 
 function overviewBulletTitle(text) {
@@ -1483,6 +1486,20 @@ function setStatus(message, isError = false) {
 
 function statusMessage() {
   const messages = [];
+  if (state.view === "catalog") {
+    if (state.ledger.length > 0) {
+      messages.push(`已收录 ${state.ledger.length} 项资产；可按主题类型筛选浏览。`);
+    } else {
+      messages.push("ledger.json 缺失或为空；资产总表暂无可展示条目。");
+    }
+    if (state.loadErrors.length > 0) {
+      const sample = state.loadErrors.slice(0, 3).join("；");
+      const suffix = state.loadErrors.length > 3 ? `；另有 ${state.loadErrors.length - 3} 项` : "";
+      messages.push(`读取异常 ${state.loadErrors.length} 项：${sample}${suffix}`);
+    }
+    return messages.join(" ");
+  }
+
   if (state.routeNotice) messages.push(state.routeNotice);
 
   if (state.issueDates.length === 0) {
@@ -1506,6 +1523,9 @@ function statusMessage() {
 }
 
 function hasVisibleError() {
+  if (state.view === "catalog") {
+    return state.ledger.length === 0 && state.loadErrors.length > 0;
+  }
   return state.loadErrors.length > 0 || Boolean(state.routeNotice);
 }
 
