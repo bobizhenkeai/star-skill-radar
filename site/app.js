@@ -60,7 +60,9 @@ const TYPE_ORDER = TYPE_OPTIONS
   .filter((value) => value !== "all");
 const TYPE_RANK = new Map(TYPE_ORDER.map((value, index) => [value, index]));
 const SVG_NS = "http://www.w3.org/2000/svg";
-const OVERVIEW_BULLET_LIMIT = 3;
+const OVERVIEW_CATEGORY_BULLET_LIMIT = 3;
+const OVERVIEW_BRIEF_BULLET_LIMIT = 4;
+const OVERVIEW_BRIEF_DESKTOP_COLUMNS = 2;
 const OVERVIEW_NOTE_MAX_LENGTH = 54;
 
 let overviewDisclosureId = 0;
@@ -974,14 +976,15 @@ function overviewCategoryCard(type, items) {
   if (TYPE_COLOR_VAR[type]) card.style.setProperty("--cat-color", TYPE_COLOR_VAR[type]);
   card.append(overviewCategoryHead(type, TYPE_LABELS[type] || "其他", items.length));
 
+  const baseCount = OVERVIEW_CATEGORY_BULLET_LIMIT;
   const list = document.createElement("ul");
   list.className = "overview-bullets";
-  list.append(...items.slice(0, OVERVIEW_BULLET_LIMIT).map(overviewBulletItem));
+  list.append(...items.slice(0, baseCount).map(overviewBulletItem));
   card.append(list);
 
-  const remaining = items.length - OVERVIEW_BULLET_LIMIT;
+  const remaining = items.length - baseCount;
   if (remaining > 0) {
-    card.append(overviewDisclosure(remaining, items.slice(OVERVIEW_BULLET_LIMIT), overviewBulletItem));
+    card.append(overviewDisclosure(remaining, items.slice(baseCount), overviewBulletItem, baseCount));
   }
 
   return card;
@@ -992,16 +995,47 @@ function overviewBriefsCard(briefs) {
   card.className = "overview-category overview-briefs";
   card.append(overviewCategoryHead("briefs", "简讯", briefs.length));
 
+  const baseCount = Math.min(OVERVIEW_BRIEF_BULLET_LIMIT, briefs.length);
+  const remaining = briefs.length - baseCount;
   const list = document.createElement("ul");
-  list.className = "overview-bullets";
-  list.append(...briefs.slice(0, OVERVIEW_BULLET_LIMIT).map(overviewBriefBulletItem));
-  card.append(list);
+  list.className = "overview-bullets overview-briefs-list";
+  const briefItems = briefs.map(overviewBriefBulletItem);
+  list.append(...briefItems);
 
-  const remaining = briefs.length - OVERVIEW_BULLET_LIMIT;
-  if (remaining > 0) {
-    card.append(overviewDisclosure(remaining, briefs.slice(OVERVIEW_BULLET_LIMIT), overviewBriefBulletItem));
+  if (remaining <= 0) {
+    list.classList.toggle("is-complete-odd", briefs.length % OVERVIEW_BRIEF_DESKTOP_COLUMNS !== 0);
+    card.append(list);
+    return card;
   }
 
+  const listId = `overview-briefs-${++overviewDisclosureId}`;
+  list.id = listId;
+  const moreItem = document.createElement("li");
+  moreItem.className = "overview-more-item";
+  const button = overviewMoreButton(remaining, listId);
+  const buttonText = button.querySelector(".overview-more-text");
+  moreItem.append(button);
+  list.append(moreItem);
+
+  const setExpanded = (expanded) => {
+    if (!expanded && briefItems.slice(baseCount).some((item) => item.contains(document.activeElement))) {
+      button.focus({ preventScroll: true });
+    }
+    for (const [index, item] of briefItems.entries()) {
+      item.hidden = !expanded && index >= baseCount;
+    }
+    const visibleBriefCount = expanded ? briefs.length : baseCount;
+    moreItem.classList.toggle("is-wide", visibleBriefCount % OVERVIEW_BRIEF_DESKTOP_COLUMNS === 0);
+    button.setAttribute("aria-expanded", String(expanded));
+    buttonText.textContent = expanded ? `收起，回到前 ${baseCount} 条` : `展开其余 ${remaining} 条`;
+  };
+
+  button.addEventListener("click", () => {
+    setExpanded(button.getAttribute("aria-expanded") !== "true");
+  });
+
+  setExpanded(false);
+  card.append(list);
   return card;
 }
 
@@ -1095,7 +1129,7 @@ function overviewIcon(type) {
   return svg;
 }
 
-function overviewDisclosure(remaining, items, renderer) {
+function overviewDisclosure(remaining, items, renderer, baseCount) {
   const fragment = document.createDocumentFragment();
   const panelId = `overview-extra-${++overviewDisclosureId}`;
   const button = overviewMoreButton(remaining, panelId);
@@ -1117,7 +1151,7 @@ function overviewDisclosure(remaining, items, renderer) {
     }
     button.setAttribute("aria-expanded", String(expanded));
     panel.hidden = !expanded;
-    buttonText.textContent = expanded ? "收起，回到前 3 条" : `展开其余 ${remaining} 条`;
+    buttonText.textContent = expanded ? `收起，回到前 ${baseCount} 条` : `展开其余 ${remaining} 条`;
   };
 
   button.addEventListener("click", () => {

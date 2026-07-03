@@ -833,6 +833,11 @@ h1 {
   -webkit-line-clamp: initial;
 }
 
+.overview-more-item {
+  display: flex;
+  min-width: 0;
+}
+
 .overview-more {
   display: inline-flex;
   align-items: center;
@@ -849,6 +854,11 @@ h1 {
   font-family: inherit;
   font-size: 14px;
   font-weight: 800;
+}
+
+.overview-more-item .overview-more {
+  width: 100%;
+  margin: 0;
 }
 
 .overview-more:hover,
@@ -903,6 +913,11 @@ h1 {
 
   .overview-briefs .overview-bullets {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .overview-briefs-list.is-complete-odd > li:last-child,
+  .overview-more-item.is-wide {
+    grid-column: 1 / -1;
   }
 }
 
