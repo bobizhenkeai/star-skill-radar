@@ -444,6 +444,7 @@ function normalizeHighlights(value) {
       type: item.type,
       evidence_tier: item.evidence_tier,
       evidence_notes: item.evidence_notes,
+      gist: item.gist,
       summary: item.summary,
       competitors: toArray(item.competitors).filter(isPlainObject),
       recommendation: item.recommendation,
@@ -932,8 +933,8 @@ function overviewBulletItem(item) {
   button.type = "button";
   button.className = "overview-bullet";
   button.append(overviewBulletTitle(safeText(item.name, "未命名条目")));
-  const note = semanticExcerpt(item.summary || item.recommendation);
-  if (note) button.append(overviewBulletNote(note));
+  const note = overviewHighlightNote(item);
+  if (note.text) button.append(overviewBulletNote(note.text, note.isGist));
   button.addEventListener("click", () => scrollToHighlight(item));
   li.append(button);
   return li;
@@ -941,7 +942,7 @@ function overviewBulletItem(item) {
 
 function overviewBriefBulletItem(brief) {
   const li = document.createElement("li");
-  const note = semanticExcerpt(brief.one_liner);
+  const note = safeText(brief.one_liner, "").trim();
   if (brief.link && isSafeHref(brief.link)) {
     const a = document.createElement("a");
     a.className = "overview-bullet";
@@ -958,6 +959,12 @@ function overviewBriefBulletItem(brief) {
   return li;
 }
 
+function overviewHighlightNote(item) {
+  const gist = safeText(item && item.gist, "").trim();
+  if (gist) return { text: gist, isGist: true };
+  return { text: semanticExcerpt(item && (item.summary || item.recommendation)), isGist: false };
+}
+
 function overviewBulletTitle(text) {
   const span = document.createElement("span");
   span.className = "overview-bullet-title";
@@ -965,9 +972,9 @@ function overviewBulletTitle(text) {
   return span;
 }
 
-function overviewBulletNote(text) {
+function overviewBulletNote(text, isGist = false) {
   const span = document.createElement("span");
-  span.className = "overview-bullet-note";
+  span.className = `overview-bullet-note${isGist ? " is-gist" : ""}`;
   span.textContent = text;
   return span;
 }

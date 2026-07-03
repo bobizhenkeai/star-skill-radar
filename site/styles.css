@@ -692,6 +692,12 @@ h1 {
   line-height: 1.56;
 }
 
+.overview-bullet-note.is-gist {
+  display: block;
+  overflow: visible;
+  -webkit-line-clamp: initial;
+}
+
 .overview-more {
   display: inline-flex;
   align-items: center;
