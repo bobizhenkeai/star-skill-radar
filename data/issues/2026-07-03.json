@@ -8,6 +8,7 @@
       "type": "paradigm",
       "evidence_tier": "official",
       "evidence_notes": "采集时间 2026-07-03T10:02+08:00。GitHub API 显示 github/spec-kit 有 117,474 stars、10,387 forks、374 open issues，archived=false；latest release v0.12.4 发布于 2026-07-02T10:57:06Z，较 ledger 快照 v0.12.3（2026-07-01）推进；release notes 含 `py` script type 与 Python interpreter resolution、label-driven bug-fix agent、Analytics extension 等变更。",
+      "gist": "GitHub 官方 SDD 工具包，补齐 Python 与 bug-fix agent 能力",
       "summary": "GitHub 官方 spec-driven development 工具包，提供 specify CLI、模板化 spec 工作流与社区扩展目录。v0.12.4 进一步补齐 Python 脚本类型解析与 bug-fix agent 能力，是观察官方 SDD 范式演进的关键入口。",
       "competitors": [
         {
@@ -43,6 +44,7 @@
       "type": "paradigm",
       "evidence_tier": "official",
       "evidence_notes": "采集时间 2026-07-03T10:02+08:00。GitHub API 显示 anthropics/claude-code 有 135,528 stars、21,841 forks、9,690 open issues，archived=false；latest release v2.1.199 发布于 2026-07-02T23:35:18Z，较 ledger 快照 v2.1.198（2026-07-01）推进；release notes 说明 stacked slash-skill 调用（最多 5 个）、SSL 证书错误即时提示、subagent 速率限制/错误时返回 partial work 等修复。",
+      "gist": "官方编码 harness，改进多技能串联与子代理错误处理",
       "summary": "Anthropic 官方 agentic coding harness，承载 skills、subagents、plugins 与终端工作流。v2.1.199 显著改进多 skill 串联调用与子代理错误处理，直接影响 harness 侧技能编排可靠性。",
       "competitors": [
         {
@@ -76,6 +78,7 @@
       "type": "paradigm",
       "evidence_tier": "community-verified",
       "evidence_notes": "采集时间 2026-07-03T10:02+08:00。GitHub API 显示 affaan-m/ECC 有 225,218 stars、34,460 forks、88 open issues，MIT license，archived=false，pushed 2026-07-03T01:27:41Z；latest release v2.0.0 发布于 2026-06-10；owner Affaan Mustafa（@affaan-m，bio 含 OSS meta-harness @ECC-Tools）；README 列出 Codex/Claude Code/Cursor/OpenCode/Gemini 等 12+ harness 安装路径、npm 包 ecc-universal/ecc-agentshield 与 GitHub App ecc-tools；附加信号：230+ contributors、release v2.0.0、近 30 天持续 push。",
+      "gist": "跨 harness agent 操作系统，统一技能、规则与安全治理",
       "summary": "跨 harness 的 agent 操作系统：整合 skills、instincts、memory 优化、安全扫描、hooks、rules 与 MCP 配置，自称 harness-native operator system。v2.0.0 引入 Hermes operator 故事与 cross-harness 架构文档，适合作为多工具链统一治理样本。",
       "competitors": [
         {
@@ -111,6 +114,7 @@
       "type": "paradigm",
       "evidence_tier": "community-verified",
       "evidence_notes": "采集时间 2026-07-03T10:02+08:00。GitHub API 显示 Fission-AI/OpenSpec 有 58,409 stars、4,056 forks、450 open issues，MIT license，archived=false，pushed 2026-07-02T22:25:54Z；latest release v1.5.0 发布于 2026-06-28T13:08:03Z；README 说明 `/opsx:propose` artifact-guided 工作流与 npm 包 @fission-ai/openspec；附加信号：CI badge 可见、Discord 社区、topics 含 sdd/spec/prd、近 30 天 push 活跃。",
+      "gist": "社区 SDD 框架，用 slash 命令驱动 artifact 工作流",
       "summary": "社区 spec-driven development 框架，强调 fluid/iterative/brownfield 友好，提供 `/opsx:propose`、`/opsx:explore` 等 slash 命令驱动的 artifact 工作流，与 GitHub Spec Kit 形成官方 vs 社区 SDD 对照。",
       "competitors": [
         {
@@ -144,6 +148,7 @@
       "type": "subagent",
       "evidence_tier": "community-verified",
       "evidence_notes": "采集时间 2026-07-03T10:02+08:00。GitHub API 显示 msitarzewski/agency-agents 有 125,563 stars、20,374 forks、98 open issues，MIT license，archived=false，pushed 2026-07-01T17:23:00Z；README 说明 2026 年推出 agencyagents.app 原生桌面应用，支持一键安装到 Claude Code、Cursor、Codex、Gemini 等 harness；附加信号：作者 msitarzewski 可验证、install.sh 脚本与 Homebrew cask 安装路径、多 harness 适配文档清晰。",
+      "gist": "大型子代理角色库，配套桌面应用分发到多 harness",
       "summary": "大型 AI 子代理角色库，每个 agent 有专门领域、个性与可交付物模板，覆盖 engineering、marketing、community 等分工。配套 Agency Agents 桌面应用可免 clone 一键分发到多 harness，是观察 subagent 角色化与安装 UX 的样本。",
       "competitors": [
         {
@@ -175,27 +180,27 @@
   "briefs": [
     {
       "name": "PrefectHQ/fastmcp",
-      "one_liner": "采集时间 2026-07-03T10:02+08:00。GitHub API 显示 25,933 stars，Apache-2.0，Python MCP server/client 框架，latest release v3.4.2（2026-06-06），README 称 FastMCP 1.0 已并入官方 MCP Python SDK。",
+      "one_liner": "Python MCP server/client 框架，README 称 FastMCP 1.0 已并入官方 MCP Python SDK；25,933 stars，Apache-2.0，v3.4.2（2026-06-06）。",
       "link": "https://github.com/PrefectHQ/fastmcp"
     },
     {
       "name": "nexu-io/open-design",
-      "one_liner": "采集时间 2026-07-03T10:02+08:00。GitHub API 显示 74,306 stars，Apache-2.0，topic:agent-skills；latest release open-design-v0.13.0（2026-07-02），本地优先开源设计工作台，支持 Claude Code/Codex/Cursor 等 21+ coding agents。",
+      "one_liner": "本地优先开源设计工作台，支持 Claude Code/Codex/Cursor 等 21+ coding agents；74,306 stars，Apache-2.0，topic:agent-skills，open-design-v0.13.0（2026-07-02）。",
       "link": "https://github.com/nexu-io/open-design"
     },
     {
       "name": "punkpeye/awesome-mcp-servers",
-      "one_liner": "采集时间 2026-07-03T10:02+08:00。GitHub API 显示 90,196 stars，MIT license；MCP server 发现清单，作辅助发现源，核心事实需回到各 server 仓库验证。",
+      "one_liner": "MCP server 发现清单，作辅助发现源，核心事实需回到各 server 仓库验证；90,196 stars，MIT license。",
       "link": "https://github.com/punkpeye/awesome-mcp-servers"
     },
     {
       "name": "awslabs/mcp",
-      "one_liner": "采集时间 2026-07-03T10:02+08:00。GitHub API 显示 9,375 stars，Apache-2.0，AWS Labs 官方 MCP servers 集合，latest release 2026.07.20260702161703（2026-07-02），2026-07-02 有 push。",
+      "one_liner": "AWS Labs 官方 MCP servers 集合；9,375 stars，Apache-2.0，latest release 2026.07.20260702161703（2026-07-02），2026-07-02 有 push。",
       "link": "https://github.com/awslabs/mcp"
     },
     {
       "name": "hesreallyhim/awesome-claude-code",
-      "one_liner": "采集时间 2026-07-03T10:02+08:00。GitHub API 显示 47,813 stars，2026-07-03 有 push；Claude Code 资源精选清单，topic 含 agent-skills，作发现源使用。",
+      "one_liner": "Claude Code 资源精选清单，topic 含 agent-skills，作发现源使用；47,813 stars，2026-07-03 有 push。",
       "link": "https://github.com/hesreallyhim/awesome-claude-code"
     }
   ],

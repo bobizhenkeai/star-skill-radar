@@ -100,6 +100,14 @@ topic:mcp-servers stars:>50
 - `briefs`：已验证但不够深度分析的简讯，日报中保持简洁。
 - `source_gaps`：无则空数组。
 
+overview 文案字段（v2.2）：
+
+- `highlights[].gist`：可选但推荐；新生成的 highlight 默认填写。它只服务站点 overview「今日摘要」，不是 `summary` 的截断版。
+- `gist` 写成约 18-42 个中文字符的自洽单句，从「它是什么 / 为什么重要 / 今天变了什么」中取其一，不要三者并陈；关键区分词前置。
+- `gist` 只能依据同条 `summary` 与 `evidence_notes` 提炼，不得引入新事实；不得以「采集时间」「GitHub API 显示」「stars」等证据或采集前缀开头，不要使用省略号式机械截断。
+- `summary` 仍是项目介绍正文，不得因有 `gist` 而缩短、删除或互相替代。
+- `briefs[].one_liner` 必须写成描述先行、自洽的一句话：先说“这是什么/为什么值得看”，star 等证据信息置于句尾且从简；不得以「采集时间 …」开头。
+
 字段枚举：
 
 - `type`：`skill | mcp | rules | hooks | subagent | prompt-lib | paradigm`
@@ -111,6 +119,7 @@ topic:mcp-servers stars:>50
 用 `report-template.md` 写入 `reports/YYYY-MM-DD.md`。Markdown 与 JSON 必须同源：
 
 - highlights 的名称、证据等级、`is_update`、主要链接一致。
+- `gist` 为站点 overview 专用字段，Markdown 报告仍使用 `summary` 展开重点条目的项目介绍；简讯使用清洗后的 `briefs[].one_liner`。
 - Markdown 可扩展分析正文，但不得引入 JSON 中没有来源支撑的新事实。
 - 所有事实仍需附链接，不要只写“据 GitHub 显示”。
 
@@ -141,11 +150,12 @@ topic:mcp-servers stars:>50
 
 1. 解析 JSON。
 2. 校验必填字段与枚举。
-3. 校验 `data/issues/index.json` 是 JSON 数组，元素均为 `YYYY-MM-DD`，且与 `data/issues/` 下实际日期文件集合一致。
-4. 对比 Markdown 和 JSON highlights。
-5. 确认禁止范围未改动：`docs/prds/`、`docs/specs/`、`site/`。
-6. `git status --short` 检查改动范围。
-7. 提交信息使用（替换为当期日期）：
+3. 校验 overview 文案：`gist` 缺失只警告；存在时必须非空、单句、无换行、无证据前缀、无机械省略截断；`briefs[].one_liner` 不得以「采集时间」或 star 证据开头。
+4. 校验 `data/issues/index.json` 是 JSON 数组，元素均为 `YYYY-MM-DD`，且与 `data/issues/` 下实际日期文件集合一致。
+5. 对比 Markdown 和 JSON highlights。
+6. 确认禁止范围未改动：`docs/prds/`、`docs/specs/`、`site/`。
+7. `git status --short` 检查改动范围。
+8. 提交信息使用（替换为当期日期）：
 
 ```text
 docs: add YYYY-MM-DD daily issue

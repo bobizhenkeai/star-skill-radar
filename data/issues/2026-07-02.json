@@ -8,6 +8,7 @@
       "type": "paradigm",
       "evidence_tier": "community-verified",
       "evidence_notes": "采集时间 2026-07-02T14:41+08:00。GitHub API 显示 obra/superpowers 有 243,701 stars、21,623 forks、297 open issues，MIT license，archived=false；latest release v6.1.0 发布于 2026-06-30T18:42:18Z，commit 说明含 Codex marketplace install；README 列出 Claude 官方 plugin marketplace、OpenAI Codex plugin marketplace 与 Cursor `/add-plugin superpowers` 安装路径，topics 含 skills 与 subagent-driven-development。",
+      "gist": "跨工具链技能方法论，串起规格、计划与子代理执行",
       "summary": "Superpowers 是一套面向 coding agent 的完整软件工程方法论：先通过对话提炼 spec、再产出可审计的实现计划，最后以 subagent-driven-development 分任务执行与审查。技能可自动触发，覆盖 Claude Code、Codex、Cursor 等多 harness。",
       "competitors": [
         {
@@ -43,6 +44,7 @@
       "type": "skill",
       "evidence_tier": "community-verified",
       "evidence_notes": "采集时间 2026-07-02T14:41+08:00。GitHub API 显示 mattpocock/skills 有 153,443 stars、13,235 forks、107 open issues，MIT license，archived=false；latest release v1.0.1 发布于 2026-06-17T22:07:52Z；2026-07-01 仍有 merge commit；README 提供 `npx skills@latest add mattpocock/skills` 安装路径与 `/grill-me`、`/tdd`、`/code-review` 等可组合技能目录。",
+      "gist": "面向真实工程场景的小型可组合技能单元库",
       "summary": "面向真实工程场景的可组合 Agent Skills 库，强调小而可适配的技能单元，覆盖对齐（grill）、领域语言（CONTEXT.md）、TDD、架构治理与 code review，刻意与一次性 vibe coding 流程工具区分。",
       "competitors": [
         {
@@ -77,6 +79,7 @@
       "type": "paradigm",
       "evidence_tier": "official",
       "evidence_notes": "采集时间 2026-07-02T14:41+08:00。GitHub API 显示 anthropics/claude-code 有 135,379 stars、21,819 forks、9,493 open issues，archived=false；latest release v2.1.198 发布于 2026-07-01T20:45:36Z；Claude Code 官方文档（code.claude.com/docs/en/skills）说明 skills 可扩展 Claude Code 能力并包含 custom commands 与 bundled skills。",
+      "gist": "Claude 侧官方编码 harness，承载技能、子代理与插件",
       "summary": "Anthropic 官方 agentic coding harness，是 Claude 侧 skills、subagents、plugins 与终端工作流的承载平台；本期将其作为官方 harness 范式纳入，便于与 OpenAI Codex、Cursor 对照。",
       "competitors": [
         {
@@ -110,6 +113,7 @@
       "type": "mcp",
       "evidence_tier": "official",
       "evidence_notes": "采集时间 2026-07-02T14:41+08:00。GitHub API 显示 modelcontextprotocol/servers 有 87,949 stars、11,119 forks、617 open issues，archived=false；README 明确该仓库是 MCP steering group 维护的 reference implementations 集合，并引导已发布 server 发现优先使用 MCP Registry（registry.modelcontextprotocol.io）。",
+      "gist": "官方 MCP 参考实现，示范 server 写法与 Registry 分工",
       "summary": "MCP 官方参考 server 实现仓库，展示 Filesystem、Git、Fetch、Memory 等 SDK 用法；与 MCP Registry 分工明确——本仓库教你怎么写 server，Registry 负责发现已发布 server 元数据。",
       "competitors": [
         {
@@ -143,6 +147,7 @@
       "type": "subagent",
       "evidence_tier": "community-verified",
       "evidence_notes": "采集时间 2026-07-02T14:41+08:00。GitHub API 显示 wshobson/agents 有 37,419 stars、4,020 forks、6 open issues，MIT license，archived=false；README 声明 88 plugins、194 agents、158 skills、106 commands，并支持 Claude Code、Codex CLI、Cursor、OpenCode、Gemini CLI、Copilot 多 harness 从单一 Markdown 源生成原生产物。",
+      "gist": "多 harness 插件市场，用单一源生成各工具原生产物",
       "summary": "生产级 agentic plugin marketplace：以 plugins/ 为单一事实源，按 harness 生成 Claude、Codex、Cursor、OpenCode、Gemini、Copilot 原生配置；强调安装单个 plugin 只加载其组件，避免整库灌入上下文。",
       "competitors": [
         {
@@ -174,37 +179,37 @@
   "briefs": [
     {
       "name": "punkpeye/awesome-mcp-servers",
-      "one_liner": "采集时间 2026-07-02T14:41+08:00。GitHub Search/API 显示 90,153 stars；社区最广 MCP server 清单之一，发现后应回到官方 Registry 核验元数据。",
+      "one_liner": "社区最广 MCP server 清单之一，发现后应回到官方 Registry 核验元数据；GitHub Search/API 显示 90,153 stars。",
       "link": "https://github.com/punkpeye/awesome-mcp-servers"
     },
     {
       "name": "Fission-AI/OpenSpec",
-      "one_liner": "采集时间 2026-07-02T14:41+08:00。GitHub API 显示 58,258 stars，latest release v1.5.0（Stores Beta）发布于 2026-06-28，属 spec-driven 范式观察面。",
+      "one_liner": "Spec-driven 范式观察面，latest release v1.5.0（Stores Beta）发布于 2026-06-28；GitHub API 显示 58,258 stars。",
       "link": "https://github.com/Fission-AI/OpenSpec"
     },
     {
       "name": "PrefectHQ/fastmcp",
-      "one_liner": "采集时间 2026-07-02T14:41+08:00。GitHub API 显示 25,919 stars，topic:mcp-servers 检索前列；Python MCP server 框架，latest release v3.4.2。",
+      "one_liner": "Python MCP server 框架，topic:mcp-servers 检索前列，latest release v3.4.2；GitHub API 显示 25,919 stars。",
       "link": "https://github.com/PrefectHQ/fastmcp"
     },
     {
       "name": "shanraisshan/claude-code-best-practice",
-      "one_liner": "采集时间 2026-07-02T14:41+08:00。GitHub Search 显示 61,789 stars 且 2026-07-02 有 push；Claude Code 最佳实践 rules 合集，适合 rules 方向观察。",
+      "one_liner": "Claude Code 最佳实践 rules 合集，适合 rules 方向观察；GitHub Search 显示 61,789 stars，2026-07-02 有 push。",
       "link": "https://github.com/shanraisshan/claude-code-best-practice"
     },
     {
       "name": "Cursor Customize（3.9 changelog）",
-      "one_liner": "采集时间 2026-07-02T14:41+08:00。Cursor 2026-06-22 changelog 说明 Customize 页面可统一管理 plugins、skills、MCPs、subagents、rules、commands、hooks，并展示 marketplace leaderboard。",
+      "one_liner": "Cursor Customize 页面可统一管理 plugins、skills、MCPs、subagents、rules、commands、hooks，并展示 marketplace leaderboard；changelog 发布于 2026-06-22。",
       "link": "https://cursor.com/changelog/customize"
     },
     {
       "name": "VoltAgent/awesome-agent-skills",
-      "one_liner": "采集时间 2026-07-02T14:41+08:00。GitHub Search 显示 27,068 stars；跨 Claude Code、Codex、Gemini、Cursor 的 agent skills 索引，作发现源使用。",
+      "one_liner": "跨 Claude Code、Codex、Gemini、Cursor 的 agent skills 索引，作发现源使用；GitHub Search 显示 27,068 stars。",
       "link": "https://github.com/VoltAgent/awesome-agent-skills"
     },
     {
       "name": "intellectronica/ruler",
-      "one_liner": "采集时间 2026-07-02T14:41+08:00。GitHub Search 显示 2,800 stars 量级；多 agent 规则同步工具，rules 主题后续可深挖。",
+      "one_liner": "多 agent 规则同步工具，rules 主题后续可深挖；GitHub Search 显示 2,800 stars 量级。",
       "link": "https://github.com/intellectronica/ruler"
     }
   ],

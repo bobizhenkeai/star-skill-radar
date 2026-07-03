@@ -38,7 +38,7 @@
 
 ## 简讯
 
-- [名称](URL)：一句话。
+- [名称](URL)：描述先行的一句话。
 
 ## 来源缺口
 
@@ -64,7 +64,7 @@
 
 ## 简讯
 
-- [名称](URL)：一句话。
+- [名称](URL)：描述先行的一句话。
 
 ## 来源缺口
 
@@ -81,6 +81,7 @@
 | `highlights[].type` | 类型 |
 | `highlights[].evidence_tier` | 证据等级 |
 | `highlights[].evidence_notes` | 证据要点 |
+| `highlights[].gist` | 不直接进入 Markdown；仅供站点 overview「今日摘要」使用，不替代 `summary` |
 | `highlights[].summary` | 项目介绍 |
 | `highlights[].competitors` | 竞品/替代项 |
 | `highlights[].recommendation` | 推荐理由 |
@@ -88,7 +89,7 @@
 | `highlights[].stage_tags` | 适用阶段 |
 | `highlights[].is_update` | 更新状态 |
 | `highlights[].links` | 关键来源 |
-| `briefs` | 简讯 |
+| `briefs[].name/link/one_liner` | 简讯 |
 | `source_gaps` | 来源缺口 |
 
 Markdown 可以比 JSON 有更自然的中文段落，但不得引入未经链接支撑的新事实。
