@@ -71,6 +71,7 @@ const state = {
   issueCache: new Map(),
   issueErrors: new Map(),
   pendingDates: new Set(),
+  view: "date",
   selectedDate: null,
   loadErrors: [],
   routeNotice: "",
@@ -89,6 +90,7 @@ const nodes = {
   statusBar: document.querySelector("#statusBar"),
   typeFilters: document.querySelector("#typeFilters"),
   stageFilters: document.querySelector("#stageFilters"),
+  stageFilterGroup: document.querySelector("#stageFilters")?.closest(".filter-group"),
   statIssueCount: document.querySelector("#statIssueCount"),
   statHighlightCount: document.querySelector("#statHighlightCount"),
   statLatestDate: document.querySelector("#statLatestDate")
@@ -99,7 +101,7 @@ window.addEventListener("hashchange", async () => {
   syncRoute();
   setStatus(statusMessage(), hasVisibleError());
   render();
-  if (state.selectedDate) {
+  if (shouldLoadSelectedIssue()) {
     await loadIssueByDate(state.selectedDate);
     setStatus(statusMessage(), hasVisibleError());
     render();
@@ -123,19 +125,23 @@ async function init() {
 
   const initialHash = window.location.hash;
   syncRoute();
-  if (!initialHash && state.selectedDate) {
+  if (!initialHash && state.view === "date" && state.selectedDate) {
     history.replaceState(null, "", `#/date/${state.selectedDate}`);
   }
 
   setStatus(statusMessage(), hasVisibleError());
   render();
 
-  if (state.selectedDate) {
+  if (shouldLoadSelectedIssue()) {
     await loadIssueByDate(state.selectedDate);
     setStatus(statusMessage(), hasVisibleError());
     render();
     prefetchRecentIssues();
   }
+}
+
+function shouldLoadSelectedIssue() {
+  return state.view === "date" && Boolean(state.selectedDate);
 }
 
 function setArchiveDefaultOpen() {
@@ -176,11 +182,49 @@ function filterButton(label, active, onClick) {
 async function loadLedger() {
   try {
     const result = await fetchJson(`${DATA_ROOT}/ledger.json`, { optional: true });
-    return Array.isArray(result) ? result.filter(isPlainObject) : [];
+    return normalizeLedgerItems(result);
   } catch (error) {
     state.loadErrors.push(errorMessage(error));
     return [];
   }
+}
+
+function normalizeLedgerItems(value) {
+  return toArray(value)
+    .filter(isPlainObject)
+    .map((item) => {
+      const links = toArray(item.links).map((link) => String(link)).filter(Boolean);
+      const lastUpdates = normalizeLedgerUpdates(item.last_updates);
+      const latestUpdate = latestLedgerUpdate(lastUpdates);
+      return {
+        id: item.id,
+        name: item.name,
+        type: item.type,
+        evidence_tier: item.evidence_tier,
+        first_reported: item.first_reported,
+        last_updates: lastUpdates,
+        latest_update: latestUpdate,
+        state_snapshot: item.state_snapshot,
+        stage_tags: toArray(item.stage_tags).map((tag) => String(tag)).filter(Boolean),
+        links,
+        primary_link: links.find(isSafeHref) || "",
+        sort_date: latestUpdate && latestUpdate.date ? latestUpdate.date : item.first_reported
+      };
+    });
+}
+
+function normalizeLedgerUpdates(value) {
+  return toArray(value)
+    .filter(isPlainObject)
+    .map((update) => ({
+      date: update.date,
+      note: update.note
+    }))
+    .filter((update) => update.date || update.note);
+}
+
+function latestLedgerUpdate(updates) {
+  return updates.slice().sort((left, right) => compareDatesDesc(left.date, right.date))[0] || null;
 }
 
 async function discoverIssueDates(ledger) {
@@ -468,6 +512,13 @@ function normalizeBriefs(value) {
 function syncRoute() {
   state.routeNotice = "";
   const hash = window.location.hash || "";
+  if (hash === "#/catalog") {
+    state.view = "catalog";
+    state.selectedDate = state.issueDates.length > 0 ? state.issueDates[0] : null;
+    return;
+  }
+
+  state.view = "date";
   const match = /^#\/date\/([^/]+)$/.exec(hash);
   const requestedDate = match ? safeDecode(match[1]) : null;
 
@@ -494,7 +545,18 @@ function render() {
   renderFilterButtons();
   renderStats();
   renderIssueList();
-  renderIssueDetail();
+  renderToolbarState();
+  if (state.view === "catalog") {
+    renderCatalog();
+  } else {
+    renderIssueDetail();
+  }
+}
+
+function renderToolbarState() {
+  if (nodes.stageFilterGroup) {
+    nodes.stageFilterGroup.hidden = state.view === "catalog";
+  }
 }
 
 function renderStats() {
@@ -562,9 +624,10 @@ function issueLink(date) {
   const error = state.issueErrors.get(date);
   const isPending = state.pendingDates.has(date);
   const title = issue && issue.highlights[0] ? safeText(issue.highlights[0].name, "本期情报") : "点击查看日报";
+  const isCurrentDate = state.view === "date" && date === state.selectedDate;
   link.href = `#/date/${encodeURIComponent(date)}`;
-  link.classList.toggle("is-active", date === state.selectedDate);
-  if (date === state.selectedDate) link.setAttribute("aria-current", "page");
+  link.classList.toggle("is-active", isCurrentDate);
+  if (isCurrentDate) link.setAttribute("aria-current", "page");
   fragment.querySelector(".issue-date").textContent = date;
   fragment.querySelector(".issue-title").textContent = title;
   fragment.querySelector(".issue-meta").textContent = issue
@@ -621,6 +684,142 @@ function renderIssueDetail() {
   container.append(briefSection(issue.briefs));
   container.append(sourceGapSection(issue.source_gaps));
   nodes.issueDetail.replaceChildren(container);
+}
+
+function renderCatalog() {
+  const allItems = Array.isArray(state.ledger) ? state.ledger : [];
+  const filteredItems = allItems
+    .filter(matchesCatalogFilters)
+    .sort(compareCatalogItems);
+
+  const container = document.createDocumentFragment();
+  container.append(catalogHeader(filteredItems.length, allItems.length));
+
+  if (allItems.length === 0) {
+    container.append(emptyState("暂无已收录资产", "data/ledger.json 缺失或为空；站点已按契约降级展示。"));
+    nodes.issueDetail.replaceChildren(container);
+    return;
+  }
+
+  if (filteredItems.length === 0) {
+    container.append(emptyState("没有匹配的资产", "调整主题类型筛选后再查看已收录资产。"));
+    nodes.issueDetail.replaceChildren(container);
+    return;
+  }
+
+  const list = document.createElement("ul");
+  list.className = "catalog-list";
+  list.append(...filteredItems.map(catalogCard));
+  container.append(list);
+  nodes.issueDetail.replaceChildren(container);
+}
+
+function catalogHeader(filteredCount, totalCount) {
+  const header = document.createElement("header");
+  header.className = "catalog-header";
+
+  const copy = document.createElement("div");
+  copy.append(textBlock("eyebrow", "Asset Catalog"));
+  const title = document.createElement("h2");
+  title.id = "contentTitle";
+  title.textContent = "已收录资产";
+  copy.append(title);
+  const description = document.createElement("p");
+  description.className = "hero-text";
+  description.textContent = "只读消费 ledger.json，按主题类型浏览已进入 Star-Skill Radar 的 skills、MCP、rules、hooks、subagents、提示词库与工作范式。";
+  copy.append(description);
+
+  const stats = document.createElement("div");
+  stats.className = "issue-summary catalog-summary";
+  stats.append(summaryTile(String(totalCount), "资产总数"));
+  stats.append(summaryTile(String(filteredCount), "当前匹配"));
+  stats.append(summaryTile(String(catalogTrackedCount()), "追踪更新"));
+  stats.append(summaryTile(String(catalogTypeCount()), "覆盖类型"));
+
+  header.append(copy, stats);
+  return header;
+}
+
+function catalogTrackedCount() {
+  return state.ledger.filter((item) => toArray(item.last_updates).length > 0).length;
+}
+
+function catalogTypeCount() {
+  return new Set(state.ledger.map((item) => item.type).filter(Boolean)).size;
+}
+
+function matchesCatalogFilters(item) {
+  if (!isPlainObject(item)) return false;
+  return state.filters.type === "all" || item.type === state.filters.type;
+}
+
+function compareCatalogItems(left, right) {
+  const leftDate = parseIsoDate(left.sort_date);
+  const rightDate = parseIsoDate(right.sort_date);
+  if (leftDate && rightDate) {
+    const byDate = rightDate.getTime() - leftDate.getTime();
+    if (byDate !== 0) return byDate;
+  } else if (leftDate) {
+    return -1;
+  } else if (rightDate) {
+    return 1;
+  }
+  return safeText(left.name || left.id, "").localeCompare(safeText(right.name || right.id, ""), "zh-CN");
+}
+
+function catalogCard(item) {
+  const li = document.createElement("li");
+  li.className = "catalog-card";
+  if (TYPE_COLOR_VAR[item.type]) li.style.setProperty("--cat-color", TYPE_COLOR_VAR[item.type]);
+
+  const top = document.createElement("div");
+  top.className = "catalog-card-top";
+  const titleBlock = document.createElement("div");
+  titleBlock.className = "catalog-title";
+  const title = document.createElement("h3");
+  title.textContent = safeText(item.name || item.id, "未命名资产");
+  const typeChipClass = TYPE_LABELS[item.type] ? `cat-${item.type}` : "";
+  titleBlock.append(title, chipRow([
+    chip(TYPE_LABELS[item.type] || safeText(item.type, "未分类"), typeChipClass),
+    chip(EVIDENCE_LABELS[item.evidence_tier] || safeText(item.evidence_tier, "证据未标注"), "evidence"),
+    item.latest_update ? chip("追踪更新", "update") : null
+  ].filter(Boolean)));
+  top.append(titleBlock);
+  li.append(top);
+
+  const meta = document.createElement("dl");
+  meta.className = "catalog-meta";
+  meta.append(catalogMeta("首次收录", safeText(item.first_reported, "未标注")));
+  meta.append(catalogMeta("资产标识", safeText(item.id, "未提供 ID")));
+  if (item.latest_update) {
+    meta.append(catalogMeta("最近更新", safeText(item.latest_update.date, "日期未标注")));
+  }
+  li.append(meta);
+
+  if (item.latest_update) {
+    const update = document.createElement("p");
+    update.className = "catalog-update-note";
+    update.textContent = `追踪更新：${safeText(item.latest_update.note, "本资产有后续更新记录。")}`;
+    li.append(update);
+  }
+
+  const linkRow = document.createElement("div");
+  linkRow.className = "catalog-link-row";
+  const linkLabel = item.primary_link ? readableLink(item.primary_link) : "未提供可访问主链接";
+  linkRow.append(linkOrText(item.primary_link, linkLabel));
+  li.append(linkRow);
+
+  return li;
+}
+
+function catalogMeta(label, value) {
+  const fragment = document.createDocumentFragment();
+  const dt = document.createElement("dt");
+  dt.textContent = label;
+  const dd = document.createElement("dd");
+  dd.textContent = value;
+  fragment.append(dt, dd);
+  return fragment;
 }
 
 function issueHeader(issue, filteredCount) {
