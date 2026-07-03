@@ -62,6 +62,7 @@ const TYPE_RANK = new Map(TYPE_ORDER.map((value, index) => [value, index]));
 const SVG_NS = "http://www.w3.org/2000/svg";
 const OVERVIEW_CATEGORY_BULLET_LIMIT = 3;
 const OVERVIEW_BRIEF_BULLET_LIMIT = 4;
+// Must match the brief grid columns in site/styles.css at @media (min-width: 640px).
 const OVERVIEW_BRIEF_DESKTOP_COLUMNS = 2;
 const OVERVIEW_NOTE_MAX_LENGTH = 54;
 
@@ -511,6 +512,7 @@ function normalizeBriefs(value) {
     .filter(isPlainObject)
     .map((brief) => ({
       name: brief.name,
+      gist: normalizeGistString(brief.gist),
       one_liner: brief.one_liner,
       link: brief.link
     }));
@@ -976,16 +978,9 @@ function overviewCategoryCard(type, items) {
   if (TYPE_COLOR_VAR[type]) card.style.setProperty("--cat-color", TYPE_COLOR_VAR[type]);
   card.append(overviewCategoryHead(type, TYPE_LABELS[type] || "其他", items.length));
 
-  const baseCount = OVERVIEW_CATEGORY_BULLET_LIMIT;
-  const list = document.createElement("ul");
-  list.className = "overview-bullets";
-  list.append(...items.slice(0, baseCount).map(overviewBulletItem));
-  card.append(list);
-
-  const remaining = items.length - baseCount;
-  if (remaining > 0) {
-    card.append(overviewDisclosure(remaining, items.slice(baseCount), overviewBulletItem, baseCount));
-  }
+  card.append(overviewDisclosureList(items, overviewBulletItem, {
+    baseCount: Math.min(OVERVIEW_CATEGORY_BULLET_LIMIT, items.length)
+  }));
 
   return card;
 }
@@ -995,46 +990,11 @@ function overviewBriefsCard(briefs) {
   card.className = "overview-category overview-briefs";
   card.append(overviewCategoryHead("briefs", "简讯", briefs.length));
 
-  const baseCount = Math.min(OVERVIEW_BRIEF_BULLET_LIMIT, briefs.length);
-  const remaining = briefs.length - baseCount;
-  const list = document.createElement("ul");
-  list.className = "overview-bullets overview-briefs-list";
-  const briefItems = briefs.map(overviewBriefBulletItem);
-  list.append(...briefItems);
-
-  if (remaining <= 0) {
-    list.classList.toggle("is-complete-odd", briefs.length % OVERVIEW_BRIEF_DESKTOP_COLUMNS !== 0);
-    card.append(list);
-    return card;
-  }
-
-  const listId = `overview-briefs-${++overviewDisclosureId}`;
-  list.id = listId;
-  const moreItem = document.createElement("li");
-  moreItem.className = "overview-more-item";
-  const button = overviewMoreButton(remaining, listId);
-  const buttonText = button.querySelector(".overview-more-text");
-  moreItem.append(button);
-  list.append(moreItem);
-
-  const setExpanded = (expanded) => {
-    if (!expanded && briefItems.slice(baseCount).some((item) => item.contains(document.activeElement))) {
-      button.focus({ preventScroll: true });
-    }
-    for (const [index, item] of briefItems.entries()) {
-      item.hidden = !expanded && index >= baseCount;
-    }
-    const visibleBriefCount = expanded ? briefs.length : baseCount;
-    moreItem.classList.toggle("is-wide", visibleBriefCount % OVERVIEW_BRIEF_DESKTOP_COLUMNS === 0);
-    button.setAttribute("aria-expanded", String(expanded));
-    buttonText.textContent = expanded ? `收起，回到前 ${baseCount} 条` : `展开其余 ${remaining} 条`;
-  };
-
-  button.addEventListener("click", () => {
-    setExpanded(button.getAttribute("aria-expanded") !== "true");
+  const list = overviewDisclosureList(briefs, overviewBriefBulletItem, {
+    baseCount: Math.min(OVERVIEW_BRIEF_BULLET_LIMIT, briefs.length),
+    listClassName: "overview-briefs-list",
+    desktopColumns: OVERVIEW_BRIEF_DESKTOP_COLUMNS
   });
-
-  setExpanded(false);
   card.append(list);
   return card;
 }
@@ -1129,28 +1089,41 @@ function overviewIcon(type) {
   return svg;
 }
 
-function overviewDisclosure(remaining, items, renderer, baseCount) {
-  const fragment = document.createDocumentFragment();
-  const panelId = `overview-extra-${++overviewDisclosureId}`;
-  const button = overviewMoreButton(remaining, panelId);
-  const buttonText = button.querySelector(".overview-more-text");
-
-  const panel = document.createElement("div");
-  panel.id = panelId;
-  panel.className = "overview-extra";
-  panel.hidden = true;
-
+function overviewDisclosureList(items, renderer, { baseCount, listClassName = "", desktopColumns = 1 }) {
   const list = document.createElement("ul");
-  list.className = "overview-bullets overview-bullets-extra";
-  list.append(...items.map(renderer));
-  panel.append(list);
+  list.className = ["overview-bullets", listClassName].filter(Boolean).join(" ");
+  const itemNodes = items.map(renderer);
+  list.append(...itemNodes);
+
+  const remaining = items.length - baseCount;
+  if (remaining <= 0) {
+    if (desktopColumns > 1) {
+      list.classList.toggle("is-complete-odd", items.length % desktopColumns !== 0);
+    }
+    return list;
+  }
+
+  const listId = `overview-list-${++overviewDisclosureId}`;
+  list.id = listId;
+  const moreItem = document.createElement("li");
+  moreItem.className = "overview-more-item";
+  const button = overviewMoreButton(remaining, listId);
+  const buttonText = button.querySelector(".overview-more-text");
+  moreItem.append(button);
+  list.append(moreItem);
 
   const setExpanded = (expanded) => {
-    if (!expanded && panel.contains(document.activeElement)) {
+    if (!expanded && itemNodes.slice(baseCount).some((item) => item.contains(document.activeElement))) {
       button.focus({ preventScroll: true });
     }
+    for (const [index, item] of itemNodes.entries()) {
+      item.hidden = !expanded && index >= baseCount;
+    }
+    if (desktopColumns > 1) {
+      const visibleItemCount = expanded ? items.length : baseCount;
+      moreItem.classList.toggle("is-wide", visibleItemCount % desktopColumns === 0);
+    }
     button.setAttribute("aria-expanded", String(expanded));
-    panel.hidden = !expanded;
     buttonText.textContent = expanded ? `收起，回到前 ${baseCount} 条` : `展开其余 ${remaining} 条`;
   };
 
@@ -1158,8 +1131,8 @@ function overviewDisclosure(remaining, items, renderer, baseCount) {
     setExpanded(button.getAttribute("aria-expanded") !== "true");
   });
 
-  fragment.append(button, panel);
-  return fragment;
+  setExpanded(false);
+  return list;
 }
 
 function overviewMoreButton(remaining, panelId) {
@@ -1193,7 +1166,7 @@ function overviewBulletItem(item) {
 
 function overviewBriefBulletItem(brief) {
   const li = document.createElement("li");
-  const note = safeText(brief.one_liner, "").trim();
+  const note = overviewBriefNote(brief);
   if (brief.link && isSafeHref(brief.link)) {
     const a = document.createElement("a");
     a.className = "overview-bullet";
@@ -1202,7 +1175,7 @@ function overviewBriefBulletItem(brief) {
     a.rel = "noopener noreferrer";
     a.setAttribute("data-external", "");
     a.append(overviewBulletTitle(safeText(brief.name, "未命名简讯")));
-    if (note) a.append(overviewBulletNote(note));
+    if (note.text) a.append(overviewBulletNote(note.text, note.isGist));
     li.append(a);
   } else {
     li.append(overviewBulletTitle(safeText(brief.name, "未命名简讯")));
@@ -1213,6 +1186,11 @@ function overviewBriefBulletItem(brief) {
 function overviewHighlightNote(item) {
   if (item && item.gist) return { text: item.gist, isGist: true };
   return { text: semanticExcerpt(item && item.summary), isGist: false };
+}
+
+function overviewBriefNote(brief) {
+  if (brief && brief.gist) return { text: brief.gist, isGist: true };
+  return { text: briefSemanticExcerpt(brief && brief.one_liner), isGist: true };
 }
 
 function overviewBulletTitle(text) {
@@ -1264,6 +1242,47 @@ function semanticExcerpt(value) {
   const spaceBreak = text.lastIndexOf(" ", OVERVIEW_NOTE_MAX_LENGTH);
   if (spaceBreak >= 24) return `${text.slice(0, spaceBreak)}…`;
   return `${text.slice(0, OVERVIEW_NOTE_MAX_LENGTH)}…`;
+}
+
+function briefSemanticExcerpt(value) {
+  const raw = typeof value === "string" || typeof value === "number" ? String(value) : "";
+  const text = stripBriefEvidenceTail(raw
+    .replace(/\s+/g, " ")
+    .replace(/^采集时间\s+\S+。/, "")
+    .trim());
+  if (!text) return "";
+
+  const semanticBreaks = "。！？!?";
+  for (let index = 18; index < Math.min(text.length, OVERVIEW_NOTE_MAX_LENGTH); index += 1) {
+    if (semanticBreaks.includes(text[index])) {
+      return text.slice(0, index + 1);
+    }
+  }
+
+  return ensureTerminalPunctuation(text);
+}
+
+function stripBriefEvidenceTail(text) {
+  const semicolonIndex = text.search(/[；;]/);
+  if (semicolonIndex > 0 && looksLikeBriefEvidence(text.slice(semicolonIndex + 1))) {
+    return ensureTerminalPunctuation(text.slice(0, semicolonIndex).trim());
+  }
+
+  const commaEvidence = text.match(/[，,]\s*(?:GitHub|github|[0-9][0-9,.\s]*(?:stars?|forks?)\b|latest release|license|Apache|MIT|BSD|GPL|LGPL|AGPL|MPL|changelog)/i);
+  if (commaEvidence && commaEvidence.index >= 12) {
+    return ensureTerminalPunctuation(text.slice(0, commaEvidence.index).trim());
+  }
+
+  return text;
+}
+
+function looksLikeBriefEvidence(text) {
+  return /(?:GitHub|github|stars?|forks?|open issues?|latest release|license|Apache|MIT|BSD|GPL|LGPL|AGPL|MPL|changelog|有 push|发布于|v\d+\.\d+)/i.test(text);
+}
+
+function ensureTerminalPunctuation(text) {
+  if (!text) return "";
+  return /[。！？!?.]$/.test(text) ? text : `${text}。`;
 }
 
 function highlightCard(item) {

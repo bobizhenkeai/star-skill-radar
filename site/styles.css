@@ -711,6 +711,7 @@ h1 {
 
 .overview-grid {
   display: grid;
+  align-items: start;
   gap: 10px;
   grid-template-columns: 1fr;
 }
@@ -883,23 +884,6 @@ h1 {
 
 .overview-more[aria-expanded="true"] .overview-more-icon {
   transform: rotate(180deg);
-}
-
-.overview-extra {
-  animation: overviewFadeIn 140ms ease-out;
-  padding-top: 4px;
-}
-
-@keyframes overviewFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-2px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 @media (min-width: 640px) {
@@ -1239,10 +1223,6 @@ h1 {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
-  }
-
-  .overview-extra {
-    animation: none;
   }
 }
 
