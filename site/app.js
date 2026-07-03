@@ -497,12 +497,10 @@ function render() {
 }
 
 function renderStats() {
-  const highlightCount = Array.from(state.issueCache.values())
-    .filter(uniqueIssueByDate())
-    .reduce((sum, issue) => sum + issue.highlights.length, 0);
+  const catalogCount = Array.isArray(state.ledger) ? state.ledger.length : 0;
   const latestDate = state.issueDates[0] || "--";
   nodes.statIssueCount.textContent = String(state.issueDates.length);
-  nodes.statHighlightCount.textContent = String(highlightCount);
+  nodes.statHighlightCount.textContent = String(catalogCount);
   nodes.statLatestDate.textContent = latestDate;
   if (state.issueDates[0]) {
     nodes.statLatestDate.setAttribute("datetime", state.issueDates[0]);
@@ -897,7 +895,7 @@ function overviewDisclosure(remaining, items, renderer) {
 
   const setExpanded = (expanded) => {
     if (!expanded && panel.contains(document.activeElement)) {
-      button.focus();
+      button.focus({ preventScroll: true });
     }
     button.setAttribute("aria-expanded", String(expanded));
     panel.hidden = !expanded;
