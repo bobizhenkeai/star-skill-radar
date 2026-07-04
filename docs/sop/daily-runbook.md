@@ -164,7 +164,7 @@ node scripts/validate-data.mjs
    - highlight ID 已写入 ledger；GitHub 主键必须为小写 `owner/repo`。
    - Markdown 报告存在，且 highlights 名称、类型、证据等级、更新状态与 JSON 同源；简讯必须与 JSON `briefs[].name/link/one_liner` 同源。
    - overview 文案机械规则：`gist` 缺失只警告；存在时必须非空、单句、无换行、无证据前缀、无机械省略截断；`briefs[].gist` 不得堆叠 star/license/release/日期证据尾巴；`briefs[].one_liner` 不得以「采集时间」或 star 证据开头。
-   - 数值合理性：社区条目星数超过 `scripts/validation-rules.json` 的 `communityStarBlockThreshold`、社区条目星数超过同期 official 旗舰最大值、或同一 repo 跨期异常跳变，均为阻断级错误；任意高星条目超过 `highStarReviewThreshold` 触发人工复核警告。
+   - 数值合理性：highlights 与 briefs 中的 star claim 同口径入门禁；社区条目星数超过 `scripts/validation-rules.json` 的 `communityStarBlockThreshold`、社区条目星数超过同期 official 旗舰最大值、或同一 repo 跨期异常跳变，均为阻断级错误；任意高星条目超过 `highStarReviewThreshold` 触发人工复核警告。
 4. 如需人工独立复查最新一期 GitHub 数值，可额外运行：
 
 ```text

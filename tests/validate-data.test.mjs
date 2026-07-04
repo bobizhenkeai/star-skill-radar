@@ -1,10 +1,15 @@
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 
 import { validateRepository } from "../scripts/validate-data.mjs";
+
+const PROJECT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const VALIDATOR_CLI = path.join(PROJECT_ROOT, "scripts", "validate-data.mjs");
 
 function writeJson(filePath, value) {
   fs.mkdirSync(path.dirname(filePath), { recursive: true });
@@ -47,7 +52,7 @@ function baseBrief(overrides = {}) {
   return {
     name: "Acme Brief",
     gist: "代理规则辅助清单，适合后续观察",
-    one_liner: "代理规则辅助清单，适合后续观察；2,000 stars，MIT license。",
+    one_liner: "代理规则辅助清单，适合后续观察。",
     link: "https://github.com/acme/brief",
     ...overrides
   };
@@ -69,11 +74,30 @@ function baseLedgerEntry(overrides = {}) {
   };
 }
 
-function reportFor(issue, { briefOverrideText } = {}) {
+function reportFor(issue, { briefOverrideText, firstLinkOverride } = {}) {
   const highlight = issue.highlights[0];
   const brief = issue.briefs[0];
-  const status = highlight.is_update ? "重大更新追踪" : "新收录";
+  const status = highlight?.is_update ? "重大更新追踪" : "新收录";
   const briefText = briefOverrideText ?? brief.one_liner;
+  const highlightsSection = highlight
+    ? `### 1. ${highlight.name}
+
+- 类型：${highlight.type}
+- 证据等级：${highlight.evidence_tier}
+- 更新状态：${status}
+- 适用阶段：${highlight.stage_tags.join(" / ")}
+- 关键来源：[GitHub 仓库](${firstLinkOverride ?? highlight.links[0]})
+
+**证据要点**：${highlight.evidence_notes}
+
+**项目介绍**：${highlight.summary}
+
+**竞品/替代项**：
+
+**推荐理由**：${highlight.recommendation}
+
+**最佳使用范式**：${highlight.usage_paradigm}`
+    : "本期无重点条目。";
   return `# Star-Skill Radar 日报 ${issue.date}
 
 生成时间：${issue.generated_at}
@@ -87,23 +111,7 @@ function reportFor(issue, { briefOverrideText } = {}) {
 
 ## 重点条目
 
-### 1. ${highlight.name}
-
-- 类型：${highlight.type}
-- 证据等级：${highlight.evidence_tier}
-- 更新状态：${status}
-- 适用阶段：${highlight.stage_tags.join(" / ")}
-- 关键来源：[GitHub 仓库](${highlight.links[0]})
-
-**证据要点**：${highlight.evidence_notes}
-
-**项目介绍**：${highlight.summary}
-
-**竞品/替代项**：
-
-**推荐理由**：${highlight.recommendation}
-
-**最佳使用范式**：${highlight.usage_paradigm}
+${highlightsSection}
 
 ## 简讯
 
@@ -139,6 +147,13 @@ async function validateCodes(root) {
 test("valid minimal repository passes without blocking errors", async () => {
   const root = makeTempRepo();
   writeFixture(root);
+  const result = await validateRepository(root);
+  assert.equal(result.errors.length, 0);
+});
+
+test("empty highlights report passes explicitly", async () => {
+  const root = makeTempRepo();
+  writeFixture(root, { issue: { highlights: [] }, ledger: [] });
   const result = await validateRepository(root);
   assert.equal(result.errors.length, 0);
 });
@@ -194,6 +209,97 @@ test("gist evidence prefix and multiline fail", async () => {
   const codes = await validateCodes(root);
   assert.ok(codes.has("GIST_EVIDENCE_PREFIX"));
   assert.ok(codes.has("GIST_MULTILINE"));
+});
+
+test("brief star claims enter numeric sanity gate", async () => {
+  const root = makeTempRepo();
+  const official = baseHighlight({
+    id: "openai/flagship",
+    name: "Official Flagship",
+    evidence_tier: "official",
+    evidence_notes: "采集时间 2026-07-10T10:00+08:00。GitHub API 显示 openai/flagship 有 100,000 stars、1 forks、0 open issues。",
+    links: ["https://github.com/openai/flagship"]
+  });
+  const brief = baseBrief({
+    name: "Acme Brief",
+    one_liner:
+      "代理规则辅助清单，适合后续观察；GitHub API 显示 acme/brief 有 150,000 stars、MIT license。",
+    link: "https://github.com/acme/brief"
+  });
+  writeFixture(root, {
+    issue: { highlights: [official], briefs: [brief] },
+    ledger: [baseLedgerEntry({ id: "openai/flagship", name: "Official Flagship", evidence_tier: "official", links: ["https://github.com/openai/flagship"] })]
+  });
+  const codes = await validateCodes(root);
+  assert.ok(codes.has("COMMUNITY_STAR_ABOVE_THRESHOLD"));
+  assert.ok(codes.has("COMMUNITY_STAR_ABOVE_OFFICIAL"));
+});
+
+test("anchored star parser ignores thresholds and previous star mentions", async () => {
+  const root = makeTempRepo();
+  const highlight = baseHighlight({
+    evidence_notes:
+      "社区 highlights 门槛是 1,000 stars；昨日参考项曾有 135,528 stars。采集时间 2026-07-10T10:00+08:00。GitHub API 显示 acme/tool 有 2,500 stars、300 forks、12 open issues，archived=false。"
+  });
+  writeFixture(root, { issue: { highlights: [highlight] } });
+  const result = await validateRepository(root);
+  assert.equal(result.errors.length, 0);
+});
+
+test("high-base star jump below 2x is blocked", async () => {
+  const root = makeTempRepo();
+  const previousIssue = {
+    date: "2026-07-09",
+    generated_at: "2026-07-09T10:00:00+08:00",
+    highlights: [
+      baseHighlight({
+        id: "openai/flagship",
+        name: "Official Flagship",
+        evidence_tier: "official",
+        evidence_notes: "采集时间 2026-07-09T10:00+08:00。GitHub API 显示 openai/flagship 有 135,528 stars、1 forks、0 open issues。",
+        links: ["https://github.com/openai/flagship"]
+      })
+    ],
+    briefs: [baseBrief()],
+    source_gaps: []
+  };
+  const currentIssue = {
+    date: "2026-07-10",
+    generated_at: "2026-07-10T10:00:00+08:00",
+    highlights: [
+      baseHighlight({
+        id: "openai/flagship",
+        name: "Official Flagship",
+        evidence_tier: "official",
+        evidence_notes: "采集时间 2026-07-10T10:00+08:00。GitHub API 显示 openai/flagship 有 225,218 stars、1 forks、0 open issues。",
+        links: ["https://github.com/openai/flagship"]
+      })
+    ],
+    briefs: [baseBrief()],
+    source_gaps: []
+  };
+  writeJson(path.join(root, "data", "ledger.json"), [
+    baseLedgerEntry({ id: "openai/flagship", name: "Official Flagship", evidence_tier: "official", links: ["https://github.com/openai/flagship"] })
+  ]);
+  writeJson(path.join(root, "data", "issues", "index.json"), ["2026-07-09", "2026-07-10"]);
+  writeJson(path.join(root, "data", "issues", "2026-07-09.json"), previousIssue);
+  writeJson(path.join(root, "data", "issues", "2026-07-10.json"), currentIssue);
+  writeText(path.join(root, "reports", "2026-07-09.md"), reportFor(previousIssue));
+  writeText(path.join(root, "reports", "2026-07-10.md"), reportFor(currentIssue));
+  const codes = await validateCodes(root);
+  assert.ok(codes.has("STAR_JUMP_ANOMALY"));
+});
+
+test("brief gist allows semantic release and license wording", async () => {
+  const root = makeTempRepo();
+  const brief = baseBrief({
+    gist: "Release自动化工具，辅助License合规扫描",
+    one_liner: "Release 自动化工具，辅助 License 合规扫描。"
+  });
+  writeFixture(root, { issue: { briefs: [brief] } });
+  const result = await validateRepository(root);
+  assert.equal(result.errors.some((item) => item.code === "BRIEF_GIST_EVIDENCE_TAIL"), false);
+  assert.equal(result.errors.length, 0);
 });
 
 test("bad numeric sanity fails for community threshold, official comparison, id case, and jump", async () => {
@@ -254,4 +360,21 @@ test("markdown brief drift fails", async () => {
   writeFixture(root, { reportOptions: { briefOverrideText: "这条 Markdown 简讯被改写，已不再同源。" } });
   const codes = await validateCodes(root);
   assert.ok(codes.has("MARKDOWN_BRIEF_MISMATCH"));
+});
+
+test("markdown highlight first source link drift fails", async () => {
+  const root = makeTempRepo();
+  writeFixture(root, { reportOptions: { firstLinkOverride: "https://github.com/acme/wrong" } });
+  const codes = await validateCodes(root);
+  assert.ok(codes.has("MARKDOWN_HIGHLIGHT_LINK_MISMATCH"));
+});
+
+test("CLI missing option values exit with code 2", () => {
+  for (const args of [["--root"], ["--root", "--json"], ["--github-recheck"], ["--github-recheck", "--json"]]) {
+    const result = spawnSync(process.execPath, [VALIDATOR_CLI, ...args], {
+      cwd: PROJECT_ROOT,
+      encoding: "utf8"
+    });
+    assert.equal(result.status, 2);
+  }
 });

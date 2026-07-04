@@ -3,7 +3,16 @@
     "communityStarBlockThreshold": 120000,
     "highStarReviewThreshold": 120000,
     "starJumpAbsThreshold": 50000,
-    "starJumpRatioThreshold": 2.0
+    "starJumpRatioThreshold": 2.0,
+    "starJumpHighBaseMinStars": 100000,
+    "starJumpHighBaseAbsThreshold": 75000,
+    "officialGithubOwners": [
+      "openai",
+      "anthropics",
+      "modelcontextprotocol",
+      "github",
+      "awslabs"
+    ]
   },
   "githubRecheck": {
     "maxStarDriftAbs": 500,

@@ -13,7 +13,8 @@ const STAGE_TAG_VALUES = new Set(["requirements", "design", "implementation", "r
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const ISSUE_FILE_RE = /^\d{4}-\d{2}-\d{2}\.json$/;
 const GITHUB_SLUG_RE = /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/;
-const STAR_RE = /([0-9][0-9,]*(?:\.[0-9]+)?)\s*([kK])?\s*stars/g;
+const EVIDENCE_TAIL_RE =
+  /(?:[;；,，、]\s*)?(?:约\s*)?(?:\d[\d,.]*\s*[kK]?\s*stars?|MIT|Apache-2\.0|GPL|BSD|license|latest release\s+\S+|v?\d+(?:\.\d+){1,3}|\d{4}-\d{2}-\d{2})(?:[;；,，、]\s*(?:约\s*)?(?:\d[\d,.]*\s*[kK]?\s*stars?|MIT|Apache-2\.0|GPL|BSD|license|latest release\s+\S+|v?\d+(?:\.\d+){1,3}|\d{4}-\d{2}-\d{2}))*[。.!！]?$/i;
 
 function rel(root, filePath) {
   return path.relative(root, filePath).replaceAll(path.sep, "/");
@@ -73,20 +74,78 @@ function normalizeIdForLookup(id) {
   return isGitHubSlug(id) ? id.toLowerCase() : id;
 }
 
-function parseFirstStarCount(text) {
-  if (typeof text !== "string") {
-    return null;
-  }
-  STAR_RE.lastIndex = 0;
-  const match = STAR_RE.exec(text);
-  if (!match) {
-    return null;
-  }
-  const numeric = Number.parseFloat(match[1].replaceAll(",", ""));
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function parseStarNumber(value, suffix) {
+  const numeric = Number.parseFloat(String(value).replaceAll(",", ""));
   if (!Number.isFinite(numeric)) {
     return null;
   }
-  return Math.round(match[2] ? numeric * 1000 : numeric);
+  return Math.round(suffix ? numeric * 1000 : numeric);
+}
+
+function githubRepoFromUrl(value) {
+  if (!isHttpUrl(value)) {
+    return null;
+  }
+  const parsed = new URL(value);
+  if (parsed.hostname.toLowerCase() !== "github.com") {
+    return null;
+  }
+  const parts = parsed.pathname.split("/").filter(Boolean);
+  if (parts.length < 2) {
+    return null;
+  }
+  const repo = `${parts[0]}/${parts[1].replace(/\.git$/i, "")}`;
+  return isGitHubSlug(repo) ? repo.toLowerCase() : null;
+}
+
+function uniqueRepoCandidates(...values) {
+  const repos = new Set();
+  for (const value of values.flat()) {
+    if (!value) {
+      continue;
+    }
+    if (isGitHubSlug(value)) {
+      repos.add(value.toLowerCase());
+      continue;
+    }
+    const repo = githubRepoFromUrl(value);
+    if (repo) {
+      repos.add(repo);
+    }
+  }
+  return [...repos];
+}
+
+function containsStarWord(text) {
+  if (typeof text !== "string") {
+    return false;
+  }
+  return /\bstars?\b/i.test(text);
+}
+
+function parseAnchoredStarClaim(text, repoCandidates) {
+  if (typeof text !== "string" || repoCandidates.length === 0) {
+    return null;
+  }
+  for (const repo of repoCandidates) {
+    const repoPattern = escapeRegExp(repo).replace("/", "\\/");
+    const claimRe = new RegExp(
+      `GitHub[^。；;\\n]*?${repoPattern}\\s*有\\s*([0-9][0-9,]*(?:\\.[0-9]+)?)\\s*([kK])?\\s*stars`,
+      "i"
+    );
+    const match = text.match(claimRe);
+    if (match) {
+      const stars = parseStarNumber(match[1], match[2]);
+      if (stars !== null) {
+        return { stars, repo, source: match[0] };
+      }
+    }
+  }
+  return null;
 }
 
 function githubApiClaim(text) {
@@ -185,7 +244,7 @@ function validateGist(findings, rules, file, value, label, { required = false, b
   if (rules.gist.mechanicalEllipsis.some((ellipsis) => trimmed.includes(ellipsis))) {
     findings.error("GIST_MECHANICAL_ELLIPSIS", file, `${label} 不得使用机械省略截断`);
   }
-  if (brief && /(stars?|license|release|latest release|\d{4}-\d{2}-\d{2})/i.test(trimmed)) {
+  if (brief && EVIDENCE_TAIL_RE.test(trimmed)) {
     findings.error("BRIEF_GIST_EVIDENCE_TAIL", file, `${label} 不得堆叠 star/license/release/日期等证据尾巴`);
   }
   const length = [...trimmed].length;
@@ -303,6 +362,46 @@ function validateCompetitors(findings, file, competitors, label) {
   });
 }
 
+function inferTierFromRepo(repo, rules, fallback = "community-verified") {
+  if (!repo) {
+    return fallback;
+  }
+  const owner = repo.split("/")[0]?.toLowerCase();
+  return rules.numeric.officialGithubOwners.includes(owner) ? "official" : fallback;
+}
+
+function collectStarMeasurement(findings, file, {
+  text,
+  label,
+  id,
+  name,
+  tier,
+  date,
+  links,
+  repoCandidates
+}) {
+  const claim = parseAnchoredStarClaim(text, repoCandidates);
+  if (!claim) {
+    if (containsStarWord(text)) {
+      findings.error("STAR_CLAIM_UNANCHORED", file, `${label} 包含 stars 数值但未锚定为 “GitHub … <repo> 有 X stars” 主语`);
+    }
+    return null;
+  }
+  const normalizedId = claim.repo;
+  return {
+    id,
+    normalizedId,
+    date,
+    name,
+    tier,
+    stars: claim.stars,
+    file,
+    sourceText: text,
+    sourceLabel: label,
+    links: Array.isArray(links) ? links : []
+  };
+}
+
 function validateIssue(root, findings, rules, issue, issuePath, ledgerByNormalizedId) {
   const file = rel(root, issuePath);
   const dateFromName = path.basename(issuePath, ".json");
@@ -368,19 +467,19 @@ function validateIssue(root, findings, rules, issue, issuePath, ledgerByNormaliz
     if (isNonEmptyString(highlight.id) && !ledgerByNormalizedId.has(normalizedId)) {
       findings.error("HIGHLIGHT_LEDGER_MISSING", file, `${label}.id 未在 ledger 中找到: ${highlight.id}`);
     }
-    const stars = parseFirstStarCount(highlight.evidence_notes);
-    if (stars !== null) {
-      measurements.push({
-        id: highlight.id,
-        normalizedId,
-        date: issue.date,
-        name: highlight.name,
-        tier: highlight.evidence_tier,
-        stars,
-        file,
-        evidenceNotes: highlight.evidence_notes,
-        links: Array.isArray(highlight.links) ? highlight.links : []
-      });
+    const repoCandidates = uniqueRepoCandidates(highlight.id, highlight.links);
+    const measurement = collectStarMeasurement(findings, file, {
+      text: highlight.evidence_notes,
+      label: `${label}.evidence_notes`,
+      id: highlight.id,
+      name: highlight.name,
+      tier: highlight.evidence_tier,
+      date: issue.date,
+      links: highlight.links,
+      repoCandidates
+    });
+    if (measurement) {
+      measurements.push(measurement);
     }
   });
 
@@ -399,6 +498,36 @@ function validateIssue(root, findings, rules, issue, issuePath, ledgerByNormaliz
       validateGist(findings, rules, file, brief.gist, `${label}.gist`, { brief: true });
       if (/^\s*(采集时间|GitHub\s*(?:Search\/)?API\s*显示|\d[\d,.]*\s*stars?)/i.test(brief.one_liner ?? "")) {
         findings.error("BRIEF_ONE_LINER_PREFIX", file, `${label}.one_liner 必须描述先行，不得以采集时间或 star 证据开头`);
+      }
+      const briefRepo = githubRepoFromUrl(brief.link);
+      const repoCandidates = uniqueRepoCandidates(brief.link);
+      const tier = inferTierFromRepo(briefRepo, rules);
+      const briefId = briefRepo ?? `brief:${issue.date}:${index}`;
+      const oneLinerMeasurement = collectStarMeasurement(findings, file, {
+        text: brief.one_liner,
+        label: `${label}.one_liner`,
+        id: briefId,
+        name: brief.name,
+        tier,
+        date: issue.date,
+        links: [brief.link],
+        repoCandidates
+      });
+      if (oneLinerMeasurement) {
+        measurements.push(oneLinerMeasurement);
+      }
+      const gistMeasurement = collectStarMeasurement(findings, file, {
+        text: brief.gist,
+        label: `${label}.gist`,
+        id: briefId,
+        name: brief.name,
+        tier,
+        date: issue.date,
+        links: [brief.link],
+        repoCandidates
+      });
+      if (gistMeasurement) {
+        measurements.push(gistMeasurement);
       }
     });
   }
@@ -419,7 +548,7 @@ function hasGitHubVerificationLink(measurement) {
 }
 
 function numericFailurePrefix(measurement) {
-  return githubApiClaim(measurement.evidenceNotes) ? "API-claim numeric sanity failed: " : "";
+  return githubApiClaim(measurement.sourceText) ? "API-claim numeric sanity failed: " : "";
 }
 
 function validateNumericSanity(findings, rules, allMeasurements) {
@@ -441,7 +570,7 @@ function validateNumericSanity(findings, rules, allMeasurements) {
         findings.warn(
           "HIGH_STAR_REVIEW_REQUIRED",
           measurement.file,
-          `${measurement.name} (${measurement.id}) ${measurement.stars.toLocaleString("en-US")} stars 超过人工复核阈值 ${rules.numeric.highStarReviewThreshold.toLocaleString("en-US")}`
+          `${measurement.name} (${measurement.id}) ${measurement.sourceLabel} ${measurement.stars.toLocaleString("en-US")} stars 超过人工复核阈值 ${rules.numeric.highStarReviewThreshold.toLocaleString("en-US")}`
         );
         if (!hasGitHubVerificationLink(measurement)) {
           findings.error(
@@ -455,14 +584,14 @@ function validateNumericSanity(findings, rules, allMeasurements) {
         findings.error(
           "COMMUNITY_STAR_ABOVE_THRESHOLD",
           measurement.file,
-          `${numericFailurePrefix(measurement)}${date} 社区条目 ${measurement.name} (${measurement.id}) ${measurement.stars.toLocaleString("en-US")} stars 超过阻断阈值 ${rules.numeric.communityStarBlockThreshold.toLocaleString("en-US")}`
+          `${numericFailurePrefix(measurement)}${date} 社区条目 ${measurement.name} (${measurement.id}) ${measurement.sourceLabel} ${measurement.stars.toLocaleString("en-US")} stars 超过阻断阈值 ${rules.numeric.communityStarBlockThreshold.toLocaleString("en-US")}`
         );
       }
       if (measurement.tier === "community-verified" && officialMax > 0 && measurement.stars > officialMax) {
         findings.error(
           "COMMUNITY_STAR_ABOVE_OFFICIAL",
           measurement.file,
-          `${numericFailurePrefix(measurement)}${date} 社区条目 ${measurement.name} (${measurement.id}) ${measurement.stars.toLocaleString("en-US")} stars 超过同期官方旗舰最大值 ${officialMax.toLocaleString("en-US")}`
+          `${numericFailurePrefix(measurement)}${date} 社区条目 ${measurement.name} (${measurement.id}) ${measurement.sourceLabel} ${measurement.stars.toLocaleString("en-US")} stars 超过同期官方旗舰最大值 ${officialMax.toLocaleString("en-US")}`
         );
       }
     }
@@ -483,11 +612,19 @@ function validateNumericSanity(findings, rules, allMeasurements) {
       const diff = Math.abs(current.stars - prev.stars);
       const baseline = Math.max(1, Math.min(prev.stars, current.stars));
       const ratio = Math.max(prev.stars, current.stars) / baseline;
-      if (diff > rules.numeric.starJumpAbsThreshold && ratio > rules.numeric.starJumpRatioThreshold) {
+      const relativeJump =
+        diff > rules.numeric.starJumpAbsThreshold && ratio > rules.numeric.starJumpRatioThreshold;
+      const highBaseJump =
+        Math.min(prev.stars, current.stars) >= rules.numeric.starJumpHighBaseMinStars &&
+        diff > rules.numeric.starJumpHighBaseAbsThreshold;
+      if (current.date !== prev.date && (relativeJump || highBaseJump)) {
+        const reason = highBaseJump
+          ? `高基数绝对差 ${diff.toLocaleString("en-US")} 超过 ${rules.numeric.starJumpHighBaseAbsThreshold.toLocaleString("en-US")}`
+          : `绝对差 ${diff.toLocaleString("en-US")} 且倍数 ${ratio.toFixed(2)} 超过阈值`;
         findings.error(
           "STAR_JUMP_ANOMALY",
           current.file,
-          `${numericFailurePrefix(current)}${current.id} stars 从 ${prev.date} 的 ${prev.stars.toLocaleString("en-US")} 跳到 ${current.date} 的 ${current.stars.toLocaleString("en-US")}，超过跨期跳变阈值`
+          `${numericFailurePrefix(current)}${current.id} stars 从 ${prev.date} 的 ${prev.stars.toLocaleString("en-US")} 跳到 ${current.date} 的 ${current.stars.toLocaleString("en-US")}，${reason}`
         );
       }
     }
@@ -572,6 +709,10 @@ function validateMarkdownReport(root, findings, issue, issuePath) {
       if (!section.body.includes(`- 更新状态：${status}`)) {
         findings.error("MARKDOWN_HIGHLIGHT_STATUS_MISMATCH", reportFile, `${highlight.name} 更新状态未与 JSON 同源`);
       }
+      const firstLink = Array.isArray(highlight.links) ? highlight.links[0] : null;
+      if (firstLink && !section.body.includes(`](${firstLink})`)) {
+        findings.error("MARKDOWN_HIGHLIGHT_LINK_MISMATCH", reportFile, `${highlight.name} 关键来源首个链接未与 JSON links[0] 同源`);
+      }
     });
   }
 
@@ -596,6 +737,41 @@ function validateMarkdownReport(root, findings, issue, issuePath) {
   }
 }
 
+function collectGitHubRecheckTargets(issue) {
+  const targets = [];
+  for (const highlight of issue.highlights ?? []) {
+    if (!isGitHubSlug(highlight.id)) {
+      continue;
+    }
+    const repoCandidates = uniqueRepoCandidates(highlight.id, highlight.links);
+    const claim = parseAnchoredStarClaim(highlight.evidence_notes, repoCandidates);
+    if (claim) {
+      targets.push({
+        repo: claim.repo,
+        claimedStars: claim.stars,
+        label: `highlight:${highlight.name}`
+      });
+    }
+  }
+  for (const [index, brief] of (issue.briefs ?? []).entries()) {
+    const repoCandidates = uniqueRepoCandidates(brief.link);
+    for (const [field, text] of [
+      ["one_liner", brief.one_liner],
+      ["gist", brief.gist]
+    ]) {
+      const claim = parseAnchoredStarClaim(text, repoCandidates);
+      if (claim) {
+        targets.push({
+          repo: claim.repo,
+          claimedStars: claim.stars,
+          label: `briefs[${index}].${field}:${brief.name}`
+        });
+      }
+    }
+  }
+  return targets;
+}
+
 async function runGitHubRecheck(findings, rules, issue, issuePath) {
   const file = issuePath.replaceAll(path.sep, "/");
   const headers = {
@@ -605,15 +781,8 @@ async function runGitHubRecheck(findings, rules, issue, issuePath) {
   if (process.env.GITHUB_TOKEN) {
     headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
   }
-  for (const highlight of issue.highlights ?? []) {
-    if (!isGitHubSlug(highlight.id)) {
-      continue;
-    }
-    const claimedStars = parseFirstStarCount(highlight.evidence_notes);
-    if (claimedStars === null) {
-      continue;
-    }
-    const repo = highlight.id.toLowerCase();
+  for (const target of collectGitHubRecheckTargets(issue)) {
+    const repo = target.repo.toLowerCase();
     let response;
     try {
       response = await fetch(`https://api.github.com/repos/${repo}`, { headers });
@@ -631,13 +800,13 @@ async function runGitHubRecheck(findings, rules, issue, issuePath) {
       findings.error("GITHUB_RECHECK_BAD_RESPONSE", file, `${repo} GitHub API 响应缺少 stargazers_count`);
       continue;
     }
-    const drift = Math.abs(actualStars - claimedStars);
-    const driftRatio = drift / Math.max(1, claimedStars);
+    const drift = Math.abs(actualStars - target.claimedStars);
+    const driftRatio = drift / Math.max(1, target.claimedStars);
     if (drift > rules.githubRecheck.maxStarDriftAbs && driftRatio > rules.githubRecheck.maxStarDriftRatio) {
       findings.error(
         "GITHUB_RECHECK_STAR_MISMATCH",
         file,
-        `${repo} claimed=${claimedStars.toLocaleString("en-US")} actual=${actualStars.toLocaleString("en-US")} drift=${drift.toLocaleString("en-US")}`
+        `${target.label} ${repo} claimed=${target.claimedStars.toLocaleString("en-US")} actual=${actualStars.toLocaleString("en-US")} drift=${drift.toLocaleString("en-US")}`
       );
     }
   }
@@ -708,18 +877,28 @@ function parseArgs(argv) {
     json: false,
     githubRecheck: null
   };
+  const readValue = (index, flag) => {
+    const value = argv[index + 1];
+    if (!value || value.startsWith("-")) {
+      throw new Error(`${flag} 需要参数`);
+    }
+    return value;
+  };
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
     if (arg === "--json") {
       options.json = true;
     } else if (arg === "--root") {
-      options.root = path.resolve(argv[++index]);
+      const value = readValue(index, "--root");
+      options.root = path.resolve(value);
+      index += 1;
     } else if (arg === "--github-recheck") {
-      const value = argv[++index];
+      const value = readValue(index, "--github-recheck");
       if (value !== "latest") {
         throw new Error("--github-recheck 目前仅支持 latest");
       }
       options.githubRecheck = value;
+      index += 1;
     } else if (arg === "--help" || arg === "-h") {
       options.help = true;
     } else {

@@ -68,9 +68,10 @@
 - `community-verified` 条目 stars `> 120000`：阻断，必须二次核验；若无法确认，降级为 briefs 或写入 `source_gaps`，不得进入 highlights。
 - 同期 `community-verified` 条目 stars `>` 同期 `official` 旗舰最大 stars：阻断，必须二次核验。
 - 同一 GitHub repo 与上一期相比 stars 跳变同时满足绝对差 `> 50000` 且倍数 `> 2.0`：阻断，必须二次核验。
+- 同一 GitHub repo 在 `>= 100000` stars 的高基数区间，跨期绝对差 `> 75000`：即使未超过 2 倍也阻断，必须二次核验。
 - 任意条目 stars `> 120000`：触发人工复核警告，即使该条目为 official。
 
-高星 GitHub 条目必须在 `links` 中提供可点击验证入口，优先 `https://github.com/{owner}/{repo}` 或 GitHub API repo URL。`evidence_notes` 声称“GitHub API 显示”且命中上述异常时，视为高风险信号，必须先回源确认数值再提交。
+highlights 与 briefs 中的 star claim 同口径进入上述数值门禁。高星 GitHub 条目必须提供可点击验证入口，优先 `https://github.com/{owner}/{repo}` 或 GitHub API repo URL。`evidence_notes` 或 `one_liner` 声称“GitHub API 显示”且命中上述异常时，视为高风险信号，必须先回源确认数值再提交。
 
 ## 类型判定
 
