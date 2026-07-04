@@ -6,7 +6,7 @@
     "evidence_tier": "official",
     "first_reported": "2026-07-02",
     "last_updates": [],
-    "state_snapshot": "2026-07-02T09:43+08:00 GitHub/API: 157,365 stars, 18,540 forks; official Anthropic Agent Skills repository and Claude skill/plugin entry.",
+    "state_snapshot": "2026-07-04T12:18+08:00 GitHub API: 158,008 stars, 18,629 forks, 1,002 open issues, archived=false; official Anthropic Agent Skills repository.",
     "stage_tags": [
       "implementation",
       "testing",
@@ -14,6 +14,7 @@
     ],
     "links": [
       "https://github.com/anthropics/skills",
+      "https://api.github.com/repos/anthropics/skills",
       "https://agentskills.io/specification",
       "https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills"
     ]
@@ -25,7 +26,7 @@
     "evidence_tier": "official",
     "first_reported": "2026-07-02",
     "last_updates": [],
-    "state_snapshot": "2026-07-02T09:43+08:00 OpenAI Codex Skills and API Skills docs current; openai/codex API: 94,907 stars, latest release rust-v0.142.5 on 2026-07-01T01:15:44Z; openai/skills GitHub page shows 23.1k stars and deprecated notice.",
+    "state_snapshot": "2026-07-04T12:18+08:00 GitHub API: openai/codex 95,383 stars, 14,145 forks, latest release rust-v0.142.5 on 2026-07-01T01:15:44Z; openai/skills 23,212 stars, 1,570 forks; OpenAI Developers Codex skills docs reachable.",
     "stage_tags": [
       "requirements",
       "implementation",
@@ -34,9 +35,11 @@
     "links": [
       "https://developers.openai.com/codex/skills",
       "https://developers.openai.com/api/docs/guides/tools-skills",
-      "https://developers.openai.com/codex/learn/best-practices#turn-repeatable-work-into-skills",
+      "https://developers.openai.com/codex/use-cases/reusable-codex-skills",
       "https://github.com/openai/codex",
-      "https://github.com/openai/skills"
+      "https://api.github.com/repos/openai/codex",
+      "https://github.com/openai/skills",
+      "https://api.github.com/repos/openai/skills"
     ]
   },
   {
@@ -46,7 +49,7 @@
     "evidence_tier": "official",
     "first_reported": "2026-07-02",
     "last_updates": [],
-    "state_snapshot": "2026-07-02T09:43+08:00 GitHub page/org: about 6,974 stars, 885 forks, 92 issues, 30 PRs, 648 commits, latest release v1.7.9 on 2026-05-12; official MCP Registry docs describe official centralized metadata repository and REST API.",
+    "state_snapshot": "2026-07-04T12:18+08:00 GitHub API: 6,979 stars, 886 forks, 124 open issues, archived=false, latest release v1.7.9 on 2026-05-12T21:00:41Z; official MCP Registry docs and REST API entry retained.",
     "stage_tags": [
       "implementation",
       "ops"
@@ -55,7 +58,8 @@
       "https://modelcontextprotocol.io/registry/about",
       "https://registry.modelcontextprotocol.io/",
       "https://github.com/modelcontextprotocol/registry",
-      "https://blog.modelcontextprotocol.io/posts/2025-09-08-mcp-registry-preview/"
+      "https://api.github.com/repos/modelcontextprotocol/registry",
+      "https://github.com/modelcontextprotocol/registry/releases/tag/v1.7.9"
     ]
   },
   {
@@ -67,10 +71,10 @@
     "last_updates": [
       {
         "date": "2026-07-03",
-        "note": "v0.12.4 release (2026-07-02): Python script type, bug-fix agent, Analytics extension."
+        "note": "v0.12.4 release (2026-07-02): official Spec Kit update retained after 2026-07-04 recheck."
       }
     ],
-    "state_snapshot": "2026-07-03T10:02+08:00 GitHub API: 117,474 stars, 10,387 forks, 374 issues; latest release v0.12.4 on 2026-07-02T10:57:06Z.",
+    "state_snapshot": "2026-07-04T12:18+08:00 GitHub API: 117,815 stars, 10,414 forks, 381 open issues, MIT license, archived=false; latest release v0.12.4 on 2026-07-02T10:57:06Z.",
     "stage_tags": [
       "requirements",
       "design",
@@ -80,6 +84,7 @@
     ],
     "links": [
       "https://github.com/github/spec-kit",
+      "https://api.github.com/repos/github/spec-kit",
       "https://github.github.com/spec-kit/",
       "https://github.com/github/spec-kit/releases/tag/v0.12.4"
     ]
@@ -91,7 +96,7 @@
     "evidence_tier": "community-verified",
     "first_reported": "2026-07-02",
     "last_updates": [],
-    "state_snapshot": "2026-07-02T09:43+08:00 GitHub page: 68.4k stars, 7.4k forks, 63 issues, 83 PRs, 298 commits, MIT license, archived=false/page no archive signal; lifecycle commands and skills/hooks/agents directories visible.",
+    "state_snapshot": "2026-07-04T12:18+08:00 GitHub API: 68,781 stars, 7,457 forks, 129 open issues, MIT license, archived=false, latest release 0.6.3 on 2026-07-03T05:42:25Z.",
     "stage_tags": [
       "design",
       "implementation",
@@ -101,48 +106,9 @@
     ],
     "links": [
       "https://github.com/addyosmani/agent-skills",
+      "https://api.github.com/repos/addyosmani/agent-skills",
+      "https://github.com/addyosmani/agent-skills/releases/tag/0.6.3",
       "https://addyosmani.com/blog/agent-skills/"
-    ]
-  },
-  {
-    "id": "obra/superpowers",
-    "name": "Superpowers",
-    "type": "paradigm",
-    "evidence_tier": "community-verified",
-    "first_reported": "2026-07-02",
-    "last_updates": [],
-    "state_snapshot": "2026-07-02T14:41+08:00 GitHub API: 243,701 stars, 21,623 forks, 297 issues; latest release v6.1.0 on 2026-06-30; Claude/Codex/Cursor marketplace install paths documented.",
-    "stage_tags": [
-      "requirements",
-      "design",
-      "implementation",
-      "review",
-      "testing"
-    ],
-    "links": [
-      "https://github.com/obra/superpowers",
-      "https://github.com/obra/superpowers/releases/tag/v6.1.0",
-      "https://claude.com/plugins/superpowers"
-    ]
-  },
-  {
-    "id": "mattpocock/skills",
-    "name": "Matt Pocock Skills",
-    "type": "skill",
-    "evidence_tier": "community-verified",
-    "first_reported": "2026-07-02",
-    "last_updates": [],
-    "state_snapshot": "2026-07-02T14:41+08:00 GitHub API: 153,443 stars, 13,235 forks, 107 issues; latest release v1.0.1 on 2026-06-17; skills.sh distribution and composable engineering skills.",
-    "stage_tags": [
-      "requirements",
-      "implementation",
-      "review",
-      "testing"
-    ],
-    "links": [
-      "https://github.com/mattpocock/skills",
-      "https://skills.sh/mattpocock/skills",
-      "https://github.com/mattpocock/skills/releases/tag/v1.0.1"
     ]
   },
   {
@@ -154,10 +120,10 @@
     "last_updates": [
       {
         "date": "2026-07-03",
-        "note": "v2.1.199 release (2026-07-02): stacked slash-skills (up to 5), subagent partial work on errors, SSL cert guidance."
+        "note": "Updated to latest verified release v2.1.201 after 2026-07-04 recheck."
       }
     ],
-    "state_snapshot": "2026-07-03T10:02+08:00 GitHub API: 135,528 stars, 21,841 forks, 9,690 issues; latest release v2.1.199 on 2026-07-02T23:35:18Z.",
+    "state_snapshot": "2026-07-04T12:18+08:00 GitHub API: 135,897 stars, 21,861 forks, 9,788 open issues, license not declared, archived=false; latest release v2.1.201 on 2026-07-03T23:50:35Z.",
     "stage_tags": [
       "implementation",
       "review",
@@ -165,8 +131,9 @@
     ],
     "links": [
       "https://github.com/anthropics/claude-code",
+      "https://api.github.com/repos/anthropics/claude-code",
       "https://code.claude.com/docs/en/skills",
-      "https://github.com/anthropics/claude-code/releases/tag/v2.1.199"
+      "https://github.com/anthropics/claude-code/releases/tag/v2.1.201"
     ]
   },
   {
@@ -176,7 +143,7 @@
     "evidence_tier": "official",
     "first_reported": "2026-07-02",
     "last_updates": [],
-    "state_snapshot": "2026-07-02T14:41+08:00 GitHub API: 87,949 stars, 11,119 forks, 617 issues; official MCP reference implementations; README directs discovery to MCP Registry.",
+    "state_snapshot": "2026-07-04T12:18+08:00 GitHub API: 88,028 stars, 11,140 forks, 630 open issues, license=NOASSERTION, archived=false; latest release 2026.1.26 on 2026-01-27T12:11:26Z.",
     "stage_tags": [
       "design",
       "implementation",
@@ -184,6 +151,8 @@
     ],
     "links": [
       "https://github.com/modelcontextprotocol/servers",
+      "https://api.github.com/repos/modelcontextprotocol/servers",
+      "https://github.com/modelcontextprotocol/servers/releases/tag/2026.1.26",
       "https://modelcontextprotocol.io/",
       "https://registry.modelcontextprotocol.io/"
     ]
@@ -195,7 +164,7 @@
     "evidence_tier": "community-verified",
     "first_reported": "2026-07-02",
     "last_updates": [],
-    "state_snapshot": "2026-07-02T14:41+08:00 GitHub API: 37,419 stars, 4,020 forks; README: 88 plugins, 194 agents, 158 skills, 106 commands; multi-harness generation from single source.",
+    "state_snapshot": "2026-07-04T12:18+08:00 GitHub API: 37,487 stars, 4,022 forks, 6 open issues, MIT license, archived=false, pushed_at=2026-06-29T01:08:41Z; multi-harness agentic plugin marketplace.",
     "stage_tags": [
       "design",
       "implementation",
@@ -203,39 +172,19 @@
     ],
     "links": [
       "https://github.com/wshobson/agents",
+      "https://api.github.com/repos/wshobson/agents",
       "https://github.com/wshobson/agents/blob/main/docs/harnesses.md",
       "https://github.com/wshobson/agents/blob/main/docs/plugins.md"
     ]
   },
   {
-    "id": "affaan-m/ECC",
-    "name": "ECC (Everything Claude Code)",
-    "type": "paradigm",
-    "evidence_tier": "community-verified",
-    "first_reported": "2026-07-03",
-    "last_updates": [],
-    "state_snapshot": "2026-07-03T10:02+08:00 GitHub API: 225,218 stars, 34,460 forks, 88 issues; latest release v2.0.0 on 2026-06-10; cross-harness skills/rules/hooks/MCP operator system.",
-    "stage_tags": [
-      "design",
-      "implementation",
-      "review",
-      "testing",
-      "ops"
-    ],
-    "links": [
-      "https://github.com/affaan-m/ECC",
-      "https://github.com/affaan-m/ECC/releases/tag/v2.0.0",
-      "https://ecc.tools"
-    ]
-  },
-  {
-    "id": "Fission-AI/OpenSpec",
+    "id": "fission-ai/openspec",
     "name": "OpenSpec",
     "type": "paradigm",
     "evidence_tier": "community-verified",
     "first_reported": "2026-07-03",
     "last_updates": [],
-    "state_snapshot": "2026-07-03T10:02+08:00 GitHub API: 58,409 stars, 4,056 forks, 450 issues; latest release v1.5.0 on 2026-06-28; community SDD framework with /opsx slash workflow.",
+    "state_snapshot": "2026-07-04T12:18+08:00 GitHub API: 58,589 stars, 4,073 forks, 452 open issues, MIT license, archived=false, pushed_at=2026-07-03T14:24:42Z; latest release v1.5.0 on 2026-06-28T13:08:03Z.",
     "stage_tags": [
       "requirements",
       "design",
@@ -243,27 +192,9 @@
     ],
     "links": [
       "https://github.com/Fission-AI/OpenSpec",
+      "https://api.github.com/repos/Fission-AI/OpenSpec",
       "https://github.com/Fission-AI/OpenSpec/releases/tag/v1.5.0",
       "https://www.npmjs.com/package/@fission-ai/openspec"
-    ]
-  },
-  {
-    "id": "msitarzewski/agency-agents",
-    "name": "The Agency",
-    "type": "subagent",
-    "evidence_tier": "community-verified",
-    "first_reported": "2026-07-03",
-    "last_updates": [],
-    "state_snapshot": "2026-07-03T10:02+08:00 GitHub API: 125,563 stars, 20,374 forks, 98 issues; agencyagents.app desktop app for one-click install to Claude Code/Cursor/Codex.",
-    "stage_tags": [
-      "design",
-      "implementation",
-      "review"
-    ],
-    "links": [
-      "https://github.com/msitarzewski/agency-agents",
-      "https://agencyagents.app",
-      "https://github.com/msitarzewski/agency-agents-app/releases/latest"
     ]
   }
 ]
