@@ -63,7 +63,7 @@ topic:mcp-servers stars:>50
 按 `credibility-dedup-rules.md` 执行：
 
 - `official`：官方/权威直接准入。
-- `community-verified`：`stars >= 1000` 且至少 2 个附加信号通过。
+- `community-verified`：`stars >= 1000`、`archived=false`（或页面没有归档信号），且至少 2 个附加信号通过。
 - 不满足门槛的项目不得进入 highlights，可作为 briefs 或舍弃。
 
 每个重点条目必须写明证据等级；社区条目必须在 `evidence_notes` 中列出 star 数、采集时间、通过的附加信号。
@@ -71,7 +71,7 @@ topic:mcp-servers stars:>50
 ## 5. 去重与重大更新
 
 1. 规范化 ID：
-   - GitHub：小写 `owner/repo`。
+   - GitHub：写入 issue 与 ledger 前必须先转成小写 `owner/repo`；大小写保留值不得进入主键。
    - 官方页面/博客/规范：去除 tracking 参数后的 canonical URL。
 2. 与 `data/ledger.json` 对照：
    - 不存在：`is_update = false`，可作为新条目。
@@ -151,14 +151,30 @@ overview 文案字段（v2.2/v2.3）：
 
 ## 10. 校验与提交
 
-1. 解析 JSON。
-2. 校验必填字段与枚举。
-3. 校验 overview 文案：`gist` 缺失只警告；存在时必须非空、约 18-42 个中文字符、单句、无换行、无证据前缀、无机械省略截断；`briefs[].gist` 还必须无 star/license/release/日期等证据尾巴，且只能依据同条 `one_liner` 提炼；`briefs[].one_liner` 不得以「采集时间」或 star 证据开头。
-4. 校验 `data/issues/index.json` 是 JSON 数组，元素均为 `YYYY-MM-DD`，且与 `data/issues/` 下实际日期文件集合一致。
-5. 对比 Markdown 和 JSON highlights/briefs；Markdown 重点条目使用 `summary`，简讯使用 `briefs[].one_liner`，不得把任何 `gist` 作为 Markdown 正文渲染。
-6. 确认禁止范围未改动：`docs/prds/`、`docs/specs/`、`site/`。
-7. `git status --short` 检查改动范围。
-8. 提交信息使用（替换为当期日期）：
+1. 必须在仓库根目录运行确定性校验器：
+
+```text
+node scripts/validate-data.mjs
+```
+
+2. 校验器为独立于生成者的硬门禁；任何 `ERROR` 都必须先修复，不得提交或推送。`WARN` 为人工复核提示，不阻断。
+3. 校验器覆盖：
+   - `data/ledger.json`、`data/issues/index.json`、所有 `data/issues/YYYY-MM-DD.json` 的 JSON 解析、必填字段、枚举、URL、日期与数组形态。
+   - `data/issues/index.json` 与实际 issue 文件集合一致。
+   - highlight ID 已写入 ledger；GitHub 主键必须为小写 `owner/repo`。
+   - Markdown 报告存在，且 highlights 名称、类型、证据等级、更新状态与 JSON 同源；简讯必须与 JSON `briefs[].name/link/one_liner` 同源。
+   - overview 文案机械规则：`gist` 缺失只警告；存在时必须非空、单句、无换行、无证据前缀、无机械省略截断；`briefs[].gist` 不得堆叠 star/license/release/日期证据尾巴；`briefs[].one_liner` 不得以「采集时间」或 star 证据开头。
+   - 数值合理性：社区条目星数超过 `scripts/validation-rules.json` 的 `communityStarBlockThreshold`、社区条目星数超过同期 official 旗舰最大值、或同一 repo 跨期异常跳变，均为阻断级错误；任意高星条目超过 `highStarReviewThreshold` 触发人工复核警告。
+4. 如需人工独立复查最新一期 GitHub 数值，可额外运行：
+
+```text
+node scripts/validate-data.mjs --github-recheck latest
+```
+
+该模式会实时请求 GitHub API；默认 CI 不运行它，避免网络与限流影响确定性门禁。
+5. 确认禁止范围未改动：`docs/prds/`、`docs/specs/`、`site/`。
+6. `git status --short` 检查改动范围。
+7. 提交信息使用（替换为当期日期）：
 
 ```text
 docs: add YYYY-MM-DD daily issue

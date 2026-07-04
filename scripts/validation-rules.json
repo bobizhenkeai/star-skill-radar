@@ -1,0 +1,28 @@
+{
+  "numeric": {
+    "communityStarBlockThreshold": 120000,
+    "highStarReviewThreshold": 120000,
+    "starJumpAbsThreshold": 50000,
+    "starJumpRatioThreshold": 2.0
+  },
+  "githubRecheck": {
+    "maxStarDriftAbs": 500,
+    "maxStarDriftRatio": 0.05
+  },
+  "gist": {
+    "softMinLength": 18,
+    "softMaxLength": 42,
+    "evidencePrefixes": [
+      "采集时间",
+      "GitHub API 显示",
+      "GitHub Search 显示",
+      "GitHub 页面展示",
+      "stars"
+    ],
+    "mechanicalEllipsis": [
+      "...",
+      "……",
+      "…"
+    ]
+  }
+}

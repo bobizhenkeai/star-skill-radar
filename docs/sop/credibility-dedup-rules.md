@@ -59,6 +59,19 @@
 - 页面只显示 `117k` 这类四舍五入值时，证据中写“GitHub 页面展示 117k stars”，不要伪造精确数。
 - 无法获取某字段时，不要猜；写入 `source_gaps` 或在条目中说明未取到。
 
+## 数值合理性与验证入口
+
+提交前必须运行 `node scripts/validate-data.mjs`。校验器只证明结构、一致性与数值合理性，不替代实时事实查询；关键事实仍必须来自本次运行期间的工具查询。
+
+与 `scripts/validation-rules.json` 保持一致的硬规则：
+
+- `community-verified` 条目 stars `> 120000`：阻断，必须二次核验；若无法确认，降级为 briefs 或写入 `source_gaps`，不得进入 highlights。
+- 同期 `community-verified` 条目 stars `>` 同期 `official` 旗舰最大 stars：阻断，必须二次核验。
+- 同一 GitHub repo 与上一期相比 stars 跳变同时满足绝对差 `> 50000` 且倍数 `> 2.0`：阻断，必须二次核验。
+- 任意条目 stars `> 120000`：触发人工复核警告，即使该条目为 official。
+
+高星 GitHub 条目必须在 `links` 中提供可点击验证入口，优先 `https://github.com/{owner}/{repo}` 或 GitHub API repo URL。`evidence_notes` 声称“GitHub API 显示”且命中上述异常时，视为高风险信号，必须先回源确认数值再提交。
+
 ## 类型判定
 
 - `skill`：可复用的 Agent Skill、技能库、技能标准、技能样例。

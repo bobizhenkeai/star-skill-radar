@@ -4,31 +4,93 @@ on:
   push:
     branches: [master]
     paths:
+      - "data/**"
       - "reports/**"
+      - "docs/sop/**"
+      - "scripts/**"
+      - "tests/**"
+      - ".github/workflows/notify-wechat.yml"
 
 jobs:
-  notify:
+  validate:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: 校验脚本语法
+        run: node --check scripts/validate-data.mjs
+      - name: 运行校验器单元测试
+        run: node --test tests/validate-data.test.mjs
+      - name: 校验数据产出
+        run: node scripts/validate-data.mjs
+
+  notify:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: 查找本次变更的报告
+        id: report
+        run: |
+          set -euo pipefail
+          BEFORE="${{ github.event.before }}"
+          if git cat-file -e "${BEFORE}^{commit}" 2>/dev/null; then
+            REPORT_FILE=$(git diff --name-only "$BEFORE" "$GITHUB_SHA" -- 'reports/*.md' | sort | tail -n 1)
+          else
+            REPORT_FILE=$(git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA" -- 'reports/*.md' | sort | tail -n 1)
+          fi
+
+          if [ -z "$REPORT_FILE" ]; then
+            echo "本次 push 未变更 reports/*.md，跳过微信推送。"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          REPORT_DATE=$(basename "$REPORT_FILE" .md)
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          echo "file=$REPORT_FILE" >> "$GITHUB_OUTPUT"
+          echo "date=$REPORT_DATE" >> "$GITHUB_OUTPUT"
       - name: 发送 Server酱 通知
+        if: steps.report.outputs.changed == 'true'
         env:
           SENDKEY: ${{ secrets.SERVERCHAN_SENDKEY }}
+          REPORT_DATE: ${{ steps.report.outputs.date }}
           SITE_URL: https://bobizhenkeai.github.io/star-skill-radar/site/
           PERMANENT_HINT: 永久入口（请收藏，推送过期后仍可访问）
         run: |
+          set -euo pipefail
           if [ -z "$SENDKEY" ]; then
             echo "未配置 SERVERCHAN_SENDKEY secret，跳过微信推送。"
             exit 0
           fi
-          TODAY=$(TZ=Asia/Shanghai date +%F)
-          TITLE="Star-Skill Radar 情报更新（${TODAY}）"
+          TITLE="Star-Skill Radar 情报更新（${REPORT_DATE}）"
           DESP=$(printf '%s\n\n%s\n%s\n\n%s\n%s\n\n%s' \
             "今日 AI 技术资产情报已生成。" \
             "${PERMANENT_HINT}：" \
             "${SITE_URL}" \
             "（复制到浏览器或微信收藏，可随时查看全部历史日报）" \
             "当日 Markdown 报告：" \
-            "https://github.com/${GITHUB_REPOSITORY}/blob/master/reports/${TODAY}.md")
-          curl -sS -X POST "https://sctapi.ftqq.com/${SENDKEY}.send" \
+            "https://github.com/${GITHUB_REPOSITORY}/blob/master/reports/${REPORT_DATE}.md")
+          RESPONSE=$(curl -sS --fail-with-body -m 20 --retry 2 -X POST "https://sctapi.ftqq.com/${SENDKEY}.send" \
             --data-urlencode "title=${TITLE}" \
-            --data-urlencode "desp=${DESP}"
+            --data-urlencode "desp=${DESP}")
+          echo "Server酱 response: ${RESPONSE}"
+          RESPONSE="$RESPONSE" node - <<'NODE'
+          const raw = process.env.RESPONSE ?? "";
+          let payload;
+          try {
+            payload = JSON.parse(raw);
+          } catch (error) {
+            console.error(`Server酱 返回非 JSON: ${raw}`);
+            process.exit(1);
+          }
+          const code = payload.code ?? payload.errno;
+          if (code !== 0 && code !== "0") {
+            console.error(`Server酱 推送失败: ${raw}`);
+            process.exit(1);
+          }
+          NODE
