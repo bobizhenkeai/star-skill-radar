@@ -1,4 +1,4 @@
-# 数据契约 v2.3（docs/specs/data-contract.md）
+# 数据契约 v2.4（docs/specs/data-contract.md）
 
 > 目的：解耦「SOP 体系」与「HTML 情报站」两条并行开发线。双方以本契约为接口；字段可由实施窗口提出修订，经架构师确认后更新版本号。
 >
@@ -9,6 +9,8 @@
 > v2.2 变更（2026-07-03）：为情报站 overview「今日摘要」层新增**概览一句话**能力（见第 2.2 节）。highlights 新增可选字段 `gist`；briefs 的 `one_liner` 明确内容规范（描述先行、去采集时间前缀）。`gist` 为可选、向前兼容——站点缺失时降级为对 `summary` 的语义提炼。存量 `2026-07-02`/`2026-07-03` 两期按本节回填。
 >
 > v2.3 变更（2026-07-04）：overview 概览一句话能力**扩展至简讯**。briefs 新增可选字段 `gist`（看板专用自洽短句，无证据前缀/尾巴、不截断）；`one_liner` 仍为**详情简讯区**正文（可含 star 等证据）。`gist` 可选、向前兼容——站点缺失时降级为对 `one_liner` 的语义提炼（尽量剥离证据尾）。存量 `2026-07-02`/`2026-07-03` 两期为每条 brief 补 `gist`。
+>
+> v2.4 变更（2026-07-04）：事实可信度硬化。**凡在 `highlights[].evidence_notes` 或 `briefs[].one_liner` 中引用 star 数，必须锚定主语**，写成「GitHub（API）显示 `<owner/repo>` 有 X stars」式，不得写无主语的「X stars」（确定性校验器 `scripts/validate-data.mjs` 会以 `STAR_CLAIM_UNANCHORED` 阻断无主语写法，并对数值做合理性门禁）。数值合理性阈值与规则见 `scripts/validation-rules.json` 与 `docs/sop/credibility-dedup-rules.md`。
 
 ## 1. 已收录清单 `data/ledger.json`
 
@@ -77,6 +79,7 @@ JSON 数组，每个元素代表一个已收录条目：
 **briefs[].one_liner（详情简讯区正文，schema 不变）**
 - 写成**描述先行**的自洽一句话：先说"这是什么/为什么值得看"，star 等证据信息**置于句尾**且从简。
 - **不得**以「采集时间 …。」前缀开头（采集时间不进入展示文案）。
+- **star 锚定（v2.4）**：句尾若引用 star，必须锚定主语，写成「GitHub 显示 `<owner/repo>` 有 X stars」式，不得写无主语的「X stars」（校验器会以 `STAR_CLAIM_UNANCHORED` 阻断）。例：`… 社区最广 MCP server 清单之一；GitHub 显示 punkpeye/awesome-mcp-servers 有 90,196 stars。`
 - 用于详情「简讯」区正文；overview 简讯文案优先用 `gist`（见消费方约定）。
 
 **消费方（站点）约定**
