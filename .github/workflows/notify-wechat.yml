@@ -11,6 +11,9 @@ on:
       - "tests/**"
       - ".github/workflows/notify-wechat.yml"
 
+permissions:
+  contents: read
+
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -25,6 +28,10 @@ jobs:
         run: node --test tests/validate-data.test.mjs
       - name: 校验数据产出
         run: node scripts/validate-data.mjs
+      - name: 复查 GitHub 星数声明
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/validate-data.mjs --github-recheck all
 
   notify:
     needs: validate

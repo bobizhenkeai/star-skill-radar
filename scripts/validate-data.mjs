@@ -781,32 +781,52 @@ async function runGitHubRecheck(findings, rules, issue, issuePath) {
   if (process.env.GITHUB_TOKEN) {
     headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
   }
+
   for (const target of collectGitHubRecheckTargets(issue)) {
     const repo = target.repo.toLowerCase();
+    const context = `${target.label} ${repo}`;
     let response;
     try {
       response = await fetch(`https://api.github.com/repos/${repo}`, { headers });
     } catch (error) {
-      findings.error("GITHUB_RECHECK_REQUEST_FAILED", file, `${repo} GitHub API 请求失败: ${error.message}`);
+      findings.warn("GITHUB_RECHECK_REQUEST_FAILED", file, `${context} GitHub API request failed: ${error.message}`);
+      continue;
+    }
+
+    if (response.status === 404) {
+      findings.error("GITHUB_RECHECK_REPO_NOT_FOUND", file, `${context} GitHub API returned HTTP 404`);
       continue;
     }
     if (!response.ok) {
-      findings.error("GITHUB_RECHECK_REQUEST_FAILED", file, `${repo} GitHub API 返回 HTTP ${response.status}`);
+      findings.warn("GITHUB_RECHECK_REQUEST_FAILED", file, `${context} GitHub API returned HTTP ${response.status}`);
       continue;
     }
-    const payload = await response.json();
+
+    let payload;
+    try {
+      payload = await response.json();
+    } catch (error) {
+      findings.warn("GITHUB_RECHECK_BAD_RESPONSE", file, `${context} GitHub API returned invalid JSON: ${error.message}`);
+      continue;
+    }
+    if (!isObject(payload)) {
+      findings.warn("GITHUB_RECHECK_BAD_RESPONSE", file, `${context} GitHub API response was not an object`);
+      continue;
+    }
+
     const actualStars = payload.stargazers_count;
     if (typeof actualStars !== "number") {
-      findings.error("GITHUB_RECHECK_BAD_RESPONSE", file, `${repo} GitHub API 响应缺少 stargazers_count`);
+      findings.warn("GITHUB_RECHECK_BAD_RESPONSE", file, `${context} GitHub API response missing stargazers_count`);
       continue;
     }
+
     const drift = Math.abs(actualStars - target.claimedStars);
     const driftRatio = drift / Math.max(1, target.claimedStars);
     if (drift > rules.githubRecheck.maxStarDriftAbs && driftRatio > rules.githubRecheck.maxStarDriftRatio) {
       findings.error(
         "GITHUB_RECHECK_STAR_MISMATCH",
         file,
-        `${target.label} ${repo} claimed=${target.claimedStars.toLocaleString("en-US")} actual=${actualStars.toLocaleString("en-US")} drift=${drift.toLocaleString("en-US")}`
+        `${context} claimed=${target.claimedStars.toLocaleString("en-US")} actual=${actualStars.toLocaleString("en-US")} drift=${drift.toLocaleString("en-US")}`
       );
     }
   }
@@ -845,10 +865,11 @@ export async function validateRepository(root = process.cwd(), options = {}) {
   }
   validateNumericSanity(findings, rules, allMeasurements);
 
-  if (options.githubRecheck === "latest") {
-    const latest = parsedIssues.sort((a, b) => a.issue.date.localeCompare(b.issue.date)).at(-1);
-    if (latest) {
-      await runGitHubRecheck(findings, rules, latest.issue, rel(root, latest.issuePath));
+  if (options.githubRecheck === "latest" || options.githubRecheck === "all") {
+    const sortedIssues = [...parsedIssues].sort((a, b) => a.issue.date.localeCompare(b.issue.date));
+    const recheckIssues = options.githubRecheck === "all" ? sortedIssues : sortedIssues.slice(-1);
+    for (const issueItem of recheckIssues) {
+      await runGitHubRecheck(findings, rules, issueItem.issue, rel(root, issueItem.issuePath));
     }
   }
 
@@ -894,8 +915,13 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--github-recheck") {
       const value = readValue(index, "--github-recheck");
+      if (value === "all") {
+        options.githubRecheck = value;
+        index += 1;
+        continue;
+      }
       if (value !== "latest") {
-        throw new Error("--github-recheck 目前仅支持 latest");
+        throw new Error("--github-recheck only supports latest/all");
       }
       options.githubRecheck = value;
       index += 1;
@@ -909,7 +935,7 @@ function parseArgs(argv) {
 }
 
 function printHelp() {
-  console.log(`Usage: node scripts/validate-data.mjs [--json] [--github-recheck latest] [--root PATH]
+  console.log(`Usage: node scripts/validate-data.mjs [--json] [--github-recheck latest|all] [--root PATH]
 
 默认离线 strict 校验全仓 data/reports/ledger/index。
 ERROR 会以退出码 1 阻断，WARN 只提示。`);

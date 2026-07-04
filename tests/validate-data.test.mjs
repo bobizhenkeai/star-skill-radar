@@ -144,6 +144,24 @@ async function validateCodes(root) {
   return new Set(result.findings.map((item) => item.code));
 }
 
+async function validateWithFetch(root, fetchImpl, options = { githubRecheck: "latest" }) {
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = fetchImpl;
+  try {
+    return await validateRepository(root, options);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+}
+
+function githubResponse(status, payload) {
+  return {
+    ok: status >= 200 && status < 300,
+    status,
+    json: async () => payload
+  };
+}
+
 test("valid minimal repository passes without blocking errors", async () => {
   const root = makeTempRepo();
   writeFixture(root);
@@ -367,6 +385,93 @@ test("markdown highlight first source link drift fails", async () => {
   writeFixture(root, { reportOptions: { firstLinkOverride: "https://github.com/acme/wrong" } });
   const codes = await validateCodes(root);
   assert.ok(codes.has("MARKDOWN_HIGHLIGHT_LINK_MISMATCH"));
+});
+
+test("github recheck covers matching highlight and brief star claims", async () => {
+  const root = makeTempRepo();
+  const briefClaim = baseHighlight().evidence_notes.replaceAll("acme/tool", "acme/brief");
+  writeFixture(root, {
+    issue: {
+      briefs: [
+        baseBrief({
+          one_liner: `Brief candidate for follow-up; ${briefClaim}`
+        })
+      ]
+    }
+  });
+
+  const urls = [];
+  const result = await validateWithFetch(root, async (url) => {
+    urls.push(String(url));
+    return githubResponse(200, { stargazers_count: 2500 });
+  });
+
+  assert.equal(result.errors.some((item) => item.code.startsWith("GITHUB_RECHECK_")), false);
+  assert.deepEqual([...new Set(urls)].sort(), [
+    "https://api.github.com/repos/acme/brief",
+    "https://api.github.com/repos/acme/tool"
+  ]);
+});
+
+test("github recheck star mismatch is blocking error", async () => {
+  const root = makeTempRepo();
+  writeFixture(root);
+
+  const result = await validateWithFetch(root, async () => githubResponse(200, { stargazers_count: 3200 }));
+
+  assert.equal(result.ok, false);
+  assert.ok(result.errors.some((item) => item.code === "GITHUB_RECHECK_STAR_MISMATCH"));
+});
+
+test("github recheck 404 is blocking error", async () => {
+  const root = makeTempRepo();
+  writeFixture(root);
+
+  const result = await validateWithFetch(root, async () => githubResponse(404, {}));
+
+  assert.equal(result.ok, false);
+  assert.ok(result.errors.some((item) => item.code === "GITHUB_RECHECK_REPO_NOT_FOUND"));
+});
+
+test("github recheck rate limit is non-blocking warning", async () => {
+  const root = makeTempRepo();
+  writeFixture(root);
+
+  const result = await validateWithFetch(root, async () => githubResponse(429, {}));
+
+  assert.equal(result.ok, true);
+  assert.equal(result.errors.some((item) => item.code.startsWith("GITHUB_RECHECK_")), false);
+  assert.ok(result.warnings.some((item) => item.code === "GITHUB_RECHECK_REQUEST_FAILED" && item.message.includes("HTTP 429")));
+});
+
+test("github recheck network failure is non-blocking warning", async () => {
+  const root = makeTempRepo();
+  writeFixture(root);
+
+  const result = await validateWithFetch(root, async () => {
+    throw new Error("network down");
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.errors.some((item) => item.code.startsWith("GITHUB_RECHECK_")), false);
+  assert.ok(result.warnings.some((item) => item.code === "GITHUB_RECHECK_REQUEST_FAILED" && item.message.includes("network down")));
+});
+
+test("github recheck malformed response is non-blocking warning", async () => {
+  const root = makeTempRepo();
+  writeFixture(root);
+
+  const result = await validateWithFetch(root, async () => ({
+    ok: true,
+    status: 200,
+    json: async () => {
+      throw new Error("invalid json");
+    }
+  }));
+
+  assert.equal(result.ok, true);
+  assert.equal(result.errors.some((item) => item.code.startsWith("GITHUB_RECHECK_")), false);
+  assert.ok(result.warnings.some((item) => item.code === "GITHUB_RECHECK_BAD_RESPONSE" && item.message.includes("invalid JSON")));
 });
 
 test("CLI missing option values exit with code 2", () => {
