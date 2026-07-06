@@ -171,7 +171,7 @@ node scripts/validate-data.mjs
 node scripts/validate-data.mjs --github-recheck latest
 ```
 
-该模式会实时请求 GitHub API；默认 CI 不运行它，避免网络与限流影响确定性门禁。
+该模式会实时请求 GitHub API。CI 的 `validate` job 会用 Actions `GITHUB_TOKEN` 自动对**最新一期**（当期新生成的日报）执行 `--github-recheck latest`：星数与实时值不符或 repo 404 为阻断级 ERROR（连带 `needs: validate` 挡住微信推送），网络失败/限流/坏响应等基础设施抖动降级为非阻断 WARN。只复查最新一期而非全部历史，避免历史冻结快照因自然涨星越过漂移阈值而误红。本地默认离线运行（无 token）不触发该复查，不影响确定性门禁。
 5. 确认禁止范围未改动：`docs/prds/`、`docs/specs/`、`site/`。
 6. `git status --short` 检查改动范围。
 7. 提交信息使用（替换为当期日期）：
