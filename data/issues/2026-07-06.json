@@ -1,0 +1,223 @@
+{
+  "date": "2026-07-06",
+  "generated_at": "2026-07-06T16:30:30+08:00",
+  "highlights": [
+    {
+      "id": "openai/codex",
+      "name": "OpenAI Codex",
+      "type": "paradigm",
+      "evidence_tier": "official",
+      "evidence_notes": "采集时间 2026-07-06T16:30+08:00。GitHub API 显示 openai/codex 有 95,766 stars、14,214 forks、8,272 open issues；Apache-2.0 license，archived=false，pushed_at=2026-07-06T08:28:04Z；latest release rust-v0.142.5 发布于 2026-07-01T01:15:44Z；OpenAI 官方组织仓库，README 描述为终端轻量 coding agent。",
+      "gist": "OpenAI 官方终端 coding agent，持续活跃维护",
+      "summary": "OpenAI Codex 是 OpenAI 官方维护的轻量终端 coding agent 仓库，承载 Rust 实现、CLI/IDE 扩展与 Skills 生态对接。本次 GitHub API 显示仓库于 2026-07-06 仍有 push 活动，latest release 仍为 rust-v0.142.5（2026-07-01）。",
+      "competitors": [
+        {
+          "name": "anthropics/claude-code",
+          "link": "https://github.com/anthropics/claude-code",
+          "verdict": "Claude Code 是 Anthropic 官方 harness；Codex 是 OpenAI 侧终端 agent 主线。"
+        },
+        {
+          "name": "https://developers.openai.com/codex/skills",
+          "link": "https://developers.openai.com/codex/skills",
+          "verdict": "Codex Skills 文档是技能复用入口；本仓库是 agent 本体与 CLI 实现。"
+        }
+      ],
+      "recommendation": "官方 openai 组织、release 页面与 GitHub API 快照均可核验，适合作为 OpenAI agent 路线基准观测项。",
+      "usage_paradigm": "用于 implementation、review、ops：在终端或 IDE 扩展中运行 Codex agent，配合 Skills 文档组织可复用技能，并在 release 后对照 changelog 回归 hook 与自动化兼容性。",
+      "stage_tags": [
+        "implementation",
+        "review",
+        "ops"
+      ],
+      "is_update": false,
+      "links": [
+        "https://github.com/openai/codex",
+        "https://api.github.com/repos/openai/codex",
+        "https://github.com/openai/codex/releases/tag/rust-v0.142.5",
+        "https://developers.openai.com/codex/skills"
+      ]
+    },
+    {
+      "id": "nexu-io/open-design",
+      "name": "Open Design",
+      "type": "paradigm",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "采集时间 2026-07-06T16:30+08:00。GitHub API 显示 nexu-io/open-design 有 75,346 stars、8,615 forks、523 open issues；Apache-2.0 license，archived=false，pushed_at=2026-07-06T08:18:48Z；latest release open-design-v0.13.0 发布于 2026-07-02T07:45:57Z；topics 含 agent-skills、local-first、claude-code-for-design；README 明确支持 Claude Code / Codex / Cursor 等 20+ coding agents。",
+      "gist": "本地优先开源设计工作台，让编码代理直接产出可导出设计稿",
+      "summary": "Open Design 是 nexu-io 维护的本地优先开源设计工作台，定位 Claude Design 的开源替代，把 Claude Code、Codex、Cursor 等 coding agents 作为设计引擎，支持原型、落地页、仪表盘、幻灯片与多媒体导出（HTML/PDF/PPTX/MP4）。本次 GitHub Search topic:agent-skills 命中并结合 release 页面核验 v0.13.0 与近期 push 信号。",
+      "competitors": [
+        {
+          "name": "Figma",
+          "link": "https://www.figma.com/",
+          "verdict": "Figma 是云端协作设计平台；Open Design 强调本地优先与 coding agent 驱动生成。"
+        },
+        {
+          "name": "anthropics/claude-code",
+          "link": "https://github.com/anthropics/claude-code",
+          "verdict": "Claude Code 是官方编程 harness；Open Design 在其之上提供设计工作流与桌面壳层。"
+        }
+      ],
+      "recommendation": "星数、license、release 与 agent-skills topic 均由 GitHub API 核验，且低于社区星数阻断阈值，适合作为 agent 驱动设计范式样本。",
+      "usage_paradigm": "用于 design、implementation：在本地桌面壳层中连接已配置的 coding agent，用自然语言迭代 UI 原型与设计资产，并在 review 阶段导出 HTML/PDF/PPTX 等交付物。",
+      "stage_tags": [
+        "design",
+        "implementation",
+        "review"
+      ],
+      "is_update": false,
+      "links": [
+        "https://github.com/nexu-io/open-design",
+        "https://api.github.com/repos/nexu-io/open-design",
+        "https://github.com/nexu-io/open-design/releases/tag/open-design-v0.13.0"
+      ]
+    },
+    {
+      "id": "shanraisshan/claude-code-best-practice",
+      "name": "Claude Code Best Practice",
+      "type": "rules",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "采集时间 2026-07-06T16:30+08:00。GitHub API 显示 shanraisshan/claude-code-best-practice 有 62,073 stars、6,200 forks、14 open issues；MIT license，archived=false，pushed_at=2026-07-06T06:37:38Z；owner profile 显示 Software Architect @ Disrupt.com；topics 含 claude-code-skills、claude-code-best-practices、agentic-engineering；contributors API 显示 shanraisshan 835 commits、claude 493 commits。",
+      "gist": "Claude Code 最佳实践与技能命令集，面向 agentic 工程落地",
+      "summary": "Claude Code Best Practice 是 shanraisshan 维护的 Claude Code 实践知识库，主题覆盖从 vibe coding 到 agentic engineering 的技能、命令与工作流组织方式。GitHub Search「awesome claude code」模板 Top 命中，README 与 topics 均聚焦 Claude Code skills 与 best practices。",
+      "competitors": [
+        {
+          "name": "hesreallyhim/awesome-claude-code",
+          "link": "https://github.com/hesreallyhim/awesome-claude-code",
+          "verdict": "Awesome 清单偏资源索引；本仓库更聚焦可复用的 best practice 与 skills 组织。"
+        },
+        {
+          "name": "anthropics/skills",
+          "link": "https://github.com/anthropics/skills",
+          "verdict": "Anthropic Skills 是官方技能样例与规范入口；本仓库是社区工程实践汇编。"
+        }
+      ],
+      "recommendation": "作者背景、license、活跃 push 与 contributors 信号均可核验，星数满足 community-verified 门槛，适合作为 Claude Code rules/skills 落地参考。",
+      "usage_paradigm": "用于 requirements、implementation、review：对照仓库中的 skills 与命令模板组织团队 Claude Code 规范，在新项目 init 阶段导入，并在 review 阶段用同一套 best practice 做一致性检查。",
+      "stage_tags": [
+        "requirements",
+        "implementation",
+        "review"
+      ],
+      "is_update": false,
+      "links": [
+        "https://github.com/shanraisshan/claude-code-best-practice",
+        "https://api.github.com/repos/shanraisshan/claude-code-best-practice",
+        "https://github.com/shanraisshan"
+      ]
+    },
+    {
+      "id": "prefecthq/fastmcp",
+      "name": "FastMCP",
+      "type": "mcp",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "采集时间 2026-07-06T16:30+08:00。GitHub API 显示 prefecthq/fastmcp 有 25,988 stars、2,112 forks、254 open issues；Apache-2.0 license，archived=false，pushed_at=2026-07-05T23:28:08Z；latest release v3.4.3 发布于 2026-07-05T23:27:19Z；topics 含 mcp、mcp-servers、mcp-clients、python；PrefectHQ 组织维护。",
+      "gist": "Python 生态里快速构建 MCP server 与 client 的主流框架",
+      "summary": "FastMCP 是 PrefectHQ 维护的 Python MCP server/client 框架，强调 Pythonic API 与快速集成。本次检索 topic:mcp-servers 命中，并结合 release 页面确认 v3.4.3 于 2026-07-05 发布，属于可验证的新版本信号。",
+      "competitors": [
+        {
+          "name": "modelcontextprotocol/servers",
+          "link": "https://github.com/modelcontextprotocol/servers",
+          "verdict": "MCP Reference Servers 是官方参考实现集合；FastMCP 提供 Python 框架层抽象。"
+        },
+        {
+          "name": "modelcontextprotocol/python-sdk",
+          "link": "https://github.com/modelcontextprotocol/python-sdk",
+          "verdict": "官方 Python SDK 偏协议层；FastMCP 更偏应用层 server/client 开发体验。"
+        }
+      ],
+      "recommendation": "PrefectHQ 组织背景、release 节奏、license 与 topic 信号均可核验，适合作为 Python MCP 开发栈样本。",
+      "usage_paradigm": "用于 design、implementation、testing：在 Python 服务中定义 MCP tools/resources，本地联调 client，并在 testing 阶段用 release notes 回归 v3.4.x 行为变化。",
+      "stage_tags": [
+        "design",
+        "implementation",
+        "testing"
+      ],
+      "is_update": false,
+      "links": [
+        "https://github.com/PrefectHQ/fastmcp",
+        "https://api.github.com/repos/PrefectHQ/fastmcp",
+        "https://github.com/PrefectHQ/fastmcp/releases/tag/v3.4.3"
+      ]
+    },
+    {
+      "id": "awslabs/mcp",
+      "name": "AWS MCP Servers",
+      "type": "mcp",
+      "evidence_tier": "official",
+      "evidence_notes": "采集时间 2026-07-06T16:30+08:00。GitHub API 显示 awslabs/mcp 有 9,397 stars、1,621 forks、850 open issues；Apache-2.0 license，archived=false，pushed_at=2026-07-06T01:40:31Z；latest release 2026.07.20260702161703 发布于 2026-07-02T17:54:05Z；awslabs 为 AWS Labs 官方组织，topics 含 aws、mcp-servers、modelcontextprotocol。",
+      "gist": "AWS Labs 官方开源 MCP server 集合，覆盖云服务集成",
+      "summary": "AWS MCP Servers 是 AWS Labs 官方维护的 MCP server 集合，面向在 agent 工作流中接入 AWS 服务。GitHub Search pushed:>=2026-07-06 topic:mcp 命中其近期 push，release 页面保留 2026-07-02 批次发布标签。",
+      "competitors": [
+        {
+          "name": "modelcontextprotocol/servers",
+          "link": "https://github.com/modelcontextprotocol/servers",
+          "verdict": "MCP Reference Servers 是协议官方参考；awslabs/mcp 聚焦 AWS 云服务场景。"
+        },
+        {
+          "name": "modelcontextprotocol/registry",
+          "link": "https://github.com/modelcontextprotocol/registry",
+          "verdict": "MCP Registry 是官方发现目录；awslabs/mcp 提供 AWS 侧具体 server 实现。"
+        }
+      ],
+      "recommendation": "官方 awslabs 组织、release 页面与 GitHub API 快照均可核验，适合作为云厂商官方 MCP 集成路线样本。",
+      "usage_paradigm": "用于 implementation、ops：按 AWS 文档选择对应 MCP server，在 agent harness 中配置连接，并在 ops 阶段用 IAM 与网络策略约束生产访问。",
+      "stage_tags": [
+        "implementation",
+        "ops"
+      ],
+      "is_update": false,
+      "links": [
+        "https://github.com/awslabs/mcp",
+        "https://api.github.com/repos/awslabs/mcp",
+        "https://github.com/awslabs/mcp/releases/tag/2026.07.20260702161703"
+      ]
+    }
+  ],
+  "briefs": [
+    {
+      "name": "mattpocock/skills",
+      "gist": "知名工程师公开的个人 Claude skills 目录",
+      "one_liner": "Matt Pocock 公开的个人 Claude skills 目录，MIT license，latest release v1.0.1 发布于 2026-06-17；因社区星数超过门禁阈值，本期不列为重点。",
+      "link": "https://github.com/mattpocock/skills"
+    },
+    {
+      "name": "obra/superpowers",
+      "gist": "跨 harness 技能方法论框架，因阈值只作观察",
+      "one_liner": "跨 harness 的 agentic skills 框架与 SDLC 方法论，latest release v6.1.1 发布于 2026-07-02；因社区星数超过门禁阈值，本期不列为重点。",
+      "link": "https://github.com/obra/superpowers"
+    },
+    {
+      "name": "hesreallyhim/awesome-claude-code",
+      "gist": "Claude Code 生态资源精选索引入口",
+      "one_liner": "Claude Code 资源精选清单，可作为 skills、agents 与插件发现源；GitHub API 显示 hesreallyhim/awesome-claude-code 有 48,600 stars。",
+      "link": "https://github.com/hesreallyhim/awesome-claude-code"
+    },
+    {
+      "name": "punkpeye/awesome-mcp-servers",
+      "gist": "MCP server 发现索引，需回源具体仓库核验",
+      "one_liner": "社区 MCP server 发现清单，适合作为候选索引但需回到具体仓库与官方 Registry 核验；GitHub API 显示 punkpeye/awesome-mcp-servers 有 90,355 stars。",
+      "link": "https://github.com/punkpeye/awesome-mcp-servers"
+    },
+    {
+      "name": "davila7/claude-code-templates",
+      "gist": "Claude Code 配置与监控 CLI 模板工具",
+      "one_liner": "Claude Code 配置与监控 CLI 工具，MIT license，latest release v1.28.3 发布于 2025-11-15；GitHub API 显示 davila7/claude-code-templates 有 28,469 stars。",
+      "link": "https://github.com/davila7/claude-code-templates"
+    },
+    {
+      "name": "affaan-m/ECC",
+      "gist": "跨 harness 操作系统样本，因阈值只作观察",
+      "one_liner": "跨 harness 的 agent 操作系统样本，pushed_at=2026-07-06T04:55:16Z；因社区星数超过门禁阈值，本期不列为重点。",
+      "link": "https://github.com/affaan-m/ECC"
+    },
+    {
+      "name": "msitarzewski/agency-agents",
+      "gist": "大型 AI 子代理角色库，因门禁阈值只作观察",
+      "one_liner": "大型 AI 子代理角色库，pushed_at=2026-07-05T22:25:10Z；因社区星数超过门禁阈值，本期不列为重点。",
+      "link": "https://github.com/msitarzewski/agency-agents"
+    }
+  ],
+  "source_gaps": [
+    "modelcontextprotocol.io/blog 返回 404，MCP 官方博客入口不可达；已改用 modelcontextprotocol.io 首页、registry 文档与 GitHub modelcontextprotocol/* 仓库作为替代来源。"
+  ]
+}

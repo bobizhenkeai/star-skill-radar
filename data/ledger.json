@@ -196,5 +196,100 @@
       "https://github.com/Fission-AI/OpenSpec/releases/tag/v1.5.0",
       "https://www.npmjs.com/package/@fission-ai/openspec"
     ]
+  },
+  {
+    "id": "openai/codex",
+    "name": "OpenAI Codex",
+    "type": "paradigm",
+    "evidence_tier": "official",
+    "first_reported": "2026-07-06",
+    "last_updates": [],
+    "state_snapshot": "2026-07-06T16:30+08:00 GitHub API: 95,766 stars, 14,214 forks, 8,272 open issues, Apache-2.0 license, archived=false, pushed_at=2026-07-06T08:28:04Z; latest release rust-v0.142.5 on 2026-07-01T01:15:44Z.",
+    "stage_tags": [
+      "implementation",
+      "review",
+      "ops"
+    ],
+    "links": [
+      "https://github.com/openai/codex",
+      "https://api.github.com/repos/openai/codex",
+      "https://github.com/openai/codex/releases/tag/rust-v0.142.5",
+      "https://developers.openai.com/codex/skills"
+    ]
+  },
+  {
+    "id": "nexu-io/open-design",
+    "name": "Open Design",
+    "type": "paradigm",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-07-06",
+    "last_updates": [],
+    "state_snapshot": "2026-07-06T16:30+08:00 GitHub API: 75,346 stars, 8,615 forks, 523 open issues, Apache-2.0 license, archived=false; latest release open-design-v0.13.0 on 2026-07-02T07:45:57Z.",
+    "stage_tags": [
+      "design",
+      "implementation",
+      "review"
+    ],
+    "links": [
+      "https://github.com/nexu-io/open-design",
+      "https://api.github.com/repos/nexu-io/open-design",
+      "https://github.com/nexu-io/open-design/releases/tag/open-design-v0.13.0"
+    ]
+  },
+  {
+    "id": "shanraisshan/claude-code-best-practice",
+    "name": "Claude Code Best Practice",
+    "type": "rules",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-07-06",
+    "last_updates": [],
+    "state_snapshot": "2026-07-06T16:30+08:00 GitHub API: 62,073 stars, 6,200 forks, 14 open issues, MIT license, archived=false, pushed_at=2026-07-06T06:37:38Z; owner Software Architect @ Disrupt.com.",
+    "stage_tags": [
+      "requirements",
+      "implementation",
+      "review"
+    ],
+    "links": [
+      "https://github.com/shanraisshan/claude-code-best-practice",
+      "https://api.github.com/repos/shanraisshan/claude-code-best-practice",
+      "https://github.com/shanraisshan"
+    ]
+  },
+  {
+    "id": "prefecthq/fastmcp",
+    "name": "FastMCP",
+    "type": "mcp",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-07-06",
+    "last_updates": [],
+    "state_snapshot": "2026-07-06T16:30+08:00 GitHub API: 25,988 stars, 2,112 forks, 254 open issues, Apache-2.0 license, archived=false; latest release v3.4.3 on 2026-07-05T23:27:19Z.",
+    "stage_tags": [
+      "design",
+      "implementation",
+      "testing"
+    ],
+    "links": [
+      "https://github.com/PrefectHQ/fastmcp",
+      "https://api.github.com/repos/PrefectHQ/fastmcp",
+      "https://github.com/PrefectHQ/fastmcp/releases/tag/v3.4.3"
+    ]
+  },
+  {
+    "id": "awslabs/mcp",
+    "name": "AWS MCP Servers",
+    "type": "mcp",
+    "evidence_tier": "official",
+    "first_reported": "2026-07-06",
+    "last_updates": [],
+    "state_snapshot": "2026-07-06T16:30+08:00 GitHub API: 9,397 stars, 1,621 forks, 850 open issues, Apache-2.0 license, archived=false; latest release 2026.07.20260702161703 on 2026-07-02T17:54:05Z; AWS Labs official org.",
+    "stage_tags": [
+      "implementation",
+      "ops"
+    ],
+    "links": [
+      "https://github.com/awslabs/mcp",
+      "https://api.github.com/repos/awslabs/mcp",
+      "https://github.com/awslabs/mcp/releases/tag/2026.07.20260702161703"
+    ]
   }
 ]
