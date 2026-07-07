@@ -72,9 +72,13 @@
       {
         "date": "2026-07-03",
         "note": "v0.12.4 release (2026-07-02): official Spec Kit update retained after 2026-07-04 recheck."
+      },
+      {
+        "date": "2026-07-07",
+        "note": "v0.12.5 release (2026-07-06): workflow gate fix, bundler catalog URL validation."
       }
     ],
-    "state_snapshot": "2026-07-04T12:18+08:00 GitHub API: 117,815 stars, 10,414 forks, 381 open issues, MIT license, archived=false; latest release v0.12.4 on 2026-07-02T10:57:06Z.",
+    "state_snapshot": "2026-07-07T10:01+08:00 GitHub API: 118,423 stars, 10,488 forks, 401 open issues, MIT license, archived=false; latest release v0.12.5 on 2026-07-06T21:49:47Z.",
     "stage_tags": [
       "requirements",
       "design",
@@ -121,9 +125,13 @@
       {
         "date": "2026-07-03",
         "note": "Updated to latest verified release v2.1.201 after 2026-07-04 recheck."
+      },
+      {
+        "date": "2026-07-07",
+        "note": "v2.1.202 release (2026-07-06): Dynamic workflow size setting, workflow OTel attributes."
       }
     ],
-    "state_snapshot": "2026-07-04T12:18+08:00 GitHub API: 135,897 stars, 21,861 forks, 9,788 open issues, license not declared, archived=false; latest release v2.1.201 on 2026-07-03T23:50:35Z.",
+    "state_snapshot": "2026-07-07T10:01+08:00 GitHub API: 136,557 stars, 21,937 forks, 10,156 open issues, license not declared, archived=false; latest release v2.1.202 on 2026-07-06T22:51:16Z.",
     "stage_tags": [
       "implementation",
       "review",
@@ -142,8 +150,13 @@
     "type": "mcp",
     "evidence_tier": "official",
     "first_reported": "2026-07-02",
-    "last_updates": [],
-    "state_snapshot": "2026-07-04T12:18+08:00 GitHub API: 88,028 stars, 11,140 forks, 630 open issues, license=NOASSERTION, archived=false; latest release 2026.1.26 on 2026-01-27T12:11:26Z.",
+    "last_updates": [
+      {
+        "date": "2026-07-07",
+        "note": "2026.7.4 release (2026-07-04): updated everything, filesystem, sequential-thinking, memory packages."
+      }
+    ],
+    "state_snapshot": "2026-07-07T10:01+08:00 GitHub API: 88,125 stars, 11,171 forks, 642 open issues, license=NOASSERTION, archived=false; latest release 2026.7.4 on 2026-07-04T23:05:56Z.",
     "stage_tags": [
       "design",
       "implementation",
@@ -290,6 +303,41 @@
       "https://github.com/awslabs/mcp",
       "https://api.github.com/repos/awslabs/mcp",
       "https://github.com/awslabs/mcp/releases/tag/2026.07.20260702161703"
+    ]
+  },
+  {
+    "id": "hesreallyhim/awesome-claude-code",
+    "name": "Awesome Claude Code",
+    "type": "prompt-lib",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-07-07",
+    "last_updates": [],
+    "state_snapshot": "2026-07-07T10:01+08:00 GitHub API: 48,733 stars, 4,261 forks, 584 open issues, archived=false, pushed_at=2026-07-07T00:41:13Z; awesome-list for Claude Code ecosystem.",
+    "stage_tags": [
+      "requirements",
+      "implementation"
+    ],
+    "links": [
+      "https://github.com/hesreallyhim/awesome-claude-code",
+      "https://api.github.com/repos/hesreallyhim/awesome-claude-code"
+    ]
+  },
+  {
+    "id": "punkpeye/awesome-mcp-servers",
+    "name": "Awesome MCP Servers",
+    "type": "mcp",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-07-07",
+    "last_updates": [],
+    "state_snapshot": "2026-07-07T10:01+08:00 GitHub API: 90,388 stars, 12,587 forks, 2,306 open issues, MIT license, archived=false; community MCP server discovery list.",
+    "stage_tags": [
+      "design",
+      "implementation"
+    ],
+    "links": [
+      "https://github.com/punkpeye/awesome-mcp-servers",
+      "https://api.github.com/repos/punkpeye/awesome-mcp-servers",
+      "https://registry.modelcontextprotocol.io/"
     ]
   }
 ]
