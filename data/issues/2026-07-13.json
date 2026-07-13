@@ -1,0 +1,212 @@
+{
+  "date": "2026-07-13",
+  "generated_at": "2026-07-13T10:01:00+08:00",
+  "highlights": [
+    {
+      "id": "github/spec-kit",
+      "name": "GitHub Spec Kit",
+      "type": "paradigm",
+      "evidence_tier": "official",
+      "evidence_notes": "采集时间 2026-07-13T10:01+08:00。GitHub 页面显示 github/spec-kit 有 120,012 stars；release 页面核验 v0.12.11 发布于 2026-07-10T19:28:14Z；GitHub 官方组织仓库，变更含 nested plan.md 发现、catalog/bundler URL 校验、EARS Requirements Syntax 与 Spec Kit Figma 社区扩展入库。",
+      "gist": "GitHub 官方 Spec Kit v0.12.11 修复 catalog",
+      "summary": "GitHub Spec Kit 是 GitHub 官方维护的 Spec-Driven Development 工具包。自 2026-07-07 追踪的 v0.12.5 以来，官方在 7 月 7–10 日连续发布 v0.12.6 至 v0.12.11；最新 v0.12.11 聚焦 agent-context 对 scoped layout 中嵌套 plan.md 的发现、auth/catalog/bundler 对畸形 URL 的错误处理，以及 EARS Requirements Syntax、Spec Kit Figma 等社区扩展入库。",
+      "competitors": [
+        {
+          "name": "fission-ai/openspec",
+          "link": "https://github.com/Fission-AI/OpenSpec",
+          "verdict": "OpenSpec 是社区 spec 工作流工具；Spec Kit 是 GitHub 官方 spec-driven 主线。"
+        },
+        {
+          "name": "https://github.github.com/spec-kit/",
+          "link": "https://github.github.com/spec-kit/",
+          "verdict": "官方文档站是入门入口；本仓库承载 CLI 与 release 迭代。"
+        }
+      ],
+      "recommendation": "官方 github 组织、release 页面均可核验 v0.12.11 晚于 ledger 最新 v0.12.5 追踪，版本序列与社区 catalog 扩展符合重大更新规则，适合作为 spec-driven 范式基准追踪项。",
+      "usage_paradigm": "用于 requirements、design、implementation：用 `uv tool install specify-cli --from git+https://github.com/github/spec-kit.git@v0.12.11` 升级后，对照 release notes 回归 workflow gate、catalog 扩展与 nested plan 发现行为。",
+      "stage_tags": [
+        "requirements",
+        "design",
+        "implementation",
+        "review"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/github/spec-kit",
+        "https://github.com/github/spec-kit/releases/tag/v0.12.11",
+        "https://github.github.com/spec-kit/"
+      ]
+    },
+    {
+      "id": "anthropics/claude-code",
+      "name": "Claude Code",
+      "type": "paradigm",
+      "evidence_tier": "official",
+      "evidence_notes": "采集时间 2026-07-13T10:01+08:00。GitHub 页面展示 anthropics/claude-code 有 138k stars；release 页面核验 v2.1.207 发布于 2026-07-11T00:52:10Z；Anthropic 官方组织仓库，变更含 Bedrock/Vertex/Foundry Auto mode 默认开放、Opus 4.8 默认、plugin shell-injection 修复与 Remote Control 多项稳定性修复。",
+      "gist": "Claude Code v2.1.207 默认 Opus 4.8 与安全加固",
+      "summary": "Claude Code 是 Anthropic 官方终端 agentic coding 工具。自 2026-07-07 追踪的 v2.1.202 以来，官方在 7 月 7–11 日连续发布 v2.1.203 至 v2.1.207；最新 v2.1.207 将 Bedrock/Vertex/Foundry 的 Auto mode 改为默认开放、将 Claude Opus 4.8 设为默认模型，并修复 plugin hooks shell-injection、Remote Control 断连恢复、agent teams 崩溃循环等多项生产问题。",
+      "competitors": [
+        {
+          "name": "openai/codex",
+          "link": "https://github.com/openai/codex",
+          "verdict": "Codex 是 OpenAI 官方终端 agent；Claude Code 是 Anthropic 侧 harness 主线。"
+        },
+        {
+          "name": "https://code.claude.com/docs/en/skills",
+          "link": "https://code.claude.com/docs/en/skills",
+          "verdict": "Claude Code Skills 文档是技能复用入口；本仓库是 agent 本体与 release 迭代。"
+        }
+      ],
+      "recommendation": "官方 anthropics 组织、release 页面均可核验 v2.1.207 晚于 ledger 最新 v2.1.202 追踪，含模型默认切换与安全修复，符合重大更新规则。",
+      "usage_paradigm": "用于 implementation、review、ops：升级至 v2.1.207 后在 Bedrock/Vertex 场景验证 Auto mode 默认行为，并在 ops 阶段用 Remote Control OTel 属性重建 workflow run 链路。",
+      "stage_tags": [
+        "implementation",
+        "review",
+        "ops"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/anthropics/claude-code",
+        "https://github.com/anthropics/claude-code/releases/tag/v2.1.207",
+        "https://code.claude.com/docs/en/skills"
+      ]
+    },
+    {
+      "id": "modelcontextprotocol/servers",
+      "name": "MCP Reference Servers",
+      "type": "mcp",
+      "evidence_tier": "official",
+      "evidence_notes": "采集时间 2026-07-13T10:01+08:00。GitHub 页面展示 modelcontextprotocol/servers 有 88.4k stars；release 页面核验 2026.7.10 发布于 2026-07-10T03:39:07Z；MCP 官方组织仓库，更新 server-filesystem、server-time、server-fetch、server-git 至 2026.7.10。",
+      "gist": "MCP 官方参考 server 集合发布 2026.7.10 批次更新",
+      "summary": "MCP Reference Servers 是 Model Context Protocol 官方维护的参考 server 实现集合。本次 release 页面核验 2026.7.10（2026-07-10），较 ledger 记录的 2026.7.4（2026-07-07 追踪）推进版本序列，同步更新 @modelcontextprotocol/server-filesystem、mcp-server-time、mcp-server-fetch、mcp-server-git 等包。",
+      "competitors": [
+        {
+          "name": "prefecthq/fastmcp",
+          "link": "https://github.com/PrefectHQ/fastmcp",
+          "verdict": "FastMCP 是 Python 应用层 MCP 框架；本仓库是协议官方参考 server 集合。"
+        },
+        {
+          "name": "modelcontextprotocol/registry",
+          "link": "https://github.com/modelcontextprotocol/registry",
+          "verdict": "MCP Registry 是官方发现目录；本仓库提供可运行的参考 server 实现。"
+        }
+      ],
+      "recommendation": "官方 modelcontextprotocol 组织、release 页面均可核验 2026.7.10 晚于 ledger 最新 2026.7.4 追踪，符合重大更新规则。",
+      "usage_paradigm": "用于 design、implementation、testing：对照 2026.7.10 release notes 升级本地参考 server 依赖，并在 testing 阶段回归 filesystem/time/fetch/git 包的行为变化。",
+      "stage_tags": [
+        "design",
+        "implementation",
+        "testing"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/modelcontextprotocol/servers",
+        "https://github.com/modelcontextprotocol/servers/releases/tag/2026.7.10",
+        "https://modelcontextprotocol.io/",
+        "https://registry.modelcontextprotocol.io/"
+      ]
+    },
+    {
+      "id": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "name": "UI/UX Pro Max Skill",
+      "type": "skill",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "采集时间 2026-07-13T10:01+08:00。GitHub 页面显示 nextlevelbuilder/ui-ux-pro-max-skill 有 104,776 stars；archived 信号未见；topics 含 react、ui-design、html5、landing-page、command-line；GitHub Search「agent skills」模板 Top 命中；README 描述为跨平台 UI/UX 设计智能 Agent Skill。",
+      "gist": "跨平台 UI/UX 设计智能 Agent Skill，适合前端落地页场景",
+      "summary": "UI/UX Pro Max Skill 是 nextlevelbuilder 维护的 Agent Skill，为 Claude Code、Cursor 等 harness 提供跨平台 UI/UX 设计智能，覆盖 React、HTML5 落地页等场景。本次 GitHub Search「agent skills」固定模板 Top 命中，README 给出明确 skill 定位，topics 与近期 push（约 2 天前）显示持续维护。",
+      "competitors": [
+        {
+          "name": "anthropics/skills",
+          "link": "https://github.com/anthropics/skills",
+          "verdict": "Anthropic Skills 是官方技能样例与规范；本仓库聚焦 UI/UX 设计垂直场景。"
+        },
+        {
+          "name": "addyosmani/agent-skills",
+          "link": "https://github.com/addyosmani/agent-skills",
+          "verdict": "Addy Osmani Agent Skills 偏工程实践；本 skill 偏设计智能与落地页生成。"
+        }
+      ],
+      "recommendation": "星数、topics、Search 命中与 README 技能定位均由 GitHub 页面核验，满足 community-verified 门槛，适合作为 UI/UX 垂直 skill 发现入口。",
+      "usage_paradigm": "用于 design、implementation：在 Claude Code 或 Cursor 中安装 skill 后，用于落地页与多平台 UI 原型生成，并在 review 阶段对照设计规范人工验收。",
+      "stage_tags": [
+        "design",
+        "implementation"
+      ],
+      "is_update": false,
+      "links": [
+        "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+        "https://agentskills.io/specification"
+      ]
+    },
+    {
+      "id": "graphify-labs/graphify",
+      "name": "Graphify",
+      "type": "skill",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "采集时间 2026-07-13T10:01+08:00。GitHub 页面显示 graphify-labs/graphify 有 83,343 stars；archived 信号未见；topics 含 tree-sitter、skills、gemini、knowledge-graph、leiden；GitHub Search「cursor rules」模板 Top 命中；README 描述支持 Claude Code、Codex、Cursor、Gemini CLI 等 harness，将代码/SQL/文档转为可查询知识图谱。",
+      "gist": "跨 harness 知识图谱 skill，统一代码与 schema 上下文",
+      "summary": "Graphify 是 Graphify-Labs 维护的 AI coding assistant skill，支持 Claude Code、Codex、OpenCode、Cursor、Gemini CLI 等 harness，将代码目录、SQL schema、R 脚本、文档等转为可查询知识图谱，实现应用代码与数据库 schema 的统一上下文。本次 GitHub Search「cursor rules」模板 Top 命中，topics 含 skills 与 knowledge-graph，约 15 小时前仍有 push。",
+      "competitors": [
+        {
+          "name": "wshobson/agents",
+          "link": "https://github.com/wshobson/agents",
+          "verdict": "wshobson Agents 是多 harness 插件市场；Graphify 专注知识图谱上下文构建。"
+        },
+        {
+          "name": "https://agentskills.io/specification",
+          "link": "https://agentskills.io/specification",
+          "verdict": "Agent Skills 规范定义 skill 目录格式；Graphify 是符合 skill 范式的知识图谱实现。"
+        }
+      ],
+      "recommendation": "星数、topics、近期 push 与多 harness README 说明均由 GitHub 页面核验，满足 community-verified 门槛，适合作为大型代码库上下文增强 skill。",
+      "usage_paradigm": "用于 requirements、design、implementation：在 agent harness 中启用 Graphify skill，将 monorepo 与数据库 schema 建图后用于跨模块重构与影响分析。",
+      "stage_tags": [
+        "requirements",
+        "design",
+        "implementation"
+      ],
+      "is_update": false,
+      "links": [
+        "https://github.com/Graphify-Labs/graphify",
+        "https://agentskills.io/specification"
+      ]
+    }
+  ],
+  "briefs": [
+    {
+      "name": "PrefectHQ/fastmcp",
+      "gist": "FastMCP v3.4.4 恢复 HTTP 部署兼容性",
+      "one_liner": "Python MCP 应用框架，v3.4.4（2026-07-09）恢复 3.4.3 Host/Origin guard 后的 HTTP 部署兼容性并新增 Hugging Face OAuth；GitHub 页面展示 PrefectHQ/fastmcp 有 26.2k stars。",
+      "link": "https://github.com/PrefectHQ/fastmcp"
+    },
+    {
+      "name": "sickn33/agentic-awesome-skills",
+      "gist": "可安装的 1900+ agentic skills 库与 CLI 安装器",
+      "one_liner": "聚合 1,900+ agentic skills 的可安装 GitHub 库，含 installer CLI 与多 harness 插件；GitHub 页面显示 sickn33/agentic-awesome-skills 有 43,016 stars，MIT license。",
+      "link": "https://github.com/sickn33/agentic-awesome-skills"
+    },
+    {
+      "name": "garrytan/gstack",
+      "gist": "Garry Tan 公开的多角色 Claude Code 工具栈",
+      "one_liner": "Garry Tan 公开的 Claude Code 23 工具栈，覆盖 CEO、设计、工程管理等角色；因社区星数超过门禁阈值，本期不列为重点。",
+      "link": "https://github.com/garrytan/gstack"
+    },
+    {
+      "name": "msitarzewski/agency-agents",
+      "gist": "完整 AI agency 子代理角色库，因阈值只作观察",
+      "one_liner": "完整 AI agency 子代理角色集合，约 9 小时前仍有 push；因社区星数超过门禁阈值，本期不列为重点。",
+      "link": "https://github.com/msitarzewski/agency-agents"
+    },
+    {
+      "name": "openai/codex",
+      "gist": "Codex 桌面端并入 ChatGPT 应用，CLI 持续 alpha 迭代",
+      "one_liner": "OpenAI 官方 Codex，2026-07-09 changelog 宣布并入 ChatGPT 桌面端；GitHub 页面展示 openai/codex 有 97.4k stars，latest pre-release rust-v0.145.0-alpha.4 发布于 2026-07-11。",
+      "link": "https://github.com/openai/codex"
+    }
+  ],
+  "source_gaps": [
+    "GitHub API 返回 401 Bad credentials（环境无有效 GITHUB_TOKEN），本次星数、release 日期等核心事实改用 GitHub 仓库/release 页面实时抓取；精确 fork/issue 数未取到，证据中已标注「GitHub 页面显示/展示」。",
+    "cursor.com/docs 请求超时，Cursor 官方 changelog 正文未抓取；已改用 Cursor docs 入口与 GitHub 生态检索作为替代。",
+    "modelcontextprotocol.io/blog 仍不可达，MCP 官方博客入口未核验；已改用 modelcontextprotocol.io/registry/about 与 GitHub modelcontextprotocol/* 仓库作为替代。"
+  ]
+}

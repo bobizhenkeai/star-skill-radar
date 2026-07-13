@@ -76,9 +76,13 @@
       {
         "date": "2026-07-07",
         "note": "v0.12.5 release (2026-07-06): workflow gate fix, bundler catalog URL validation."
+      },
+      {
+        "date": "2026-07-13",
+        "note": "v0.12.11 release (2026-07-10): nested plan.md discovery, catalog/bundler URL validation, EARS and Figma extensions."
       }
     ],
-    "state_snapshot": "2026-07-07T10:01+08:00 GitHub API: 118,423 stars, 10,488 forks, 401 open issues, MIT license, archived=false; latest release v0.12.5 on 2026-07-06T21:49:47Z.",
+    "state_snapshot": "2026-07-13T10:01+08:00 GitHub page: 120,012 stars, MIT license, archived=false; latest release v0.12.11 on 2026-07-10T19:28:14Z.",
     "stage_tags": [
       "requirements",
       "design",
@@ -129,9 +133,13 @@
       {
         "date": "2026-07-07",
         "note": "v2.1.202 release (2026-07-06): Dynamic workflow size setting, workflow OTel attributes."
+      },
+      {
+        "date": "2026-07-13",
+        "note": "v2.1.207 release (2026-07-11): Opus 4.8 default, Auto mode on Bedrock/Vertex/Foundry, plugin shell-injection fix."
       }
     ],
-    "state_snapshot": "2026-07-07T10:01+08:00 GitHub API: 136,557 stars, 21,937 forks, 10,156 open issues, license not declared, archived=false; latest release v2.1.202 on 2026-07-06T22:51:16Z.",
+    "state_snapshot": "2026-07-13T10:01+08:00 GitHub page: 138k stars, archived=false; latest release v2.1.207 on 2026-07-11T00:52:10Z.",
     "stage_tags": [
       "implementation",
       "review",
@@ -154,9 +162,13 @@
       {
         "date": "2026-07-07",
         "note": "2026.7.4 release (2026-07-04): updated everything, filesystem, sequential-thinking, memory packages."
+      },
+      {
+        "date": "2026-07-13",
+        "note": "2026.7.10 release (2026-07-10): updated filesystem, time, fetch, git reference server packages."
       }
     ],
-    "state_snapshot": "2026-07-07T10:01+08:00 GitHub API: 88,125 stars, 11,171 forks, 642 open issues, license=NOASSERTION, archived=false; latest release 2026.7.4 on 2026-07-04T23:05:56Z.",
+    "state_snapshot": "2026-07-13T10:01+08:00 GitHub page: 88.4k stars, archived=false; latest release 2026.7.10 on 2026-07-10T03:39:07Z.",
     "stage_tags": [
       "design",
       "implementation",
@@ -338,6 +350,41 @@
       "https://github.com/punkpeye/awesome-mcp-servers",
       "https://api.github.com/repos/punkpeye/awesome-mcp-servers",
       "https://registry.modelcontextprotocol.io/"
+    ]
+  },
+  {
+    "id": "nextlevelbuilder/ui-ux-pro-max-skill",
+    "name": "UI/UX Pro Max Skill",
+    "type": "skill",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-07-13",
+    "last_updates": [],
+    "state_snapshot": "2026-07-13T10:01+08:00 GitHub page: 104,776 stars, archived=false; topics include react, ui-design, html5, landing-page, command-line; cross-platform UI/UX design Agent Skill.",
+    "stage_tags": [
+      "design",
+      "implementation"
+    ],
+    "links": [
+      "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "https://agentskills.io/specification"
+    ]
+  },
+  {
+    "id": "graphify-labs/graphify",
+    "name": "Graphify",
+    "type": "skill",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-07-13",
+    "last_updates": [],
+    "state_snapshot": "2026-07-13T10:01+08:00 GitHub page: 83,343 stars, archived=false; topics include tree-sitter, skills, knowledge-graph; multi-harness knowledge graph skill.",
+    "stage_tags": [
+      "requirements",
+      "design",
+      "implementation"
+    ],
+    "links": [
+      "https://github.com/Graphify-Labs/graphify",
+      "https://agentskills.io/specification"
     ]
   }
 ]
