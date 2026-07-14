@@ -80,9 +80,13 @@
       {
         "date": "2026-07-13",
         "note": "v0.12.11 release (2026-07-10): nested plan.md discovery, catalog/bundler URL validation, EARS and Figma extensions."
+      },
+      {
+        "date": "2026-07-14",
+        "note": "v0.12.14 release (2026-07-13): Memory/Test-First/Autonomous Run Governance catalog extensions, workflow/preset/integration hardening."
       }
     ],
-    "state_snapshot": "2026-07-13T10:01+08:00 GitHub page: 120,012 stars, MIT license, archived=false; latest release v0.12.11 on 2026-07-10T19:28:14Z.",
+    "state_snapshot": "2026-07-14T10:02+08:00 GitHub API: 120,642 stars, 10,696 forks, MIT license, archived=false; latest release v0.12.14 on 2026-07-13T22:52:40Z.",
     "stage_tags": [
       "requirements",
       "design",
@@ -137,9 +141,13 @@
       {
         "date": "2026-07-13",
         "note": "v2.1.207 release (2026-07-11): Opus 4.8 default, Auto mode on Bedrock/Vertex/Foundry, plugin shell-injection fix."
+      },
+      {
+        "date": "2026-07-14",
+        "note": "v2.1.208 release (2026-07-14): screen reader mode, process wrapper, MCP/LSP/background agent memory fixes."
       }
     ],
-    "state_snapshot": "2026-07-13T10:01+08:00 GitHub page: 138k stars, archived=false; latest release v2.1.207 on 2026-07-11T00:52:10Z.",
+    "state_snapshot": "2026-07-14T10:02+08:00 GitHub API: 137,736 stars, 22,217 forks, archived=false; latest release v2.1.208 on 2026-07-14T01:10:42Z.",
     "stage_tags": [
       "implementation",
       "review",
@@ -228,8 +236,13 @@
     "type": "paradigm",
     "evidence_tier": "official",
     "first_reported": "2026-07-06",
-    "last_updates": [],
-    "state_snapshot": "2026-07-06T16:30+08:00 GitHub API: 95,766 stars, 14,214 forks, 8,272 open issues, Apache-2.0 license, archived=false, pushed_at=2026-07-06T08:28:04Z; latest release rust-v0.142.5 on 2026-07-01T01:15:44Z.",
+    "last_updates": [
+      {
+        "date": "2026-07-14",
+        "note": "rust-v0.144.3 release (2026-07-13): stable channel writes approval, MCP auth elicitation default, Guardian auto-review rollback in v0.144.2."
+      }
+    ],
+    "state_snapshot": "2026-07-14T10:02+08:00 GitHub API: 97,737 stars, 14,565 forks, Apache-2.0 license, archived=false; latest release rust-v0.144.3 on 2026-07-13T06:12:19Z.",
     "stage_tags": [
       "implementation",
       "review",
@@ -385,6 +398,25 @@
     "links": [
       "https://github.com/Graphify-Labs/graphify",
       "https://agentskills.io/specification"
+    ]
+  },
+  {
+    "id": "headroomlabs-ai/headroom",
+    "name": "Headroom",
+    "type": "mcp",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-07-14",
+    "last_updates": [],
+    "state_snapshot": "2026-07-14T10:02+08:00 GitHub API: 58,976 stars, 4,369 forks, Apache-2.0 license, archived=false; latest release v0.31.0 on 2026-07-09T15:19:44Z; MCP/proxy context compression layer.",
+    "stage_tags": [
+      "design",
+      "implementation",
+      "ops"
+    ],
+    "links": [
+      "https://github.com/headroomlabs-ai/headroom",
+      "https://api.github.com/repos/headroomlabs-ai/headroom",
+      "https://github.com/headroomlabs-ai/headroom/releases/tag/v0.31.0"
     ]
   }
 ]
