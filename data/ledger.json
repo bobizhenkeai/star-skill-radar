@@ -48,8 +48,13 @@
     "type": "mcp",
     "evidence_tier": "official",
     "first_reported": "2026-07-02",
-    "last_updates": [],
-    "state_snapshot": "2026-07-04T12:18+08:00 GitHub API: 6,979 stars, 886 forks, 124 open issues, archived=false, latest release v1.7.9 on 2026-05-12T21:00:41Z; official MCP Registry docs and REST API entry retained.",
+    "last_updates": [
+      {
+        "date": "2026-07-15",
+        "note": "v1.8.0 release (2026-07-13): cargo (crates.io) package registry type, security dependency bumps."
+      }
+    ],
+    "state_snapshot": "2026-07-15T10:02+08:00 GitHub API: 7,018 stars, 900 forks, archived=false; latest release v1.8.0 on 2026-07-13T08:43:51Z; official MCP Registry docs and REST API entry retained.",
     "stage_tags": [
       "implementation",
       "ops"
@@ -84,9 +89,13 @@
       {
         "date": "2026-07-14",
         "note": "v0.12.14 release (2026-07-13): Memory/Test-First/Autonomous Run Governance catalog extensions, workflow/preset/integration hardening."
+      },
+      {
+        "date": "2026-07-15",
+        "note": "v0.12.15 release (2026-07-14): Autonomous Run Governance preset v0.1.4, workflow CLI alignment, catalog URL and expression safety fixes."
       }
     ],
-    "state_snapshot": "2026-07-14T10:02+08:00 GitHub API: 120,642 stars, 10,696 forks, MIT license, archived=false; latest release v0.12.14 on 2026-07-13T22:52:40Z.",
+    "state_snapshot": "2026-07-15T10:02+08:00 GitHub API: 121,289 stars, 10,783 forks, MIT license, archived=false; latest release v0.12.15 on 2026-07-14T14:50:22Z.",
     "stage_tags": [
       "requirements",
       "design",
@@ -145,9 +154,13 @@
       {
         "date": "2026-07-14",
         "note": "v2.1.208 release (2026-07-14): screen reader mode, process wrapper, MCP/LSP/background agent memory fixes."
+      },
+      {
+        "date": "2026-07-15",
+        "note": "v2.1.210 release (2026-07-14): elapsed-time counter on tool summary, permission rule warnings, worktree isolation git write fix."
       }
     ],
-    "state_snapshot": "2026-07-14T10:02+08:00 GitHub API: 137,736 stars, 22,217 forks, archived=false; latest release v2.1.208 on 2026-07-14T01:10:42Z.",
+    "state_snapshot": "2026-07-15T10:02+08:00 GitHub API: 137,885 stars, 22,233 forks, archived=false; latest release v2.1.210 on 2026-07-14T23:45:25Z.",
     "stage_tags": [
       "implementation",
       "review",
@@ -417,6 +430,26 @@
       "https://github.com/headroomlabs-ai/headroom",
       "https://api.github.com/repos/headroomlabs-ai/headroom",
       "https://github.com/headroomlabs-ai/headroom/releases/tag/v0.31.0"
+    ]
+  },
+  {
+    "id": "mcp-use/mcp-use",
+    "name": "mcp-use",
+    "type": "mcp",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-07-15",
+    "last_updates": [],
+    "state_snapshot": "2026-07-15T10:02+08:00 GitHub API: 10,299 stars, 1,363 forks, MIT license, archived=false; latest release mcp-use@1.34.3 on 2026-07-08T16:10:31Z; fullstack MCP framework for ChatGPT Apps and AI Agents.",
+    "stage_tags": [
+      "design",
+      "implementation",
+      "testing"
+    ],
+    "links": [
+      "https://github.com/mcp-use/mcp-use",
+      "https://api.github.com/repos/mcp-use/mcp-use",
+      "https://mcp-use.com/docs",
+      "https://github.com/mcp-use/mcp-use/releases/tag/mcp-use%401.34.3"
     ]
   }
 ]
