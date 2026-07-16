@@ -93,9 +93,13 @@
       {
         "date": "2026-07-15",
         "note": "v0.12.15 release (2026-07-14): Autonomous Run Governance preset v0.1.4, workflow CLI alignment, catalog URL and expression safety fixes."
+      },
+      {
+        "date": "2026-07-16",
+        "note": "v0.12.16 release (2026-07-15): workflow source directory exposure, PyPI install route docs, Coding Standards Drift Control v0.4.0, PatchWarden Evidence Pack catalog."
       }
     ],
-    "state_snapshot": "2026-07-15T10:02+08:00 GitHub API: 121,289 stars, 10,783 forks, MIT license, archived=false; latest release v0.12.15 on 2026-07-14T14:50:22Z.",
+    "state_snapshot": "2026-07-16T10:02+08:00 GitHub API: 121,600 stars, 10,821 forks, MIT license, archived=false; latest release v0.12.16 on 2026-07-15T14:25:43Z.",
     "stage_tags": [
       "requirements",
       "design",
@@ -158,9 +162,13 @@
       {
         "date": "2026-07-15",
         "note": "v2.1.210 release (2026-07-14): elapsed-time counter on tool summary, permission rule warnings, worktree isolation git write fix."
+      },
+      {
+        "date": "2026-07-16",
+        "note": "v2.1.211 release (2026-07-15): --forward-subagent-text flag, permission preview bidirectional-override neutralization, plugin MCP reconnect after idle wake."
       }
     ],
-    "state_snapshot": "2026-07-15T10:02+08:00 GitHub API: 137,885 stars, 22,233 forks, archived=false; latest release v2.1.210 on 2026-07-14T23:45:25Z.",
+    "state_snapshot": "2026-07-16T10:02+08:00 GitHub API: 138,001 stars, 22,249 forks, archived=false; latest release v2.1.211 on 2026-07-15T23:02:35Z.",
     "stage_tags": [
       "implementation",
       "review",
@@ -450,6 +458,62 @@
       "https://api.github.com/repos/mcp-use/mcp-use",
       "https://mcp-use.com/docs",
       "https://github.com/mcp-use/mcp-use/releases/tag/mcp-use%401.34.3"
+    ]
+  },
+  {
+    "id": "dietrichgebert/ponytail",
+    "name": "Ponytail",
+    "type": "skill",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-07-16",
+    "last_updates": [],
+    "state_snapshot": "2026-07-16T10:02+08:00 GitHub API: 84,066 stars, 4,577 forks, MIT license, archived=false; latest release v4.8.4 on 2026-06-29T05:26:41Z; YAGNI-oriented cross-harness Agent Skill.",
+    "stage_tags": [
+      "design",
+      "implementation",
+      "review"
+    ],
+    "links": [
+      "https://github.com/DietrichGebert/ponytail",
+      "https://api.github.com/repos/DietrichGebert/ponytail",
+      "https://github.com/DietrichGebert/ponytail/releases/tag/v4.8.4"
+    ]
+  },
+  {
+    "id": "aaif-goose/goose",
+    "name": "goose",
+    "type": "paradigm",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-07-16",
+    "last_updates": [],
+    "state_snapshot": "2026-07-16T10:02+08:00 GitHub API: 51,264 stars, 5,695 forks, Apache-2.0 license, archived=false; latest release v1.43.0 on 2026-07-14T09:46:27Z; MCP-native open source AI agent with desktop/CLI/API.",
+    "stage_tags": [
+      "implementation",
+      "testing",
+      "ops"
+    ],
+    "links": [
+      "https://github.com/aaif-goose/goose",
+      "https://api.github.com/repos/aaif-goose/goose",
+      "https://github.com/aaif-goose/goose/releases/tag/v1.43.0"
+    ]
+  },
+  {
+    "id": "voltagagent/awesome-claude-code-subagents",
+    "name": "Awesome Claude Code Subagents",
+    "type": "subagent",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-07-16",
+    "last_updates": [],
+    "state_snapshot": "2026-07-16T10:02+08:00 GitHub API: 23,370 stars, 2,725 forks, MIT license, archived=false; README claims 154+ Claude Code subagents across 10 categories.",
+    "stage_tags": [
+      "requirements",
+      "design",
+      "implementation"
+    ],
+    "links": [
+      "https://github.com/VoltAgent/awesome-claude-code-subagents",
+      "https://api.github.com/repos/VoltAgent/awesome-claude-code-subagents"
     ]
   }
 ]
