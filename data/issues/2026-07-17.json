@@ -1,0 +1,231 @@
+{
+  "date": "2026-07-17",
+  "generated_at": "2026-07-17T10:04:00+08:00",
+  "highlights": [
+    {
+      "id": "github/spec-kit",
+      "name": "GitHub Spec Kit",
+      "type": "paradigm",
+      "evidence_tier": "official",
+      "evidence_notes": "采集时间 2026-07-17T10:04+08:00。GitHub API 显示 github/spec-kit 有 121,802 stars；release 页面核验 v0.12.17 发布于 2026-07-16T12:27:42Z；GitHub 官方组织仓库，变更含 Grok Build skills 集成、__SPECKIT_COMMAND token 解析修复、if/switch 非列表分支 fail-fast，以及 Figma Starter 与 Spec-Kit BDD 社区 extension catalog 扩展。",
+      "gist": "Spec Kit v0.12.17 发布 Grok Build 集成",
+      "summary": "GitHub Spec Kit 是 GitHub 官方维护的 Spec-Driven Development 工具包。自 2026-07-16 追踪的 v0.12.16 以来，官方发布 v0.12.17；新增 Grok Build skills-based integration、修复 auto-registered skills 中 __SPECKIT_COMMAND token 解析、让 if/switch 步骤在非列表分支 fail 而非崩溃，并将 Figma Starter 与 Spec-Kit BDD extension 纳入社区 catalog，同时保留 Copilot skills-mode 的 ai_skills 字段一致性修复。",
+      "competitors": [
+        {
+          "name": "fission-ai/openspec",
+          "link": "https://github.com/Fission-AI/OpenSpec",
+          "verdict": "OpenSpec 是社区 spec 工作流工具；Spec Kit 是 GitHub 官方 spec-driven 主线。"
+        },
+        {
+          "name": "https://github.github.com/spec-kit/",
+          "link": "https://github.github.com/spec-kit/",
+          "verdict": "官方文档站是入门入口；本仓库承载 CLI 与 release 迭代。"
+        }
+      ],
+      "recommendation": "官方 github 组织、release 页面均可核验 v0.12.17 晚于 ledger 最新 v0.12.16 追踪，Grok Build 集成、workflow fail-fast 与社区 extension catalog 扩展符合重大更新规则。",
+      "usage_paradigm": "用于 requirements、design、implementation：用 `uv tool install specify-cli --from git+https://github.com/github/spec-kit.git@v0.12.17` 升级后，对照 release notes 回归 if/switch 分支错误提示，并评估 Grok Build integration 是否纳入团队 spec 工作流。",
+      "stage_tags": [
+        "requirements",
+        "design",
+        "implementation",
+        "review"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/github/spec-kit",
+        "https://github.com/github/spec-kit/releases/tag/v0.12.17",
+        "https://github.github.com/spec-kit/"
+      ]
+    },
+    {
+      "id": "anthropics/claude-code",
+      "name": "Claude Code",
+      "type": "paradigm",
+      "evidence_tier": "official",
+      "evidence_notes": "采集时间 2026-07-17T10:04+08:00。GitHub API 显示 anthropics/claude-code 有 138,004 stars；release 页面核验 v2.1.212 发布于 2026-07-17T00:26:27Z；Anthropic 官方组织仓库，变更含 `/fork` 复制会话至后台 agent 行、`CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION` 与 `CLAUDE_CODE_MAX_SUBAGENTS_PER_SESSION` 运行预算护栏，以及 MCP 长调用自动后台化。",
+      "gist": "Claude Code v2.1.212 fork 后台会话与运行预算护栏",
+      "summary": "Claude Code 是 Anthropic 官方终端 agentic coding 工具。自 2026-07-16 追踪的 v2.1.211 以来，官方发布 v2.1.212；`/fork` 现将对话复制到独立后台 session（claude agents 新行）而非原地 subagent，新增 `claude auto-mode reset`、WebSearch 与子代理 spawn 的 per-session 上限（默认 200，可经环境变量覆盖），MCP 工具调用超 2 分钟自动转入后台，并修复 plan mode 下 file-modifying Bash 绕过权限的问题。",
+      "competitors": [
+        {
+          "name": "openai/codex",
+          "link": "https://github.com/openai/codex",
+          "verdict": "Codex 是 OpenAI 官方终端 agent；Claude Code 是 Anthropic 侧 harness 主线。"
+        },
+        {
+          "name": "https://code.claude.com/docs/en/skills",
+          "link": "https://code.claude.com/docs/en/skills",
+          "verdict": "Claude Code Skills 文档是技能复用入口；本仓库是 agent 本体与 release 迭代。"
+        }
+      ],
+      "recommendation": "官方 anthropics 组织、release 页面均可核验 v2.1.212 晚于 ledger 最新 v2.1.211 追踪，fork 后台会话语义重构与 WebSearch/subagent 预算护栏符合重大更新规则。",
+      "usage_paradigm": "用于 implementation、review、ops：升级至 v2.1.212 后验证 `/fork` 是否在 claude agents 列表产生独立后台行，并按团队负载调优 `CLAUDE_CODE_MAX_SUBAGENTS_PER_SESSION` 与 MCP 自动后台阈值。",
+      "stage_tags": [
+        "implementation",
+        "review",
+        "ops"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/anthropics/claude-code",
+        "https://github.com/anthropics/claude-code/releases/tag/v2.1.212",
+        "https://code.claude.com/docs/en/skills"
+      ]
+    },
+    {
+      "id": "openai/codex",
+      "name": "OpenAI Codex",
+      "type": "paradigm",
+      "evidence_tier": "official",
+      "evidence_notes": "采集时间 2026-07-17T10:04+08:00。GitHub API 显示 openai/codex 有 98,882 stars；release 页面核验 rust-v0.144.5 发布于 2026-07-16T02:54:48Z；OpenAI 官方组织仓库，变更含扩展 is_dangerous_command 检测更多 forced rm 形式并在拒绝时给出更清晰原因。",
+      "gist": "Codex v0.144.5 强化危险 rm 命令检测",
+      "summary": "OpenAI Codex 是 OpenAI 官方终端 agentic coding CLI。自 2026-07-14 追踪的 rust-v0.144.3 以来，官方发布 rust-v0.144.5；核心变更扩展 dangerous-command 检测以覆盖更多 forced `rm` 变体，并在命令被拒绝时输出更明确的拒绝原因，降低 agent 误执行破坏性 shell 的风险。",
+      "competitors": [
+        {
+          "name": "anthropics/claude-code",
+          "link": "https://github.com/anthropics/claude-code",
+          "verdict": "Claude Code 是 Anthropic 官方终端 agent；Codex 是 OpenAI 侧 harness 主线。"
+        },
+        {
+          "name": "https://developers.openai.com/codex/skills",
+          "link": "https://developers.openai.com/codex/skills",
+          "verdict": "Codex Skills 文档是技能复用入口；本仓库是 agent 本体与 release 迭代。"
+        }
+      ],
+      "recommendation": "官方 openai 组织、release 页面均可核验 rust-v0.144.5 晚于 ledger 最新 rust-v0.144.3 追踪，危险命令检测硬化符合重大更新规则。",
+      "usage_paradigm": "用于 implementation、review、ops：升级至 rust-v0.144.5 后回归 agent 触发的 rm 类命令拦截路径，确认拒绝提示是否足够指导用户修正命令。",
+      "stage_tags": [
+        "implementation",
+        "review",
+        "ops"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/openai/codex",
+        "https://github.com/openai/codex/releases/tag/rust-v0.144.5",
+        "https://developers.openai.com/codex/skills"
+      ]
+    },
+    {
+      "id": "voltagagent/awesome-agent-skills",
+      "name": "Awesome Agent Skills",
+      "type": "skill",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "采集时间 2026-07-17T10:04+08:00。GitHub API 显示 voltagagent/awesome-agent-skills 有 28,243 stars；archived=false；MIT license；pushed_at=2026-07-10T13:55:37Z；topics 含 agent-skills、claude-code-skills、cursor-skills、codex-skills；README 声明 1497+ skills 来自官方团队与社区；VoltAgent 组织维护；GitHub Search「agent skills stars:>50」Top 命中。",
+      "gist": "1497+ 官方与社区 Agent Skills 精选索引",
+      "summary": "Awesome Agent Skills 是 VoltAgent 维护的跨 harness Agent Skills 精选清单，README 声明收录 1497+ 来自官方开发团队与社区的真实 skills，兼容 Claude Code、Codex、Gemini CLI、Cursor 等，带 awesome.re 认证与 Discord 社区，topics 覆盖 agent-skills 与多 harness skill 变体，本次 GitHub Search「agent skills」固定模板 Top 5 命中。",
+      "competitors": [
+        {
+          "name": "anthropics/skills",
+          "link": "https://github.com/anthropics/skills",
+          "verdict": "Anthropic Skills 是官方技能规范与样例；本清单聚合多来源官方与社区 skills。"
+        },
+        {
+          "name": "composiohq/awesome-claude-skills",
+          "link": "https://github.com/ComposioHQ/awesome-claude-skills",
+          "verdict": "Composio 清单聚焦 Claude skills 生态；本清单覆盖更宽 harness 与官方团队策展。"
+        }
+      ],
+      "recommendation": "星数、license、topics、README 条目规模与 VoltAgent 组织背景均由 GitHub API 核验，满足 community-verified 门槛，适合作为跨 harness Agent Skills 发现入口。",
+      "usage_paradigm": "用于 requirements、design、implementation：按 README 分类检索场景匹配的 skill 模板，对照 harness 兼容列表评估团队覆盖，并优先选用官方团队贡献条目。",
+      "stage_tags": [
+        "requirements",
+        "design",
+        "implementation"
+      ],
+      "is_update": false,
+      "links": [
+        "https://github.com/VoltAgent/awesome-agent-skills",
+        "https://api.github.com/repos/VoltAgent/awesome-agent-skills"
+      ]
+    },
+    {
+      "id": "mksglu/context-mode",
+      "name": "Context Mode",
+      "type": "hooks",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "采集时间 2026-07-17T10:04+08:00。GitHub API 显示 mksglu/context-mode 有 19,016 stars；archived=false；README 标注 ELv2 license；pushed_at=2026-07-16T12:29:54Z；topics 含 claude-code-hooks、mcp-server、context-mode；README 声明 sandbox 工具输出（98% 缩减）、会话记忆持久化并经由 MCP + hooks 路由 17 平台；latest release v1.0.169 发布于 2026-06-29；100+ contributors；GitHub Search「topic:claude-code-hooks stars:>1000」Top 命中。",
+      "gist": "跨 17 平台的上下文窗口优化 hooks 与 MCP",
+      "summary": "Context Mode 是 mksglu 维护的 AI coding agent 上下文优化层，通过 sandbox 压缩 tool output、持久化 session memory，并以 MCP server 与 Claude Code hooks 在 17 个平台间强制路由。README 提供 npm 包 context-mode 安装路径、Discord 社区与 Hacker News 讨论链接，release v1.0.169 与 7 月中旬 pushed_at 显示持续维护，本次 GitHub Search「claude-code-hooks」主题检索 Top 命中。",
+      "competitors": [
+        {
+          "name": "headroomlabs-ai/headroom",
+          "link": "https://github.com/headroomlabs-ai/headroom",
+          "verdict": "Headroom 聚焦 MCP/proxy 上下文压缩；Context Mode 强调 hooks + MCP 跨平台路由与 tool output sandbox。"
+        },
+        {
+          "name": "anthropics/claude-code",
+          "link": "https://github.com/anthropics/claude-code",
+          "verdict": "Claude Code 本体提供 hook 机制；Context Mode 是第三方上下文治理与路由插件。"
+        }
+      ],
+      "recommendation": "星数、README 安装路径、topics、release 节奏与大规模 contributor 列表均由 GitHub API 核验，满足 community-verified 门槛，适合作为长会话上下文治理 hooks 发现入口。",
+      "usage_paradigm": "用于 implementation、ops：按 README 安装 context-mode npm 包并接入 Claude Code hooks/MCP，在长工具输出场景验证 sandbox 压缩与会话记忆是否降低 context 溢出。",
+      "stage_tags": [
+        "implementation",
+        "ops"
+      ],
+      "is_update": false,
+      "links": [
+        "https://github.com/mksglu/context-mode",
+        "https://api.github.com/repos/mksglu/context-mode",
+        "https://www.npmjs.com/package/context-mode",
+        "https://github.com/mksglu/context-mode/releases/tag/v1.0.169"
+      ]
+    }
+  ],
+  "briefs": [
+    {
+      "name": "obra/superpowers",
+      "gist": "可组合 skills 驱动的 agent 开发方法论",
+      "one_liner": "obra（Jesse Vincent）维护的 agentic skills 框架与 SDLC 方法论，支持 Claude Code、Codex、Cursor 等 harness，以 composable skills 约束 agent 先澄清 spec 再编码；因社区星数超过门禁阈值，本期不列为重点。",
+      "link": "https://github.com/obra/superpowers"
+    },
+    {
+      "name": "affaan-m/ecc",
+      "gist": "多 harness agent 性能优化技能与记忆体系",
+      "one_liner": "Everything Claude Code（ECC）聚合 skills、instincts、memory、security 与 research-first 开发范式，覆盖 Claude Code、Codex、Cursor 等 harness；因社区星数超过门禁阈值，本期不列为重点。",
+      "link": "https://github.com/affaan-m/ecc"
+    },
+    {
+      "name": "msitarzewski/agency-agents",
+      "gist": "多角色 AI agency 子代理角色库",
+      "one_liner": "Agency Agents 收录前端、社区运营等多角色专用 AI agent 人格与流程模板；因社区星数超过门禁阈值，本期不列为重点。",
+      "link": "https://github.com/msitarzewski/agency-agents"
+    },
+    {
+      "name": "mattpocock/skills",
+      "gist": "工程师真实 .claude 目录 skills 样例",
+      "one_liner": "mattpocock 从其 .claude 目录导出的生产级 skills 集合，适合对照真实工程习惯学习 skill 组织；因社区星数超过门禁阈值，本期不列为重点。",
+      "link": "https://github.com/mattpocock/skills"
+    },
+    {
+      "name": "garrytan/gstack",
+      "gist": "Garry Tan 的 23 工具 Claude Code 工作流",
+      "one_liner": "Garry Tan 的 Claude Code 配置集合，含 CEO、Designer、Eng Manager 等 23 个 opinionated 工具；因社区星数超过门禁阈值，本期不列为重点。",
+      "link": "https://github.com/garrytan/gstack"
+    },
+    {
+      "name": "nexu-io/open-design",
+      "gist": "本地优先设计工作台 v0.15.0 降本提速",
+      "one_liner": "Open Design 0.15.0 优化 Design System Prompt 以降低 token 与延迟，并扩展 deck 工作区与 URL 克隆网站能力；GitHub API 显示 nexu-io/open-design 有 78,993 stars，latest release open-design-v0.15.0 发布于 2026-07-14。",
+      "link": "https://github.com/nexu-io/open-design"
+    },
+    {
+      "name": "davila7/claude-code-templates",
+      "gist": "Claude Code 配置与监控 CLI 工具",
+      "one_liner": "CLI 工具用于配置与监控 Claude Code 工作流，topics 覆盖 anthropic-claude 生态；GitHub API 显示 davila7/claude-code-templates 有 29,601 stars，pushed_at=2026-07-16T21:55:51Z 显示 7 月仍活跃维护。",
+      "link": "https://github.com/davila7/claude-code-templates"
+    },
+    {
+      "name": "hesreallyhim/awesome-claude-code",
+      "gist": "Claude Code 生态 curated 清单",
+      "one_liner": "Claude Code 生态 awesome 清单，topics 含 agent-skills 与 agentic-coding；GitHub API 显示 hesreallyhim/awesome-claude-code 有 50,189 stars，pushed_at=2026-07-17T00:33:58Z 显示当日仍有维护活动。",
+      "link": "https://github.com/hesreallyhim/awesome-claude-code"
+    }
+  ],
+  "source_gaps": [
+    "环境变量 GITHUB_TOKEN 已设置但认证 API 返回 401 Bad credentials；本次星数、release 日期等核心事实改用未认证 GitHub REST API 与仓库/release 页面实时抓取，证据中已标注「GitHub API 显示」。",
+    "modelcontextprotocol.io/blog 仍返回 404，MCP 官方博客入口未核验；已改用 modelcontextprotocol.io/registry/about 与 GitHub modelcontextprotocol/* 仓库作为替代。",
+    "Cursor changelog 页面可访问但最新条目仍为 3.11（2026-07-10），本期无 7 月 17 日前的新 changelog 可追踪。"
+  ]
+}
