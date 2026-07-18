@@ -101,9 +101,13 @@
       {
         "date": "2026-07-17",
         "note": "v0.12.17 release (2026-07-16): Grok Build skills integration, __SPECKIT_COMMAND token fix, if/switch fail-fast, Figma Starter and Spec-Kit BDD catalog extensions."
+      },
+      {
+        "date": "2026-07-18",
+        "note": "v0.13.0 release (2026-07-17): assess idea assessment pipeline, OKF Knowledge Bundle Generator catalog, Autonomous Run Governance preset v0.2.2."
       }
     ],
-    "state_snapshot": "2026-07-17T10:04+08:00 GitHub API: 121,802 stars, 10,841 forks, MIT license, archived=false; latest release v0.12.17 on 2026-07-16T12:27:42Z.",
+    "state_snapshot": "2026-07-18T10:05+08:00 GitHub API: 122,005 stars, 10,869 forks, MIT license, archived=false; latest release v0.13.0 on 2026-07-17T18:58:41Z.",
     "stage_tags": [
       "requirements",
       "design",
@@ -174,9 +178,13 @@
       {
         "date": "2026-07-17",
         "note": "v2.1.212 release (2026-07-17): /fork copies session to background agent row, WebSearch/subagent per-session caps, MCP auto-background after 2min."
+      },
+      {
+        "date": "2026-07-18",
+        "note": "v2.1.214 release (2026-07-18): Bash permission fail-closed hardening, EndConversation tool, OTel correlation attributes, docker daemon-redirect permission prompts."
       }
     ],
-    "state_snapshot": "2026-07-17T10:04+08:00 GitHub API: 138,004 stars, 22,144 forks, archived=false; latest release v2.1.212 on 2026-07-17T00:26:27Z.",
+    "state_snapshot": "2026-07-18T10:05+08:00 GitHub API: 138,122 stars, 22,167 forks, archived=false; latest release v2.1.214 on 2026-07-18T01:20:30Z.",
     "stage_tags": [
       "implementation",
       "review",
@@ -245,8 +253,13 @@
     "type": "paradigm",
     "evidence_tier": "community-verified",
     "first_reported": "2026-07-03",
-    "last_updates": [],
-    "state_snapshot": "2026-07-04T12:18+08:00 GitHub API: 58,589 stars, 4,073 forks, 452 open issues, MIT license, archived=false, pushed_at=2026-07-03T14:24:42Z; latest release v1.5.0 on 2026-06-28T13:08:03Z.",
+    "last_updates": [
+      {
+        "date": "2026-07-18",
+        "note": "v1.6.0 release (2026-07-10): /opsx:update plan revision, Oh My Pi and TRAE tool support, archive safety and validation hardening."
+      }
+    ],
+    "state_snapshot": "2026-07-18T10:05+08:00 GitHub API: 61,395 stars, 4,253 forks, 447 open issues, MIT license, archived=false; latest release v1.6.0 on 2026-07-10T13:12:48Z.",
     "stage_tags": [
       "requirements",
       "design",
@@ -563,6 +576,41 @@
       "https://api.github.com/repos/mksglu/context-mode",
       "https://www.npmjs.com/package/context-mode",
       "https://github.com/mksglu/context-mode/releases/tag/v1.0.169"
+    ]
+  },
+  {
+    "id": "composiohq/awesome-claude-skills",
+    "name": "Awesome Claude Skills",
+    "type": "skill",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-07-18",
+    "last_updates": [],
+    "state_snapshot": "2026-07-18T10:05+08:00 GitHub API: 67,986 stars, 7,702 forks, 1,043 open issues, archived=false; Composio org curated Claude Skills list.",
+    "stage_tags": [
+      "requirements",
+      "design",
+      "implementation"
+    ],
+    "links": [
+      "https://github.com/ComposioHQ/awesome-claude-skills",
+      "https://api.github.com/repos/ComposioHQ/awesome-claude-skills"
+    ]
+  },
+  {
+    "id": "yzfly/awesome-mcp-zh",
+    "name": "Awesome MCP 中文",
+    "type": "mcp",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-07-18",
+    "last_updates": [],
+    "state_snapshot": "2026-07-18T10:05+08:00 GitHub API: 7,446 stars, 648 forks, MIT license, archived=false; Chinese MCP servers/clients curated list.",
+    "stage_tags": [
+      "design",
+      "implementation"
+    ],
+    "links": [
+      "https://github.com/yzfly/awesome-mcp-zh",
+      "https://api.github.com/repos/yzfly/awesome-mcp-zh"
     ]
   }
 ]
