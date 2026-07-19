@@ -286,9 +286,13 @@
       {
         "date": "2026-07-17",
         "note": "rust-v0.144.5 release (2026-07-16): expanded is_dangerous_command for forced rm variants with clearer rejection reasons."
+      },
+      {
+        "date": "2026-07-19",
+        "note": "rust-v0.144.6 release (2026-07-18): refreshed GPT-5.6 Sol/Terra/Luna bundled instructions, context window corrected to 272,000 tokens."
       }
     ],
-    "state_snapshot": "2026-07-17T10:04+08:00 GitHub API: 98,882 stars, 14,776 forks, Apache-2.0 license, archived=false; latest release rust-v0.144.5 on 2026-07-16T02:54:48Z.",
+    "state_snapshot": "2026-07-19T10:05+08:00 GitHub API: 99,427 stars, 14,887 forks, Apache-2.0 license, archived=false; latest release rust-v0.144.6 on 2026-07-18T13:51:52Z.",
     "stage_tags": [
       "implementation",
       "review",
@@ -434,8 +438,13 @@
     "type": "skill",
     "evidence_tier": "community-verified",
     "first_reported": "2026-07-13",
-    "last_updates": [],
-    "state_snapshot": "2026-07-13T10:01+08:00 GitHub page: 83,343 stars, archived=false; topics include tree-sitter, skills, knowledge-graph; multi-harness knowledge graph skill.",
+    "last_updates": [
+      {
+        "date": "2026-07-19",
+        "note": "v0.9.20 release (2026-07-18): Claude Code Grep tool graphify-first nudge, Windows Git Bash hook path fix, semantic-cache --out anchor fix."
+      }
+    ],
+    "state_snapshot": "2026-07-19T10:05+08:00 GitHub API: 90,980 stars, 8,870 forks, MIT license, archived=false; latest release v0.9.20 on 2026-07-18T21:29:17Z; multi-harness knowledge graph skill.",
     "stage_tags": [
       "requirements",
       "design",
@@ -452,8 +461,13 @@
     "type": "mcp",
     "evidence_tier": "community-verified",
     "first_reported": "2026-07-14",
-    "last_updates": [],
-    "state_snapshot": "2026-07-14T10:02+08:00 GitHub API: 58,976 stars, 4,369 forks, Apache-2.0 license, archived=false; latest release v0.31.0 on 2026-07-09T15:19:44Z; MCP/proxy context compression layer.",
+    "last_updates": [
+      {
+        "date": "2026-07-19",
+        "note": "v0.32.0 release (2026-07-17): Codex AGENTS.md additive memory adapter, x-headroom-base-url routing, Bedrock cache token usage, Copilot auth token fix."
+      }
+    ],
+    "state_snapshot": "2026-07-19T10:05+08:00 GitHub API: 59,845 stars, 4,453 forks, Apache-2.0 license, archived=false; latest release v0.32.0 on 2026-07-17T04:38:48Z; MCP/proxy context compression layer.",
     "stage_tags": [
       "design",
       "implementation",
@@ -611,6 +625,43 @@
     "links": [
       "https://github.com/yzfly/awesome-mcp-zh",
       "https://api.github.com/repos/yzfly/awesome-mcp-zh"
+    ]
+  },
+  {
+    "id": "lobehub/lobehub",
+    "name": "LobeHub",
+    "type": "paradigm",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-07-19",
+    "last_updates": [],
+    "state_snapshot": "2026-07-19T10:05+08:00 GitHub API: 80,488 stars, 15,637 forks, 625 open issues, archived=false; latest release v2.2.11-canary.43 on 2026-07-18T18:14:20Z; Chief Agent Operator multi-agent harness.",
+    "stage_tags": [
+      "design",
+      "implementation",
+      "ops"
+    ],
+    "links": [
+      "https://github.com/lobehub/lobehub",
+      "https://api.github.com/repos/lobehub/lobehub",
+      "https://github.com/lobehub/lobehub/releases/tag/v2.2.11-canary.43"
+    ]
+  },
+  {
+    "id": "github/awesome-copilot",
+    "name": "Awesome Copilot",
+    "type": "skill",
+    "evidence_tier": "official",
+    "first_reported": "2026-07-19",
+    "last_updates": [],
+    "state_snapshot": "2026-07-19T10:05+08:00 GitHub API: 36,749 stars, archived=false, MIT license; GitHub official org curated Copilot instructions, agents, skills and configurations.",
+    "stage_tags": [
+      "requirements",
+      "design",
+      "implementation"
+    ],
+    "links": [
+      "https://github.com/github/awesome-copilot",
+      "https://api.github.com/repos/github/awesome-copilot"
     ]
   }
 ]
