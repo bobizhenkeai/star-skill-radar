@@ -128,8 +128,13 @@
     "type": "skill",
     "evidence_tier": "community-verified",
     "first_reported": "2026-07-02",
-    "last_updates": [],
-    "state_snapshot": "2026-07-04T12:18+08:00 GitHub API: 68,781 stars, 7,457 forks, 129 open issues, MIT license, archived=false, latest release 0.6.3 on 2026-07-03T05:42:25Z.",
+    "last_updates": [
+      {
+        "date": "2026-07-20",
+        "note": "0.6.4 release (2026-07-12): in-repo skill eval framework, native Codex plugin support, supply-chain hardening."
+      }
+    ],
+    "state_snapshot": "2026-07-20T10:05+08:00 GitHub API: 79,320 stars, 8,529 forks, 126 open issues, MIT license, archived=false, latest release 0.6.4 on 2026-07-12T18:03:56Z.",
     "stage_tags": [
       "design",
       "implementation",
@@ -140,7 +145,7 @@
     "links": [
       "https://github.com/addyosmani/agent-skills",
       "https://api.github.com/repos/addyosmani/agent-skills",
-      "https://github.com/addyosmani/agent-skills/releases/tag/0.6.3",
+      "https://github.com/addyosmani/agent-skills/releases/tag/0.6.4",
       "https://addyosmani.com/blog/agent-skills/"
     ]
   },
@@ -182,9 +187,13 @@
       {
         "date": "2026-07-18",
         "note": "v2.1.214 release (2026-07-18): Bash permission fail-closed hardening, EndConversation tool, OTel correlation attributes, docker daemon-redirect permission prompts."
+      },
+      {
+        "date": "2026-07-20",
+        "note": "v2.1.215 release (2026-07-19): Claude no longer auto-runs /verify and /code-review skills; explicit slash command required."
       }
     ],
-    "state_snapshot": "2026-07-18T10:05+08:00 GitHub API: 138,122 stars, 22,167 forks, archived=false; latest release v2.1.214 on 2026-07-18T01:20:30Z.",
+    "state_snapshot": "2026-07-20T10:05+08:00 GitHub API: 138,348 stars, 22,202 forks, archived=false; latest release v2.1.215 on 2026-07-19T02:56:01Z.",
     "stage_tags": [
       "implementation",
       "review",
@@ -311,8 +320,13 @@
     "type": "paradigm",
     "evidence_tier": "community-verified",
     "first_reported": "2026-07-06",
-    "last_updates": [],
-    "state_snapshot": "2026-07-06T16:30+08:00 GitHub API: 75,346 stars, 8,615 forks, 523 open issues, Apache-2.0 license, archived=false; latest release open-design-v0.13.0 on 2026-07-02T07:45:57Z.",
+    "last_updates": [
+      {
+        "date": "2026-07-20",
+        "note": "open-design-v0.15.1 release (2026-07-17): OpenDesign Agent multimodal upgrade, session replay/overflow recovery, Studio clarifying questions."
+      }
+    ],
+    "state_snapshot": "2026-07-20T10:05+08:00 GitHub API: 79,742 stars, 9,207 forks, 683 open issues, Apache-2.0 license, archived=false; latest release open-design-v0.15.1 on 2026-07-17T11:57:53Z.",
     "stage_tags": [
       "design",
       "implementation",
@@ -321,7 +335,7 @@
     "links": [
       "https://github.com/nexu-io/open-design",
       "https://api.github.com/repos/nexu-io/open-design",
-      "https://github.com/nexu-io/open-design/releases/tag/open-design-v0.13.0"
+      "https://github.com/nexu-io/open-design/releases/tag/open-design-v0.15.1"
     ]
   },
   {
@@ -662,6 +676,44 @@
     "links": [
       "https://github.com/github/awesome-copilot",
       "https://api.github.com/repos/github/awesome-copilot"
+    ]
+  },
+  {
+    "id": "sickn33/agentic-awesome-skills",
+    "name": "Agentic Awesome Skills",
+    "type": "skill",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-07-20",
+    "last_updates": [],
+    "state_snapshot": "2026-07-20T10:05+08:00 GitHub API: 43,597 stars, 6,466 forks, MIT license, archived=false; latest release v15.1.0 on 2026-07-19T19:48:29Z; agent-first skill discovery CLI/MCP control plane.",
+    "stage_tags": [
+      "requirements",
+      "design",
+      "implementation"
+    ],
+    "links": [
+      "https://github.com/sickn33/agentic-awesome-skills",
+      "https://api.github.com/repos/sickn33/agentic-awesome-skills",
+      "https://github.com/sickn33/agentic-awesome-skills/releases/tag/v15.1.0"
+    ]
+  },
+  {
+    "id": "davila7/claude-code-templates",
+    "name": "Claude Code Templates",
+    "type": "rules",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-07-20",
+    "last_updates": [],
+    "state_snapshot": "2026-07-20T10:05+08:00 GitHub API: 29,741 stars, 3,169 forks, MIT license, archived=false; commit a48a4f61 adds DoorDash CLI suite (5 skills, 4 hooks, 5 commands).",
+    "stage_tags": [
+      "requirements",
+      "design",
+      "implementation"
+    ],
+    "links": [
+      "https://github.com/davila7/claude-code-templates",
+      "https://api.github.com/repos/davila7/claude-code-templates",
+      "https://github.com/davila7/claude-code-templates/commit/a48a4f61"
     ]
   }
 ]
