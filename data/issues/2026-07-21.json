@@ -1,0 +1,244 @@
+{
+  "date": "2026-07-21",
+  "generated_at": "2026-07-21T10:05:00+08:00",
+  "highlights": [
+    {
+      "id": "anthropics/claude-code",
+      "name": "Claude Code",
+      "type": "paradigm",
+      "evidence_tier": "official",
+      "evidence_notes": "采集时间 2026-07-21T10:05+08:00。GitHub API 显示 anthropics/claude-code 有 138,475 stars；release 页面核验 v2.1.216 发布于 2026-07-20T22:14:00Z；Anthropic 官方组织仓库，变更含 sandbox.filesystem.disabled 设置、长会话 message normalization 二次复杂度性能修复、OAuth token 过期后 auto mode 401 修复与 AskUserQuestion 行为修正。",
+      "gist": "Claude Code 修复长会话卡顿并新增沙箱文件系统开关",
+      "summary": "Claude Code 是 Anthropic 官方终端 agentic coding harness。自 2026-07-20 追踪的 v2.1.215 以来，官方发布 v2.1.216；核心变更包括新增 sandbox.filesystem.disabled 以在保留网络 egress 控制时跳过文件系统隔离，修复长会话中 message normalization 随轮次二次增长导致的多秒卡顿与慢恢复，并修正 OAuth token 轮换后 auto mode 误报 HTTP 401 以及 AskUserQuestion 在用户要求等待时仍催促继续的问题。",
+      "competitors": [
+        {
+          "name": "openai/codex",
+          "link": "https://github.com/openai/codex",
+          "verdict": "Codex 是 OpenAI 官方终端 agent；Claude Code 是 Anthropic 侧 harness 主线。"
+        },
+        {
+          "name": "https://code.claude.com/docs/en/skills",
+          "link": "https://code.claude.com/docs/en/skills",
+          "verdict": "Claude Code Skills 文档是技能复用入口；本仓库是 agent 本体与 release 迭代。"
+        }
+      ],
+      "recommendation": "官方 anthropics 组织、release 页面均可核验 v2.1.216 晚于 ledger 最新 v2.1.215 追踪，长会话性能与 sandbox 配置变更会影响 implementation/ops 工作流，符合重大更新规则。",
+      "usage_paradigm": "用于 implementation、ops：升级至 v2.1.216 后若需保留网络控制但放宽文件系统隔离，评估 sandbox.filesystem.disabled；长会话团队应回归 resume 与多轮对话性能场景。",
+      "stage_tags": [
+        "implementation",
+        "ops"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/anthropics/claude-code",
+        "https://github.com/anthropics/claude-code/releases/tag/v2.1.216",
+        "https://code.claude.com/docs/en/skills"
+      ]
+    },
+    {
+      "id": "openai/codex",
+      "name": "OpenAI Codex",
+      "type": "paradigm",
+      "evidence_tier": "official",
+      "evidence_notes": "采集时间 2026-07-21T10:05+08:00。GitHub API 显示 openai/codex 有 100,065 stars；release 页面核验 rust-v0.145.0-alpha.27 发布于 2026-07-21T01:59:04Z；OpenAI 官方组织仓库；compare API 显示相对 rust-v0.144.6 含 218 个 commit，含 skills host loading 性能优化、exec-server 进程事件重排安全加固与 HTTP client factory 路由 realtime/memories。",
+      "gist": "Codex 0.145 alpha 系列启动并强化 skills 与安全",
+      "summary": "OpenAI Codex 是 OpenAI 官方终端 agentic coding harness。自 ledger 追踪的 rust-v0.144.6 以来，官方进入 0.145.0 alpha 序列并发布 rust-v0.145.0-alpha.27；compare 页面显示相对 v0.144.6 累计 218 个 commit，重点包括 skills host loading 复用 walk inventory 以加速 CCA 线程启动、Bound exec-server 进程事件重排防护、HTTP client factory 统一路由 realtime 与 memories，以及 installer 解析 compact release metadata 的修复。",
+      "competitors": [
+        {
+          "name": "anthropics/claude-code",
+          "link": "https://github.com/anthropics/claude-code",
+          "verdict": "Claude Code 是 Anthropic 官方 harness；Codex 是 OpenAI 侧终端 agent 主线。"
+        },
+        {
+          "name": "https://developers.openai.com/codex/skills",
+          "link": "https://developers.openai.com/codex/skills",
+          "verdict": "Codex Skills 文档是技能复用入口；本仓库是 agent 本体与 release 迭代。"
+        }
+      ],
+      "recommendation": "官方 openai 组织、release 与 compare 页面均可核验 rust-v0.145.0-alpha.27 晚于 ledger rust-v0.144.6 追踪，0.145 alpha 序列与 skills/安全加固符合重大更新规则。",
+      "usage_paradigm": "用于 implementation、review、ops：跟踪 0.145 alpha 渠道时关注 skills 加载性能与 exec-server 安全变更；生产环境仍建议以 stable rust-v0.144.x 为基线，alpha 仅用于预发布验证。",
+      "stage_tags": [
+        "implementation",
+        "review",
+        "ops"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/openai/codex",
+        "https://github.com/openai/codex/releases/tag/rust-v0.145.0-alpha.27",
+        "https://github.com/openai/codex/compare/rust-v0.144.6...rust-v0.145.0-alpha.27",
+        "https://developers.openai.com/codex/skills"
+      ]
+    },
+    {
+      "id": "graphify-labs/graphify",
+      "name": "Graphify",
+      "type": "skill",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "采集时间 2026-07-21T10:05+08:00。GitHub API 显示 graphify-labs/graphify 有 92,368 stars；archived=false；MIT license；release 页面核验 v0.9.22 发布于 2026-07-20T15:41:07Z、v0.9.21 发布于 2026-07-20T12:37:50Z；topics 含 claude-code、codex、cursor；582 open issues 与 7 月 20–21 日 pushed_at 显示持续维护。",
+      "gist": "Graphify 修复虚拟 URL 节点误删与 Ollama 自动探测",
+      "summary": "Graphify 是 Graphify Labs 维护的多 harness 代码知识图谱 Agent Skill，通过 AST 索引与 PreToolUse hook 引导 agent 优先 graphify query 而非盲目 grep。自 ledger 追踪的 v0.9.20 以来，官方连续发布 v0.9.21 与 v0.9.22；v0.9.21 让 headless extract 从标准 OLLAMA_HOST 自动探测 Ollama，v0.9.22 修复 gdoc://、s3://、http:// 等虚拟 scheme 节点在第二次 graphify update 时被误驱逐的问题。",
+      "competitors": [
+        {
+          "name": "mksglu/context-mode",
+          "link": "https://github.com/mksglu/context-mode",
+          "verdict": "Context Mode 聚焦 MCP/hooks 上下文压缩；Graphify 是代码知识图谱与搜索引导 skill。"
+        },
+        {
+          "name": "anthropics/skills",
+          "link": "https://github.com/anthropics/skills",
+          "verdict": "Anthropic Skills 是官方规范与样例；Graphify 是社区代码图谱与 harness hook 集成。"
+        }
+      ],
+      "recommendation": "星数、MIT license、v0.9.22 release 晚于 ledger v0.9.20 追踪、虚拟 URL 与 Ollama 集成修复均由 GitHub API 与 release 页面核验，符合重大更新规则。",
+      "usage_paradigm": "用于 requirements、design、implementation：升级至 v0.9.22 后回归 gdoc/s3/http 虚拟源节点的 graphify update 场景，并在本地 Ollama 环境验证 OLLAMA_HOST 自动探测是否简化 headless extract 配置。",
+      "stage_tags": [
+        "requirements",
+        "design",
+        "implementation"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/Graphify-Labs/graphify",
+        "https://github.com/Graphify-Labs/graphify/releases/tag/v0.9.22",
+        "https://github.com/Graphify-Labs/graphify/releases/tag/v0.9.21",
+        "https://api.github.com/repos/graphify-labs/graphify"
+      ]
+    },
+    {
+      "id": "k-dense-ai/scientific-agent-skills",
+      "name": "Scientific Agent Skills",
+      "type": "skill",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "采集时间 2026-07-21T10:05+08:00。GitHub API 显示 k-dense-ai/scientific-agent-skills 有 31,314 stars；archived=false；MIT license；release 页面核验 v2.54.0 发布于 2026-07-20T19:09:37Z；topics 含 agent-skills、claude、codex；README 声明 148 个 skills、100+ 数据库接入与 Agent Skills 标准兼容；security-scan CI workflow 与 K-Dense Inc. 组织背景可验证。",
+      "gist": "Scientific Agent Skills 2.54 强化科研检索与药物技能",
+      "summary": "Scientific Agent Skills（原 K-Dense Agentic Skills）是 K-Dense Inc. 维护的科研向 Agent Skill 集合，覆盖生物信息、化学信息、文献检索与 manuscript 证据编译等场景，兼容 Cursor、Claude Code、Codex 与 Google Antigravity。官方发布 v2.54.0；核心升级 Torchdrug 与 venue-templates skills，并增强 Research Lookup Skill 以产出约 60 条已验证参考文献的结构化 research packet。",
+      "competitors": [
+        {
+          "name": "anthropics/skills",
+          "link": "https://github.com/anthropics/skills",
+          "verdict": "Anthropic Skills 是官方通用规范与样例；Scientific Agent Skills 聚焦科研垂直领域与数据库接入。"
+        },
+        {
+          "name": "voltagagent/awesome-agent-skills",
+          "link": "https://github.com/VoltAgent/awesome-agent-skills",
+          "verdict": "VoltAgent 清单是 curated 目录；Scientific Agent Skills 是可安装科研 skill pack 与 release 节奏。"
+        }
+      ],
+      "recommendation": "星数、MIT license、v2.54.0 release 与 Agent Skills 标准兼容均由 GitHub API 与 release 页面核验，满足 community-verified 门槛，适合作为科研 agent 工作流 skill 入口。",
+      "usage_paradigm": "用于 requirements、design、implementation：安装 v2.54.0 后评估 Research Lookup Skill 是否满足团队 manuscript 证据编译需求，并对照 Torchdrug skill 覆盖的药物信息学场景。",
+      "stage_tags": [
+        "requirements",
+        "design",
+        "implementation"
+      ],
+      "is_update": false,
+      "links": [
+        "https://github.com/K-Dense-AI/scientific-agent-skills",
+        "https://github.com/K-Dense-AI/scientific-agent-skills/releases/tag/v2.54.0",
+        "https://agentskills.io/specification"
+      ]
+    },
+    {
+      "id": "thedotmack/claude-mem",
+      "name": "claude-mem",
+      "type": "hooks",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "采集时间 2026-07-21T10:05+08:00。GitHub API 显示 thedotmack/claude-mem 有 88,004 stars；archived=false；Apache-2.0 license；release 页面核验 v13.11.0 发布于 2026-07-13T04:01:10Z；topics 含 claude、ai-memory、chromadb；README 声明支持 Claude Code、Codex、Gemini 等 harness 的跨会话记忆注入；Vercel OSS Program 徽章与 337 open issues 显示活跃维护。",
+      "gist": "claude-mem 用 hooks 为各 harness 注入跨会话记忆",
+      "summary": "claude-mem 是 thedotmack 维护的跨 harness agent 记忆层，通过 lifecycle hooks 捕获会话行为、AI 压缩后注入后续会话，支持 Claude Code、Codex、Gemini 等。最新 release v13.11.0 引入 worker-native cloud sync，退役独立 cloud-sync.mjs 守护进程，由 worker 在本地写入后通过 debounce flusher 同步至 cmem.ai，并提供 GET /api/sync/status 与 /cloud-sync skill 用于状态检查与凭证迁移。",
+      "competitors": [
+        {
+          "name": "headroomlabs-ai/headroom",
+          "link": "https://github.com/headroomlabs-ai/headroom",
+          "verdict": "Headroom 是 MCP/proxy 上下文压缩层；claude-mem 是 hooks 驱动的跨会话记忆注入。"
+        },
+        {
+          "name": "topoteretes/cognee",
+          "link": "https://github.com/topoteretes/cognee",
+          "verdict": "Cognee 是 agent memory 知识图谱框架；claude-mem 聚焦 harness hook 与会话压缩注入。"
+        }
+      ],
+      "recommendation": "星数、Apache-2.0 license、v13.11.0 worker-native cloud sync 与多 harness README 路径均由 GitHub API 与 release 页面核验，满足 community-verified 门槛，适合作为 agent 记忆 hooks 范式入口。",
+      "usage_paradigm": "用于 design、implementation、ops：安装 claude-mem 后评估 worker-native cloud sync 是否简化 cmem.ai 部署，并对照团队 harness 列表验证 Claude Code/Codex 侧记忆注入是否减少重复上下文。",
+      "stage_tags": [
+        "design",
+        "implementation",
+        "ops"
+      ],
+      "is_update": false,
+      "links": [
+        "https://github.com/thedotmack/claude-mem",
+        "https://github.com/thedotmack/claude-mem/releases/tag/v13.11.0",
+        "https://api.github.com/repos/thedotmack/claude-mem"
+      ]
+    }
+  ],
+  "briefs": [
+    {
+      "name": "obra/superpowers",
+      "gist": "可组合 skills 驱动的 agent 开发方法论",
+      "one_liner": "obra（Jesse Vincent）维护的 agentic skills 框架与 SDLC 方法论，支持 Claude Code、Codex、Cursor 等 harness，以 composable skills 约束 agent 先澄清 spec 再编码；因社区星数超过门禁阈值，本期不列为重点。",
+      "link": "https://github.com/obra/superpowers"
+    },
+    {
+      "name": "affaan-m/ecc",
+      "gist": "多 harness agent 性能优化技能与记忆体系",
+      "one_liner": "Everything Claude Code（ECC）聚合 skills、instincts、memory、security 与 research-first 开发范式，覆盖 Claude Code、Codex、Cursor 等 harness；因社区星数超过门禁阈值，本期不列为重点。",
+      "link": "https://github.com/affaan-m/ecc"
+    },
+    {
+      "name": "msitarzewski/agency-agents",
+      "gist": "多角色 AI agency 子代理角色库",
+      "one_liner": "Agency Agents 收录前端、社区运营等多角色专用 AI agent 人格与流程模板；因社区星数超过门禁阈值，本期不列为重点。",
+      "link": "https://github.com/msitarzewski/agency-agents"
+    },
+    {
+      "name": "mattpocock/skills",
+      "gist": "工程师真实 .claude 目录 skills 样例",
+      "one_liner": "mattpocock 从其 .claude 目录导出的生产级 skills 集合，适合对照真实工程习惯学习 skill 组织；因社区星数超过门禁阈值，本期不列为重点。",
+      "link": "https://github.com/mattpocock/skills"
+    },
+    {
+      "name": "garrytan/gstack",
+      "gist": "Garry Tan 的 23 工具 Claude Code 工作流",
+      "one_liner": "Garry Tan 的 Claude Code 配置集合，含 CEO、Designer、Eng Manager 等 23 个 opinionated 工具；因社区星数超过门禁阈值，本期不列为重点。",
+      "link": "https://github.com/garrytan/gstack"
+    },
+    {
+      "name": "farion1231/cc-switch",
+      "gist": "跨平台 Claude Code 与 Codex 桌面助手",
+      "one_liner": "CC Switch 是 Claude Code、Codex、OpenCode 等多 harness 的跨平台桌面 All-in-One 助手；因社区星数超过同期官方旗舰门禁阈值，本期不列为重点。",
+      "link": "https://github.com/farion1231/cc-switch"
+    },
+    {
+      "name": "microsoft/skills",
+      "gist": "Microsoft 官方 Agent Skills 插件仓库",
+      "one_liner": "microsoft/skills 是 Microsoft 官方 Agent Skills 仓库，从 GitHub Copilot for Azure 同步 plugin 文件；GitHub API 显示 microsoft/skills 有 2,779 stars，7 月 20 日 merge PR #387 显示持续维护。",
+      "link": "https://github.com/microsoft/skills"
+    },
+    {
+      "name": "hesreallyhim/awesome-claude-code",
+      "gist": "Claude Code 生态 curated 清单",
+      "one_liner": "Claude Code 生态 awesome 清单，topics 含 agent-skills 与 agentic-coding；GitHub API 显示 hesreallyhim/awesome-claude-code 有 50,521 stars，pushed_at=2026-07-21T00:33:54Z 显示当日仍有维护活动。",
+      "link": "https://github.com/hesreallyhim/awesome-claude-code"
+    },
+    {
+      "name": "prefecthq/fastmcp",
+      "gist": "Pythonic 方式构建 MCP server 与 client",
+      "one_liner": "FastMCP 提供 Pythonic 方式构建 MCP servers 与 clients；GitHub API 显示 prefecthq/fastmcp 有 26,557 stars，pushed_at=2026-07-21T01:43:31Z 显示当日仍有维护活动。",
+      "link": "https://github.com/PrefectHQ/fastmcp"
+    },
+    {
+      "name": "lobehub/lobehub",
+      "gist": "多 agent 7×24 调度工作台",
+      "one_liner": "LobeHub 是 Chief Agent Operator 多 agent 编排工作台；GitHub API 显示 lobehub/lobehub 有 80,586 stars，pushed_at=2026-07-21T01:59:30Z 显示当日仍有维护活动。",
+      "link": "https://github.com/lobehub/lobehub"
+    }
+  ],
+  "source_gaps": [
+    "环境变量 GITHUB_TOKEN 未设置；本次星数、release 日期等核心事实改用未认证 GitHub REST API 与仓库/release 页面实时抓取，证据中已标注「GitHub API 显示」。",
+    "modelcontextprotocol.io/blog 仍返回 404，MCP 官方博客入口未核验；已改用 modelcontextprotocol.io/registry/about 与 GitHub modelcontextprotocol/* 仓库作为替代。",
+    "Cursor changelog 页面可访问，最新 agent/harness 相关 changelog 仍为 3.11（2026-07-10）；2026-07-17 Slack improvements 条目不涉及 agent 能力变更，本期无新的 agent 能力可追踪。"
+  ]
+}
