@@ -105,9 +105,13 @@
       {
         "date": "2026-07-18",
         "note": "v0.13.0 release (2026-07-17): assess idea assessment pipeline, OKF Knowledge Bundle Generator catalog, Autonomous Run Governance preset v0.2.2."
+      },
+      {
+        "date": "2026-07-22",
+        "note": "v0.13.2 release (2026-07-21): workflow command-step validation, catalog URL redirect re-validation, community bundle submission automation, Bob 2.0 skills layout."
       }
     ],
-    "state_snapshot": "2026-07-18T10:05+08:00 GitHub API: 122,005 stars, 10,869 forks, MIT license, archived=false; latest release v0.13.0 on 2026-07-17T18:58:41Z.",
+    "state_snapshot": "2026-07-22T10:05+08:00 GitHub API: 123,122 stars, 10,978 forks, MIT license, archived=false; latest release v0.13.2 on 2026-07-21T17:47:40Z.",
     "stage_tags": [
       "requirements",
       "design",
@@ -195,9 +199,13 @@
       {
         "date": "2026-07-21",
         "note": "v2.1.216 release (2026-07-20): sandbox.filesystem.disabled setting, long-session normalization perf fix, OAuth auto mode 401 fix, AskUserQuestion wait behavior fix."
+      },
+      {
+        "date": "2026-07-22",
+        "note": "v2.1.217 release (2026-07-21): emoji shortcode autocomplete, transcript write failure warnings, MCP output memory leak fix, Windows auto-update restore, background session symlink isolation."
       }
     ],
-    "state_snapshot": "2026-07-21T10:05+08:00 GitHub API: 138,475 stars, 22,222 forks, archived=false; latest release v2.1.216 on 2026-07-20T22:14:00Z.",
+    "state_snapshot": "2026-07-22T10:05+08:00 GitHub API: 138,603 stars, 22,240 forks, archived=false; latest release v2.1.217 on 2026-07-21T21:35:10Z.",
     "stage_tags": [
       "implementation",
       "review",
@@ -307,9 +315,13 @@
       {
         "date": "2026-07-21",
         "note": "rust-v0.145.0-alpha.27 release (2026-07-21): 0.145 alpha series begins; skills host loading perf, exec-server event reordering security, HTTP client factory for realtime/memories."
+      },
+      {
+        "date": "2026-07-22",
+        "note": "rust-v0.145.0 stable release (2026-07-21): paginated thread history, /import Cursor+Claude Code migration, Bedrock login, audio+realtime V3, multi-agent V2 stabilized."
       }
     ],
-    "state_snapshot": "2026-07-21T10:05+08:00 GitHub API: 100,065 stars, 14,977 forks, Apache-2.0 license, archived=false; latest release rust-v0.145.0-alpha.27 on 2026-07-21T01:59:04Z.",
+    "state_snapshot": "2026-07-22T10:05+08:00 GitHub API: 100,428 stars, 15,027 forks, Apache-2.0 license, archived=false; latest release rust-v0.145.0 on 2026-07-21T18:21:04Z.",
     "stage_tags": [
       "implementation",
       "review",
@@ -468,9 +480,13 @@
       {
         "date": "2026-07-21",
         "note": "v0.9.22 release (2026-07-20): virtual URL scheme node eviction fix; v0.9.21 Ollama OLLAMA_HOST auto-detect for headless extract."
+      },
+      {
+        "date": "2026-07-22",
+        "note": "v0.9.23 release (2026-07-21): call-site line reporting fix, query output budget hop-distance ranking."
       }
     ],
-    "state_snapshot": "2026-07-21T10:05+08:00 GitHub API: 92,368 stars, 8,986 forks, MIT license, archived=false; latest release v0.9.22 on 2026-07-20T15:41:07Z; multi-harness knowledge graph skill.",
+    "state_snapshot": "2026-07-22T10:05+08:00 GitHub API: 93,189 stars, 9,043 forks, MIT license, archived=false; latest release v0.9.23 on 2026-07-21T17:59:10Z; multi-harness knowledge graph skill.",
     "stage_tags": [
       "requirements",
       "design",
@@ -696,8 +712,13 @@
     "type": "skill",
     "evidence_tier": "community-verified",
     "first_reported": "2026-07-20",
-    "last_updates": [],
-    "state_snapshot": "2026-07-20T10:05+08:00 GitHub API: 43,597 stars, 6,466 forks, MIT license, archived=false; latest release v15.1.0 on 2026-07-19T19:48:29Z; agent-first skill discovery CLI/MCP control plane.",
+    "last_updates": [
+      {
+        "date": "2026-07-22",
+        "note": "v15.2.0 release (2026-07-21): 18 credited skills from Markstream, n8n, Hugging Face; AAS Core activation path and npm/MCP version parity gate."
+      }
+    ],
+    "state_snapshot": "2026-07-22T10:05+08:00 GitHub API: 43,692 stars, 6,463 forks, MIT license, archived=false; latest release v15.2.0 on 2026-07-21T21:45:05Z; agent-first skill discovery CLI/MCP control plane.",
     "stage_tags": [
       "requirements",
       "design",
