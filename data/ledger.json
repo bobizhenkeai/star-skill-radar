@@ -113,9 +113,13 @@
       {
         "date": "2026-07-23",
         "note": "v0.13.4 release (2026-07-22): Factory Droid CLI integration, Intake Authoring Governance preset, spec-of-specs docs, workflow/catalog validation hardening."
+      },
+      {
+        "date": "2026-07-24",
+        "note": "v0.14.1 release (2026-07-23): 0.14 series — governance preset upgrades (Agent Parity/A11Y/Architecture/Security), Conventional Commit git-extension, bundler/workflow hardening."
       }
     ],
-    "state_snapshot": "2026-07-23T10:05+08:00 GitHub API: 123,292 stars, 10,995 forks, archived=false; latest release v0.13.4 on 2026-07-22T14:31:45Z.",
+    "state_snapshot": "2026-07-24T10:05+08:00 GitHub API: 123,513 stars, 11,021 forks, archived=false; latest release v0.14.1 on 2026-07-23T20:17:58Z.",
     "stage_tags": [
       "requirements",
       "design",
@@ -331,9 +335,13 @@
       {
         "date": "2026-07-23",
         "note": "rust-v0.146.0-alpha.4 release (2026-07-23): 0.146 alpha series started; queued agent mail wake, plugin catalog cache, Free-plan image gen disable."
+      },
+      {
+        "date": "2026-07-24",
+        "note": "rust-v0.146.0-alpha.3.1 release (2026-07-23): per-server MCP prefix omit, external session import timestamps, multi-agent thread ownership, custom provider web search."
       }
     ],
-    "state_snapshot": "2026-07-23T10:05+08:00 GitHub API: 100,713 stars, 15,091 forks, archived=false; latest release rust-v0.146.0-alpha.4 on 2026-07-23T00:46:13Z.",
+    "state_snapshot": "2026-07-24T10:05+08:00 GitHub API: 101,005 stars, 15,136 forks, archived=false; latest release rust-v0.146.0-alpha.3.1 on 2026-07-23T23:26:55Z.",
     "stage_tags": [
       "implementation",
       "review",
@@ -360,9 +368,13 @@
       {
         "date": "2026-07-23",
         "note": "open-design-v0.16.0 release (2026-07-22): Reliable Delivery — auto-update, long-running tasks, model setup, image gen, preview/export reliability; 92 PRs."
+      },
+      {
+        "date": "2026-07-24",
+        "note": "open-design-v0.16.1 release (2026-07-23): An Unobstructed Preview — run status no longer covers preview canvas, progress stays in Chat."
       }
     ],
-    "state_snapshot": "2026-07-23T10:05+08:00 GitHub API: 80,753 stars, 9,207 forks, 683 open issues, Apache-2.0 license, archived=false; latest release open-design-v0.16.0 on 2026-07-22T14:42:37Z.",
+    "state_snapshot": "2026-07-24T10:05+08:00 GitHub API: 81,046 stars, 9,364 forks, 658 open issues, Apache-2.0 license, archived=false; latest release open-design-v0.16.1 on 2026-07-23T16:11:51Z.",
     "stage_tags": [
       "design",
       "implementation",
@@ -399,8 +411,13 @@
     "type": "mcp",
     "evidence_tier": "community-verified",
     "first_reported": "2026-07-06",
-    "last_updates": [],
-    "state_snapshot": "2026-07-06T16:30+08:00 GitHub API: 25,988 stars, 2,112 forks, 254 open issues, Apache-2.0 license, archived=false; latest release v3.4.3 on 2026-07-05T23:27:19Z.",
+    "last_updates": [
+      {
+        "date": "2026-07-24",
+        "note": "v4.0.0a2 release (2026-07-24): 4.0 alpha series started; 183 commits from v3.4.4 to v4.0.0a2."
+      }
+    ],
+    "state_snapshot": "2026-07-24T10:05+08:00 GitHub API: 26,799 stars, 2,180 forks, 255 open issues, Apache-2.0 license, archived=false; latest release v4.0.0a2 on 2026-07-24T01:00:55Z.",
     "stage_tags": [
       "design",
       "implementation",
@@ -795,9 +812,13 @@
       {
         "date": "2026-07-23",
         "note": "v13.12.0 release (2026-07-22): Two-Lane Cloud Sync architecture — Durable Object sync hub, schema v41, mutation outbox, WebSocket speed layer."
+      },
+      {
+        "date": "2026-07-24",
+        "note": "v13.12.4 release (2026-07-23): 54 PR merge sweep (v13.12.2), shutdown teardown fix, concept tags injection (v49), maintainer directives leak fix."
       }
     ],
-    "state_snapshot": "2026-07-23T10:05+08:00 GitHub API: 88,263 stars, 7,662 forks, 357 open issues, Apache-2.0 license, archived=false; latest release v13.12.0 on 2026-07-22T23:00:29Z.",
+    "state_snapshot": "2026-07-24T10:05+08:00 GitHub API: 88,377 stars, 7,672 forks, 268 open issues, Apache-2.0 license, archived=false; latest release v13.12.4 on 2026-07-23T22:47:26Z.",
     "stage_tags": [
       "design",
       "implementation",
