@@ -154,7 +154,7 @@
         "note": "0.6.5 release (2026-07-26): CI-enforced eval gates, hardened skill validator, ecosystem-neutral Phase 1."
       }
     ],
-    "state_snapshot": "2026-07-26T10:05+08:00 GitHub API: 80,373 stars, 8,661 forks, 679 open issues, MIT license, archived=false, latest release 0.6.5 on 2026-07-26T01:22:06Z.",
+    "state_snapshot": "2026-07-26T10:05+08:00 GitHub API: 80,373 stars, 8,661 forks, 127 open issues, MIT license, archived=false, latest release 0.6.5 on 2026-07-26T01:22:06Z.",
     "stage_tags": [
       "design",
       "implementation",

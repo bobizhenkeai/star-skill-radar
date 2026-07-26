@@ -40,7 +40,7 @@
       "name": "Addy Osmani Agent Skills",
       "type": "skill",
       "evidence_tier": "community-verified",
-      "evidence_notes": "采集时间 2026-07-26T10:05+08:00。GitHub API 显示 addyosmani/agent-skills 有 80,373 stars；archived=false；MIT license；release 页面核验 0.6.5 发布于 2026-07-26T01:22:06Z；679 open issues 与 pushed_at=2026-07-26T01:21:59Z 显示持续维护；0.6.5 将 eval gates 从 opt-in 升级为 CI-enforced、硬化 skill validator 并启动 ecosystem-neutral Phase 1。",
+      "evidence_notes": "采集时间 2026-07-26T10:05+08:00。GitHub API 显示 addyosmani/agent-skills 有 80,373 stars；archived=false；MIT license；release 页面核验 0.6.5 发布于 2026-07-26T01:22:06Z；127 open issues 与 pushed_at=2026-07-26T01:21:59Z 显示持续维护；0.6.5 将 eval gates 从 opt-in 升级为 CI-enforced、硬化 skill validator 并启动 ecosystem-neutral Phase 1。",
       "gist": "Agent Skills 0.6.5 将 eval 门禁纳入 CI 强制",
       "summary": "Addy Osmani Agent Skills 是 Addy Osmani 维护的生产级 agent skill pack，覆盖 Claude Code、Codex、Cursor 等多 harness。自 ledger 追踪的 0.6.4 以来，官方发布 0.6.5；release notes 显示 eval gates 从 opt-in 升级为 CI-enforced（deterministic trigger-and-routing tier 每次 push 运行、rank-1 floor、dialogue evals 支持）、skill validator 修复 fenced code block 内 heading 与 negated trigger 误报并将 lint rules 提取至 scripts/lib/skill-lint.js、test-driven-development skill 启动 ecosystem-neutral Phase 1 不再硬编码 npm；pushed_at=2026-07-26T01:21:59Z 显示 release 当日仍在迭代。",
       "competitors": [
