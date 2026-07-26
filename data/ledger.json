@@ -148,9 +148,13 @@
       {
         "date": "2026-07-20",
         "note": "0.6.4 release (2026-07-12): in-repo skill eval framework, native Codex plugin support, supply-chain hardening."
+      },
+      {
+        "date": "2026-07-26",
+        "note": "0.6.5 release (2026-07-26): CI-enforced eval gates, hardened skill validator, ecosystem-neutral Phase 1."
       }
     ],
-    "state_snapshot": "2026-07-20T10:05+08:00 GitHub API: 79,320 stars, 8,529 forks, 126 open issues, MIT license, archived=false, latest release 0.6.4 on 2026-07-12T18:03:56Z.",
+    "state_snapshot": "2026-07-26T10:05+08:00 GitHub API: 80,373 stars, 8,661 forks, 679 open issues, MIT license, archived=false, latest release 0.6.5 on 2026-07-26T01:22:06Z.",
     "stage_tags": [
       "design",
       "implementation",
@@ -161,7 +165,7 @@
     "links": [
       "https://github.com/addyosmani/agent-skills",
       "https://api.github.com/repos/addyosmani/agent-skills",
-      "https://github.com/addyosmani/agent-skills/releases/tag/0.6.4",
+      "https://github.com/addyosmani/agent-skills/releases/tag/0.6.5",
       "https://addyosmani.com/blog/agent-skills/"
     ]
   },
@@ -351,9 +355,13 @@
       {
         "date": "2026-07-25",
         "note": "rust-v0.146.0-alpha.9 release (2026-07-25): alpha.6–alpha.9 series — paginated thread forks, MCP config refresh across threads, workspace plugin publish, remote plugin ID analytics."
+      },
+      {
+        "date": "2026-07-26",
+        "note": "rust-v0.146.0-alpha.10.1 release (2026-07-25): Code Mode host fallback disable, network approval hardening, Responses Lite code-mode metadata."
       }
     ],
-    "state_snapshot": "2026-07-25T10:05+08:00 GitHub API: 101,252 stars, 15,136 forks, archived=false; latest release rust-v0.146.0-alpha.9 on 2026-07-25T00:34:24Z.",
+    "state_snapshot": "2026-07-26T10:05+08:00 GitHub API: 101,444 stars, 15,136 forks, archived=false; latest release rust-v0.146.0-alpha.10.1 on 2026-07-25T20:29:03Z.",
     "stage_tags": [
       "implementation",
       "review",
@@ -728,9 +736,13 @@
       {
         "date": "2026-07-25",
         "note": "v2.2.12-canary.7 release (2026-07-24): Claude Opus 5 support, acceptance delivery navigation, 14 commits since canary.6."
+      },
+      {
+        "date": "2026-07-26",
+        "note": "v2.2.12-canary.14 release (2026-07-25): workspace four-role model, acceptance check workspace, topic comments, artifact deployment quota."
       }
     ],
-    "state_snapshot": "2026-07-25T10:05+08:00 GitHub API: 80,780 stars, 15,637 forks, 658 open issues, archived=false; latest release v2.2.12-canary.7 on 2026-07-24T19:58:38Z; Chief Agent Operator multi-agent harness.",
+    "state_snapshot": "2026-07-26T10:05+08:00 GitHub API: 80,806 stars, 15,698 forks, 679 open issues, archived=false; latest release v2.2.12-canary.14 on 2026-07-25T15:37:22Z; Chief Agent Operator multi-agent harness.",
     "stage_tags": [
       "design",
       "implementation",
@@ -739,7 +751,7 @@
     "links": [
       "https://github.com/lobehub/lobehub",
       "https://api.github.com/repos/lobehub/lobehub",
-      "https://github.com/lobehub/lobehub/releases/tag/v2.2.12-canary.7"
+      "https://github.com/lobehub/lobehub/releases/tag/v2.2.12-canary.14"
     ]
   },
   {
