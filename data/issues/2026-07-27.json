@@ -1,0 +1,220 @@
+{
+  "date": "2026-07-27",
+  "generated_at": "2026-07-27T10:05:00+08:00",
+  "highlights": [
+    {
+      "id": "lobehub/lobehub",
+      "name": "LobeHub",
+      "type": "paradigm",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "采集时间 2026-07-27T10:05+08:00。GitHub API 显示 lobehub/lobehub 有 80,835 stars；archived=false；release 页面核验 v2.2.12-canary.22 发布于 2026-07-26T20:38:28Z；677 open issues 与 pushed_at=2026-07-27T02:03:19Z 显示持续维护；canary.15–canary.22 含 Claude 5 summarized thinking、inbox notification context、mobile notification router、acceptance/verifier 导航与 recall-on-success 修复。",
+      "gist": "LobeHub canary.22 补齐 inbox 通知与验收 recall",
+      "summary": "LobeHub 是 Chief Agent Operator 多 agent 编排工作台，支持 desktop 与 canary 发布线。自 ledger 追踪的 v2.2.12-canary.14 以来，官方连续发布 canary.15 至 canary.22；release notes 显示 canary.16 为 Claude 5 启用 summarized thinking display 并修复 topic-comment reply anchor previews、canary.19 细化 acceptance check review navigation 并允许 verifier 读取 task documents、canary.20 新增 inbox notification context、canary.21 暴露 mobile notification router 并同步 scheduled runs 至 active conversations、canary.22 修复 recall on every success-like completion；pushed_at=2026-07-27T02:03:19Z 显示 canary.22 后仍在活跃迭代。",
+      "competitors": [
+        {
+          "name": "anthropics/claude-code",
+          "link": "https://github.com/anthropics/claude-code",
+          "verdict": "Claude Code 是官方 harness CLI；LobeHub 是多 agent 编排 desktop 工作台。"
+        },
+        {
+          "name": "openai/codex",
+          "link": "https://github.com/openai/codex",
+          "verdict": "Codex 是 OpenAI 官方终端 agent；LobeHub 聚焦多 agent 调度、acceptance 与 workspace 协作。"
+        }
+      ],
+      "recommendation": "星数、v2.2.12-canary.22 晚于 ledger canary.14 追踪、Claude 5 thinking display 与 inbox/mobile notification 等 release 证据均由 GitHub API 与 release 页面核验，符合重大更新规则。",
+      "usage_paradigm": "用于 design、implementation、ops：canary 用户升级至 v2.2.12-canary.22 后验证 inbox notification context 与 acceptance recall 路径；mobile 团队应测试 notification router 与 scheduled runs 同步。",
+      "stage_tags": [
+        "design",
+        "implementation",
+        "ops"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/lobehub/lobehub",
+        "https://github.com/lobehub/lobehub/releases/tag/v2.2.12-canary.22",
+        "https://github.com/lobehub/lobehub/releases/tag/v2.2.12-canary.20"
+      ]
+    },
+    {
+      "id": "graphify-labs/graphify",
+      "name": "Graphify",
+      "type": "skill",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "采集时间 2026-07-27T10:05+08:00。GitHub API 显示 graphify-labs/graphify 有 96,496 stars；archived=false；Apache-2.0 license；release 页面核验 v0.9.27 发布于 2026-07-26T12:01:51Z；664 open issues 与 pushed_at=2026-07-26T23:20:06Z 显示持续维护；v0.9.27 聚焦 install 安全、node identity/canonicalization 与跨文件解析改进。",
+      "gist": "Graphify 0.9.27 硬化安装安全与节点身份合并",
+      "summary": "Graphify 是 Graphify Labs 维护的多 harness 代码知识图谱 Agent Skill，覆盖 Claude Code、Codex、Cursor 等。自 ledger 追踪的 v0.9.23 以来，官方发布 v0.9.27 大型维护版本；release notes 显示 claude/gemini/codex/codebuddy install 不再覆盖无法解析的 settings/hooks 文件并在写入前备份、incremental extract --no-cluster 不再用变更文件覆盖全图、stat-index.json 以 root-relative keys 存储以保留 cache hits、C#/Python/JS/TS/Bash/SQL 跨文件解析与 Windows hook 路径多项社区贡献合并；pushed_at=2026-07-26T23:20:06Z 显示 release 后仍在迭代。",
+      "competitors": [
+        {
+          "name": "https://developers.openai.com/codex/skills",
+          "link": "https://developers.openai.com/codex/skills",
+          "verdict": "Codex Skills 文档是官方技能复用指南；Graphify 提供代码库级知识图谱与多语言调用图解析。"
+        },
+        {
+          "name": "anthropics/skills",
+          "link": "https://github.com/anthropics/skills",
+          "verdict": "Anthropic Skills 是官方 skill 样例；Graphify 是面向代码理解的 agent skill 与图谱工具。"
+        }
+      ],
+      "recommendation": "星数、Apache-2.0 license、v0.9.27 release 晚于 ledger v0.9.23 追踪、install 安全与 node identity 修复会改变 implementation/testing 行为，符合重大更新规则。",
+      "usage_paradigm": "用于 requirements、design、implementation：升级至 v0.9.27 后回归 claude/codex install 路径，确认 settings 备份与 incremental extract 合并不再丢图；Windows 用户应验证 hook allowlist 与 rebuild timeout。",
+      "stage_tags": [
+        "requirements",
+        "design",
+        "implementation",
+        "testing"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/Graphify-Labs/graphify",
+        "https://github.com/Graphify-Labs/graphify/releases/tag/v0.9.27"
+      ]
+    },
+    {
+      "id": "prefecthq/fastmcp",
+      "name": "FastMCP",
+      "type": "mcp",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "采集时间 2026-07-27T10:05+08:00。GitHub API 显示 prefecthq/fastmcp 有 26,860 stars；archived=false；Apache-2.0 license；PR #4650 于 2026-07-26T21:38:13Z 合并，通过 MCP conformance suite draft/pending scenarios；pushed_at=2026-07-27T01:11:56Z 显示持续维护；最新 release 仍为 v4.0.0a2（2026-07-24）。",
+      "gist": "FastMCP 合并 PR 通过 MCP 一致性测试草案场景",
+      "summary": "FastMCP 是 Prefect 维护的 Python MCP server/client 框架，4.0 alpha 系列正在重构 proxy、guard 与 conformance 路径。自 ledger 追踪的 v4.0.0a2 release 以来，官方于 2026-07-26 合并 PR #4650 Pass the MCP conformance suite's draft and pending scenarios；PR 说明 conformance job 此前因 expected-failures 白名单与 @latest 解析到 0.1.16 而非 0.2.0 alpha 线而低估覆盖，合并后补齐 completion-complete、dns-rebinding-protection、background tasks 与 SEP-2322 等场景；同日 commit 还推进 guard asks 经 prompt/resource/template proxies 转发与 response cache 多轮 ask 隔离；pushed_at=2026-07-27T01:11:56Z 显示 conformance 合并后仍在活跃迭代。",
+      "competitors": [
+        {
+          "name": "modelcontextprotocol/registry",
+          "link": "https://github.com/modelcontextprotocol/registry",
+          "verdict": "MCP Registry 是官方 server 目录与 REST API；FastMCP 是 Python 侧 MCP 框架与 conformance 实践。"
+        },
+        {
+          "name": "modelcontextprotocol/python-sdk",
+          "link": "https://github.com/modelcontextprotocol/python-sdk",
+          "verdict": "官方 Python SDK 提供协议基础；FastMCP 在其上提供更高层 server/client 抽象与测试 harness。"
+        }
+      ],
+      "recommendation": "星数、Apache-2.0 license、MCP conformance suite draft/pending 场景通过证据由 GitHub PR 与 commit 历史核验，会改变 MCP server 实现与 testing 选型，符合重大更新规则。",
+      "usage_paradigm": "用于 design、implementation、testing：4.0 alpha 用户应对照 conformance suite 回归 completion、dns-rebinding 与 guard ask 路径；MCP server 作者可借 PR #4650 了解 expected-failures 与 suite 版本 pinning 实践。",
+      "stage_tags": [
+        "design",
+        "implementation",
+        "testing"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/PrefectHQ/fastmcp",
+        "https://github.com/PrefectHQ/fastmcp/pull/4650",
+        "https://github.com/PrefectHQ/fastmcp/releases/tag/v4.0.0a2"
+      ]
+    },
+    {
+      "id": "sickn33/agentic-awesome-skills",
+      "name": "Agentic Awesome Skills",
+      "type": "skill",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "采集时间 2026-07-27T10:05+08:00。GitHub API 显示 sickn33/agentic-awesome-skills 有 43,967 stars；archived=false；MIT license；release 页面核验 v15.5.0 发布于 2026-07-26T21:52:52Z；2 open issues 与 pushed_at=2026-07-26T21:52:50Z 显示持续维护；v15.5.0 新增 multi-agent orchestration、privacy-preserving founder matching 与 Fedora Hyprland lifecycle workflow。",
+      "gist": "Agentic Skills 15.5 新增多 agent 编排能力",
+      "summary": "Agentic Awesome Skills 是 sickn33 维护的 agent-first skill 发现 CLI/MCP 控制平面，支持 npx 分发与 AAS Core 运行时配置。自 ledger 追踪的 v15.2.0 以来，官方发布 v15.5.0；release notes 显示新增 focused multi-agent orchestration、privacy-preserving founder matching、consent-gated Fedora Hyprland lifecycle workflow，并扩展 UIZZE 免费手动路径与更严格的 UI finish gate；pushed_at=2026-07-26T21:52:50Z 与 release 时间一致。",
+      "competitors": [
+        {
+          "name": "anthropics/skills",
+          "link": "https://github.com/anthropics/skills",
+          "verdict": "Anthropic Skills 是官方 skill 样例与规范；Agentic Awesome Skills 是 skill 发现 CLI 与 bundle 分发控制平面。"
+        },
+        {
+          "name": "addyosmani/agent-skills",
+          "link": "https://github.com/addyosmani/agent-skills",
+          "verdict": "Addy Osmani Agent Skills 是生产级 skill pack 与 eval 框架；本仓库聚焦 skill 目录、bundle 与多 harness 分发。"
+        }
+      ],
+      "recommendation": "星数、MIT license、v15.5.0 release 晚于 ledger v15.2.0 追踪、multi-agent orchestration 与 founder matching 均由 GitHub API 与 release 页面核验，符合重大更新规则。",
+      "usage_paradigm": "用于 requirements、design、implementation：升级至 v15.5.0 后评估 multi-agent orchestration 与 UIZZE finish gate；Linux 桌面用户可试用 consent-gated Fedora Hyprland lifecycle workflow。",
+      "stage_tags": [
+        "requirements",
+        "design",
+        "implementation"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/sickn33/agentic-awesome-skills",
+        "https://github.com/sickn33/agentic-awesome-skills/releases/tag/v15.5.0"
+      ]
+    }
+  ],
+  "briefs": [
+    {
+      "name": "openai/codex",
+      "gist": "Codex alpha.10.1 后持续迭代 TUI 与 world state",
+      "one_liner": "OpenAI Codex 官方 harness 自 rust-v0.146.0-alpha.10.1 以来无新 release，但 2026-07-25/26 commit 含 model/personality world state、TUI inactive thread 跳过与 MCP recursion limit 提升；GitHub API 显示 openai/codex 有 101,666 stars，pushed_at=2026-07-27T00:28:56Z。",
+      "link": "https://github.com/openai/codex"
+    },
+    {
+      "name": "addyosmani/agent-skills",
+      "gist": "Agent Skills 0.6.5 已纳入 CI eval 门禁",
+      "one_liner": "Addy Osmani Agent Skills 已于 2026-07-26 发布 0.6.5 并将 eval gates 升级为 CI-enforced；GitHub API 显示 addyosmani/agent-skills 有 80,505 stars，pushed_at=2026-07-26T12:51:12Z。",
+      "link": "https://github.com/addyosmani/agent-skills"
+    },
+    {
+      "name": "nexu-io/open-design",
+      "gist": "Open Design 落地页新增 Codex Slides 姊妹产品",
+      "one_liner": "Open Design 是 nexu-io 维护的 AI 设计 agent 工作台；2026-07-26 commit 新增 Codex Slides sister-product landing page；GitHub API 显示 nexu-io/open-design 有 81,741 stars，pushed_at=2026-07-27T01:38:59Z。",
+      "link": "https://github.com/nexu-io/open-design"
+    },
+    {
+      "name": "obra/superpowers",
+      "gist": "可组合 skills 驱动的 agent 开发方法论",
+      "one_liner": "obra（Jesse Vincent）维护的 agentic skills 框架与 SDLC 方法论，支持 Claude Code、Codex、Cursor 等 harness，以 composable skills 约束 agent 先澄清 spec 再编码；因社区星数超过门禁阈值，本期不列为重点。",
+      "link": "https://github.com/obra/superpowers"
+    },
+    {
+      "name": "affaan-m/ecc",
+      "gist": "多 harness agent 性能优化技能与记忆体系",
+      "one_liner": "Everything Claude Code（ECC）聚合 skills、instincts、memory、security 与 research-first 开发范式，覆盖 Claude Code、Codex、Cursor 等 harness；因社区星数超过门禁阈值，本期不列为重点。",
+      "link": "https://github.com/affaan-m/ecc"
+    },
+    {
+      "name": "msitarzewski/agency-agents",
+      "gist": "多角色 AI agency 子代理角色库",
+      "one_liner": "Agency Agents 收录前端、社区运营等多角色专用 AI agent 人格与流程模板；因社区星数超过门禁阈值，本期不列为重点。",
+      "link": "https://github.com/msitarzewski/agency-agents"
+    },
+    {
+      "name": "mattpocock/skills",
+      "gist": "工程师真实 .claude 目录 skills 样例",
+      "one_liner": "mattpocock 从其 .claude 目录导出的生产级 skills 集合，适合对照真实工程习惯学习 skill 组织；因社区星数超过门禁阈值，本期不列为重点。",
+      "link": "https://github.com/mattpocock/skills"
+    },
+    {
+      "name": "garrytan/gstack",
+      "gist": "Garry Tan 的 23 工具 Claude Code 工作流",
+      "one_liner": "Garry Tan 的 Claude Code 配置集合，含 CEO、Designer、Eng Manager 等 23 个 opinionated 工具；因社区星数超过门禁阈值，本期不列为重点。",
+      "link": "https://github.com/garrytan/gstack"
+    },
+    {
+      "name": "farion1231/cc-switch",
+      "gist": "跨平台 Claude Code 与 Codex 桌面助手",
+      "one_liner": "CC Switch 是 Claude Code、Codex、OpenCode 等多 harness 的跨平台桌面 All-in-One 助手；因社区星数超过同期官方旗舰门禁阈值，本期不列为重点。",
+      "link": "https://github.com/farion1231/cc-switch"
+    },
+    {
+      "name": "microsoft/skills",
+      "gist": "Microsoft 官方 Agent Skills 插件仓库",
+      "one_liner": "microsoft/skills 是 Microsoft 官方 Agent Skills 仓库，从 GitHub Copilot for Azure 同步 plugin 文件；GitHub API 显示 microsoft/skills 有 2,824 stars，pushed_at=2026-07-24T23:34:51Z 显示持续维护。",
+      "link": "https://github.com/microsoft/skills"
+    },
+    {
+      "name": "hesreallyhim/awesome-claude-code",
+      "gist": "Claude Code 生态 curated 清单",
+      "one_liner": "Claude Code 生态 awesome 清单，topics 含 agent-skills 与 agentic-coding；GitHub API 显示 hesreallyhim/awesome-claude-code 有 51,015 stars，pushed_at=2026-07-27T00:36:40Z 显示当日仍有维护活动。",
+      "link": "https://github.com/hesreallyhim/awesome-claude-code"
+    },
+    {
+      "name": "punkpeye/awesome-mcp-servers",
+      "gist": "社区最广 MCP server 清单之一",
+      "one_liner": "punkpeye/awesome-mcp-servers 是社区 curated MCP server 清单，覆盖多语言与多领域 server 索引；GitHub API 显示 punkpeye/awesome-mcp-servers 有 91,430 stars，pushed_at=2026-07-25T19:50:40Z 显示持续维护。",
+      "link": "https://github.com/punkpeye/awesome-mcp-servers"
+    }
+  ],
+  "source_gaps": [
+    "环境变量 GITHUB_TOKEN 未设置；本次星数、release 日期等核心事实改用未认证 GitHub REST API 与仓库/release 页面实时抓取，证据中已标注「GitHub API 显示」。",
+    "modelcontextprotocol.io/blog 仍返回 404，MCP 官方博客入口未核验；已改用 modelcontextprotocol.io/registry/about 与 GitHub modelcontextprotocol/* 仓库作为替代。",
+    "Cursor changelog 页面为 Next.js 动态渲染，本次未能从 HTML 提取 2026-07-26/27 新条目；最近带版本号的 desktop release 仍为 3.11（2026-07-10）。"
+  ]
+}

@@ -439,9 +439,13 @@
       {
         "date": "2026-07-24",
         "note": "v4.0.0a2 release (2026-07-24): 4.0 alpha series started; 183 commits from v3.4.4 to v4.0.0a2."
+      },
+      {
+        "date": "2026-07-27",
+        "note": "PR #4650 merged (2026-07-26): MCP conformance suite draft/pending scenarios pass; guard ask proxy and cache hardening."
       }
     ],
-    "state_snapshot": "2026-07-24T10:05+08:00 GitHub API: 26,799 stars, 2,180 forks, 255 open issues, Apache-2.0 license, archived=false; latest release v4.0.0a2 on 2026-07-24T01:00:55Z.",
+    "state_snapshot": "2026-07-27T10:05+08:00 GitHub API: 26,860 stars, 2,190 forks, 257 open issues, Apache-2.0 license, archived=false; latest release v4.0.0a2 on 2026-07-24T01:00:55Z; MCP conformance suite draft scenarios pass.",
     "stage_tags": [
       "design",
       "implementation",
@@ -541,9 +545,13 @@
       {
         "date": "2026-07-22",
         "note": "v0.9.23 release (2026-07-21): call-site line reporting fix, query output budget hop-distance ranking."
+      },
+      {
+        "date": "2026-07-27",
+        "note": "v0.9.27 release (2026-07-26): install-safety fixes, node-identity/canonicalization, cross-file resolution, Windows hook improvements."
       }
     ],
-    "state_snapshot": "2026-07-22T10:05+08:00 GitHub API: 93,189 stars, 9,043 forks, MIT license, archived=false; latest release v0.9.23 on 2026-07-21T17:59:10Z; multi-harness knowledge graph skill.",
+    "state_snapshot": "2026-07-27T10:05+08:00 GitHub API: 96,496 stars, 9,350 forks, Apache-2.0 license, archived=false; latest release v0.9.27 on 2026-07-26T12:01:51Z; multi-harness knowledge graph skill.",
     "stage_tags": [
       "requirements",
       "design",
@@ -740,9 +748,13 @@
       {
         "date": "2026-07-26",
         "note": "v2.2.12-canary.14 release (2026-07-25): workspace four-role model, acceptance check workspace, topic comments, artifact deployment quota."
+      },
+      {
+        "date": "2026-07-27",
+        "note": "v2.2.12-canary.22 release (2026-07-26): canary.15–22 — Claude 5 thinking display, inbox/mobile notifications, acceptance/verifier navigation, recall-on-success."
       }
     ],
-    "state_snapshot": "2026-07-26T10:05+08:00 GitHub API: 80,806 stars, 15,698 forks, 679 open issues, archived=false; latest release v2.2.12-canary.14 on 2026-07-25T15:37:22Z; Chief Agent Operator multi-agent harness.",
+    "state_snapshot": "2026-07-27T10:05+08:00 GitHub API: 80,835 stars, 15,707 forks, 677 open issues, archived=false; latest release v2.2.12-canary.22 on 2026-07-26T20:38:28Z; Chief Agent Operator multi-agent harness.",
     "stage_tags": [
       "design",
       "implementation",
@@ -751,7 +763,7 @@
     "links": [
       "https://github.com/lobehub/lobehub",
       "https://api.github.com/repos/lobehub/lobehub",
-      "https://github.com/lobehub/lobehub/releases/tag/v2.2.12-canary.14"
+      "https://github.com/lobehub/lobehub/releases/tag/v2.2.12-canary.22"
     ]
   },
   {
@@ -782,9 +794,13 @@
       {
         "date": "2026-07-22",
         "note": "v15.2.0 release (2026-07-21): 18 credited skills from Markstream, n8n, Hugging Face; AAS Core activation path and npm/MCP version parity gate."
+      },
+      {
+        "date": "2026-07-27",
+        "note": "v15.5.0 release (2026-07-26): multi-agent orchestration, privacy-preserving founder matching, Fedora Hyprland lifecycle workflow."
       }
     ],
-    "state_snapshot": "2026-07-22T10:05+08:00 GitHub API: 43,692 stars, 6,463 forks, MIT license, archived=false; latest release v15.2.0 on 2026-07-21T21:45:05Z; agent-first skill discovery CLI/MCP control plane.",
+    "state_snapshot": "2026-07-27T10:05+08:00 GitHub API: 43,967 stars, 6,489 forks, MIT license, archived=false; latest release v15.5.0 on 2026-07-26T21:52:52Z; agent-first skill discovery CLI/MCP control plane.",
     "stage_tags": [
       "requirements",
       "design",
