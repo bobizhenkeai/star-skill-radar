@@ -359,9 +359,13 @@
       {
         "date": "2026-07-26",
         "note": "rust-v0.146.0-alpha.10.1 release (2026-07-25): Code Mode host fallback disable, network approval hardening, Responses Lite code-mode metadata."
+      },
+      {
+        "date": "2026-07-28",
+        "note": "rust-v0.146.0-alpha.13 release (2026-07-27): alpha.12–alpha.13 — exec-server network policy, MCP recursion limit, world state model/personality, cached MCP tools before startup."
       }
     ],
-    "state_snapshot": "2026-07-26T10:05+08:00 GitHub API: 101,444 stars, 15,136 forks, archived=false; latest release rust-v0.146.0-alpha.10.1 on 2026-07-25T20:29:03Z.",
+    "state_snapshot": "2026-07-28T10:05+08:00 GitHub API: 101,897 stars, 15,275 forks, archived=false; latest release rust-v0.146.0-alpha.13 on 2026-07-27T16:03:21Z.",
     "stage_tags": [
       "implementation",
       "review",
@@ -443,9 +447,13 @@
       {
         "date": "2026-07-27",
         "note": "PR #4650 merged (2026-07-26): MCP conformance suite draft/pending scenarios pass; guard ask proxy and cache hardening."
+      },
+      {
+        "date": "2026-07-28",
+        "note": "v3.4.5 release (2026-07-27): JWKS Ed25519 single-key skip, Azure scope fallback, deep object query serialization."
       }
     ],
-    "state_snapshot": "2026-07-27T10:05+08:00 GitHub API: 26,860 stars, 2,190 forks, 257 open issues, Apache-2.0 license, archived=false; latest release v4.0.0a2 on 2026-07-24T01:00:55Z; MCP conformance suite draft scenarios pass.",
+    "state_snapshot": "2026-07-28T10:05+08:00 GitHub API: 26,884 stars, 2,194 forks, 252 open issues, Apache-2.0 license, archived=false; latest release v3.4.5 on 2026-07-27T19:15:00Z; 3.x stable maintenance alongside 4.0 alpha.",
     "stage_tags": [
       "design",
       "implementation",
@@ -549,9 +557,13 @@
       {
         "date": "2026-07-27",
         "note": "v0.9.27 release (2026-07-26): install-safety fixes, node-identity/canonicalization, cross-file resolution, Windows hook improvements."
+      },
+      {
+        "date": "2026-07-28",
+        "note": "v0.9.28 release (2026-07-27): incremental extraction correctness, Swift computed properties, uninstall scoping, macOS non-ASCII path fix."
       }
     ],
-    "state_snapshot": "2026-07-27T10:05+08:00 GitHub API: 96,496 stars, 9,350 forks, Apache-2.0 license, archived=false; latest release v0.9.27 on 2026-07-26T12:01:51Z; multi-harness knowledge graph skill.",
+    "state_snapshot": "2026-07-28T10:05+08:00 GitHub API: 97,186 stars, 9,416 forks, 679 open issues, Apache-2.0 license, archived=false; latest release v0.9.28 on 2026-07-27T09:58:32Z; multi-harness knowledge graph skill.",
     "stage_tags": [
       "requirements",
       "design",
@@ -752,9 +764,13 @@
       {
         "date": "2026-07-27",
         "note": "v2.2.12-canary.22 release (2026-07-26): canary.15–22 — Claude 5 thinking display, inbox/mobile notifications, acceptance/verifier navigation, recall-on-success."
+      },
+      {
+        "date": "2026-07-28",
+        "note": "v2.2.12-canary.29 release (2026-07-27): canary.23–29 — workspace HTML preview, structured acceptance verification, Classic onboarding fallback, realtime topic comments."
       }
     ],
-    "state_snapshot": "2026-07-27T10:05+08:00 GitHub API: 80,835 stars, 15,707 forks, 677 open issues, archived=false; latest release v2.2.12-canary.22 on 2026-07-26T20:38:28Z; Chief Agent Operator multi-agent harness.",
+    "state_snapshot": "2026-07-28T10:05+08:00 GitHub API: 80,888 stars, 15,718 forks, 684 open issues, archived=false; latest release v2.2.12-canary.29 on 2026-07-27T19:34:29Z; Chief Agent Operator multi-agent harness.",
     "stage_tags": [
       "design",
       "implementation",
@@ -798,9 +814,13 @@
       {
         "date": "2026-07-27",
         "note": "v15.5.0 release (2026-07-26): multi-agent orchestration, privacy-preserving founder matching, Fedora Hyprland lifecycle workflow."
+      },
+      {
+        "date": "2026-07-28",
+        "note": "v15.5.1 release (2026-07-27): MCP protocol revision negotiation for Claude Code 2.1.x clients (issue #1003)."
       }
     ],
-    "state_snapshot": "2026-07-27T10:05+08:00 GitHub API: 43,967 stars, 6,489 forks, MIT license, archived=false; latest release v15.5.0 on 2026-07-26T21:52:52Z; agent-first skill discovery CLI/MCP control plane.",
+    "state_snapshot": "2026-07-28T10:05+08:00 GitHub API: 44,029 stars, 6,498 forks, MIT license, archived=false; latest release v15.5.1 on 2026-07-27T05:13:54Z; agent-first skill discovery CLI/MCP control plane.",
     "stage_tags": [
       "requirements",
       "design",
