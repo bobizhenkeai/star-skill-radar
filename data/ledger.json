@@ -121,9 +121,13 @@
       {
         "date": "2026-07-25",
         "note": "v0.14.2 release (2026-07-24): Intake Review Governance v0.1.1, Verify Review Ship v0.3.0, Architecture Guard v1.13.1, kilocode command path fix."
+      },
+      {
+        "date": "2026-07-29",
+        "note": "v0.14.3 release (2026-07-28): Intake Authoring Governance preset v0.3.0, extension/preset archive download hardening, Alquimia AI integration."
       }
     ],
-    "state_snapshot": "2026-07-25T10:05+08:00 GitHub API: 123,675 stars, 11,021 forks, archived=false; latest release v0.14.2 on 2026-07-24T20:42:49Z.",
+    "state_snapshot": "2026-07-29T10:05+08:00 GitHub API: 124,341 stars, 11,100 forks, archived=false; latest release v0.14.3 on 2026-07-28T14:15:17Z.",
     "stage_tags": [
       "requirements",
       "design",
@@ -302,9 +306,13 @@
       {
         "date": "2026-07-18",
         "note": "v1.6.0 release (2026-07-10): /opsx:update plan revision, Oh My Pi and TRAE tool support, archive safety and validation hardening."
+      },
+      {
+        "date": "2026-07-29",
+        "note": "v1.7.0 release (2026-07-29): openspec update self-upgrade, five new AI tools, defaultStore global config, skip_specs refactor path."
       }
     ],
-    "state_snapshot": "2026-07-18T10:05+08:00 GitHub API: 61,395 stars, 4,253 forks, 447 open issues, MIT license, archived=false; latest release v1.6.0 on 2026-07-10T13:12:48Z.",
+    "state_snapshot": "2026-07-29T10:05+08:00 GitHub API: 62,956 stars, 4,253 forks, 447 open issues, MIT license, archived=false; latest release v1.7.0 on 2026-07-29T01:31:26Z.",
     "stage_tags": [
       "requirements",
       "design",
@@ -363,9 +371,13 @@
       {
         "date": "2026-07-28",
         "note": "rust-v0.146.0-alpha.13 release (2026-07-27): alpha.12–alpha.13 — exec-server network policy, MCP recursion limit, world state model/personality, cached MCP tools before startup."
+      },
+      {
+        "date": "2026-07-29",
+        "note": "rust-v0.146.0 stable release (2026-07-29): Agent Plugins manifests, thread fork with paginated history, workspace plugin publishing, executor-provided skills discovery."
       }
     ],
-    "state_snapshot": "2026-07-28T10:05+08:00 GitHub API: 101,897 stars, 15,275 forks, archived=false; latest release rust-v0.146.0-alpha.13 on 2026-07-27T16:03:21Z.",
+    "state_snapshot": "2026-07-29T10:05+08:00 GitHub API: 102,176 stars, 15,334 forks, archived=false; latest release rust-v0.146.0 on 2026-07-29T01:42:51Z.",
     "stage_tags": [
       "implementation",
       "review",
@@ -451,9 +463,13 @@
       {
         "date": "2026-07-28",
         "note": "v3.4.5 release (2026-07-27): JWKS Ed25519 single-key skip, Azure scope fallback, deep object query serialization."
+      },
+      {
+        "date": "2026-07-29",
+        "note": "v4.0.0b1 release (2026-07-28): MCP Python SDK v2 rebuild, sessionless 2026-07-28 protocol support, snake_case field migration."
       }
     ],
-    "state_snapshot": "2026-07-28T10:05+08:00 GitHub API: 26,884 stars, 2,194 forks, 252 open issues, Apache-2.0 license, archived=false; latest release v3.4.5 on 2026-07-27T19:15:00Z; 3.x stable maintenance alongside 4.0 alpha.",
+    "state_snapshot": "2026-07-29T10:05+08:00 GitHub API: 26,916 stars, 2,197 forks, 249 open issues, Apache-2.0 license, archived=false; latest release v4.0.0b1 on 2026-07-28T21:17:34Z; 3.x stable maintenance alongside 4.0 beta.",
     "stage_tags": [
       "design",
       "implementation",
@@ -818,9 +834,13 @@
       {
         "date": "2026-07-28",
         "note": "v15.5.1 release (2026-07-27): MCP protocol revision negotiation for Claude Code 2.1.x clients (issue #1003)."
+      },
+      {
+        "date": "2026-07-29",
+        "note": "v15.6.0 release (2026-07-28): browser-act and brendangregg-use-tsa skills, catalog expanded to 1,993 skills."
       }
     ],
-    "state_snapshot": "2026-07-28T10:05+08:00 GitHub API: 44,029 stars, 6,498 forks, MIT license, archived=false; latest release v15.5.1 on 2026-07-27T05:13:54Z; agent-first skill discovery CLI/MCP control plane.",
+    "state_snapshot": "2026-07-29T10:05+08:00 GitHub API: 44,093 stars, 6,500 forks, MIT license, archived=false; latest release v15.6.0 on 2026-07-28T15:31:10Z; agent-first skill discovery CLI/MCP control plane.",
     "stage_tags": [
       "requirements",
       "design",
