@@ -125,9 +125,13 @@
       {
         "date": "2026-07-29",
         "note": "v0.14.3 release (2026-07-28): Intake Authoring Governance preset v0.3.0, extension/preset archive download hardening, Alquimia AI integration."
+      },
+      {
+        "date": "2026-07-30",
+        "note": "v0.14.4 release (2026-07-29): Agent Parity/A11Y/Autonomous Run governance preset upgrades, bundler non-UTF-8 fix, Droid /speckit-<name> rendering."
       }
     ],
-    "state_snapshot": "2026-07-29T10:05+08:00 GitHub API: 124,341 stars, 11,100 forks, archived=false; latest release v0.14.3 on 2026-07-28T14:15:17Z.",
+    "state_snapshot": "2026-07-30T10:05+08:00 GitHub API: 124,505 stars, 11,115 forks, archived=false; latest release v0.14.4 on 2026-07-29T12:09:19Z.",
     "stage_tags": [
       "requirements",
       "design",
@@ -375,9 +379,13 @@
       {
         "date": "2026-07-29",
         "note": "rust-v0.146.0 stable release (2026-07-29): Agent Plugins manifests, thread fork with paginated history, workspace plugin publishing, executor-provided skills discovery."
+      },
+      {
+        "date": "2026-07-30",
+        "note": "rust-v0.147.0-alpha.2 release (2026-07-30): 0.147 alpha series — cached MCP tools before startup, Claude/Cursor session parse separation, MCP catalog pagination, named forked chats."
       }
     ],
-    "state_snapshot": "2026-07-29T10:05+08:00 GitHub API: 102,176 stars, 15,334 forks, archived=false; latest release rust-v0.146.0 on 2026-07-29T01:42:51Z.",
+    "state_snapshot": "2026-07-30T10:05+08:00 GitHub API: 102,428 stars, 15,377 forks, archived=false; latest release rust-v0.147.0-alpha.2 on 2026-07-30T01:04:28Z.",
     "stage_tags": [
       "implementation",
       "review",
@@ -577,9 +585,13 @@
       {
         "date": "2026-07-28",
         "note": "v0.9.28 release (2026-07-27): incremental extraction correctness, Swift computed properties, uninstall scoping, macOS non-ASCII path fix."
+      },
+      {
+        "date": "2026-07-30",
+        "note": "v0.9.30 release (2026-07-29): pin mcp<2.0 fresh install fix, TSX node-id portability, Bedrock timeout/retry, bounded MCP graph-context cache."
       }
     ],
-    "state_snapshot": "2026-07-28T10:05+08:00 GitHub API: 97,186 stars, 9,416 forks, 679 open issues, Apache-2.0 license, archived=false; latest release v0.9.28 on 2026-07-27T09:58:32Z; multi-harness knowledge graph skill.",
+    "state_snapshot": "2026-07-30T10:05+08:00 GitHub API: 98,491 stars, 9,557 forks, 710 open issues, Apache-2.0 license, archived=false; latest release v0.9.30 on 2026-07-29T16:34:47Z; multi-harness knowledge graph skill.",
     "stage_tags": [
       "requirements",
       "design",
@@ -838,9 +850,13 @@
       {
         "date": "2026-07-29",
         "note": "v15.6.0 release (2026-07-28): browser-act and brendangregg-use-tsa skills, catalog expanded to 1,993 skills."
+      },
+      {
+        "date": "2026-07-30",
+        "note": "v15.7.0 release (2026-07-29): full-catalog semantic risk classification, cohesivity consent-gated backend provisioning skill, installation hardening."
       }
     ],
-    "state_snapshot": "2026-07-29T10:05+08:00 GitHub API: 44,093 stars, 6,500 forks, MIT license, archived=false; latest release v15.6.0 on 2026-07-28T15:31:10Z; agent-first skill discovery CLI/MCP control plane.",
+    "state_snapshot": "2026-07-30T10:05+08:00 GitHub API: 44,136 stars, 6,502 forks, MIT license, archived=false; latest release v15.7.0 on 2026-07-29T17:36:14Z; agent-first skill discovery CLI/MCP control plane.",
     "stage_tags": [
       "requirements",
       "design",
@@ -918,6 +934,26 @@
       "https://api.github.com/repos/thedotmack/claude-mem",
       "https://github.com/thedotmack/claude-mem/releases/tag/v13.12.0",
       "https://docs.claude-mem.ai/cloud-sync"
+    ]
+  },
+  {
+    "id": "mastra-ai/mastra",
+    "name": "Mastra",
+    "type": "paradigm",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-07-30",
+    "last_updates": [],
+    "state_snapshot": "2026-07-30T10:05+08:00 GitHub API: 26,711 stars, 2,533 forks, 593 open issues, archived=false; latest release @mastra/core@1.53.0 on 2026-07-29T08:33:48Z; TypeScript agent/workflow/MCP framework (Y Combinator W25).",
+    "stage_tags": [
+      "design",
+      "implementation",
+      "ops"
+    ],
+    "links": [
+      "https://github.com/mastra-ai/mastra",
+      "https://api.github.com/repos/mastra-ai/mastra",
+      "https://github.com/mastra-ai/mastra/releases/tag/@mastra/core@1.53.0",
+      "https://mastra.ai/docs/agents/overview"
     ]
   }
 ]
