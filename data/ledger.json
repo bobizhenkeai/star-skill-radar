@@ -129,9 +129,13 @@
       {
         "date": "2026-07-30",
         "note": "v0.14.4 release (2026-07-29): Agent Parity/A11Y/Autonomous Run governance preset upgrades, bundler non-UTF-8 fix, Droid /speckit-<name> rendering."
+      },
+      {
+        "date": "2026-07-31",
+        "note": "v0.15.0 release (2026-07-30): yolo community workflow catalog, Intent Reconciliation extension, workflow timeout hardening, copilot skills upgrade fix."
       }
     ],
-    "state_snapshot": "2026-07-30T10:05+08:00 GitHub API: 124,505 stars, 11,115 forks, archived=false; latest release v0.14.4 on 2026-07-29T12:09:19Z.",
+    "state_snapshot": "2026-07-31T10:05+08:00 GitHub API: 124,673 stars, 11,128 forks, archived=false; latest release v0.15.0 on 2026-07-30T12:01:11Z.",
     "stage_tags": [
       "requirements",
       "design",
@@ -589,9 +593,13 @@
       {
         "date": "2026-07-30",
         "note": "v0.9.30 release (2026-07-29): pin mcp<2.0 fresh install fix, TSX node-id portability, Bedrock timeout/retry, bounded MCP graph-context cache."
+      },
+      {
+        "date": "2026-07-31",
+        "note": "v0.9.31 release (2026-07-30): MCP SDK 1.x/2.x dual compatibility (mcp>=1,<3), C# per-method receiver typing, SQL cross-file table reference resolution."
       }
     ],
-    "state_snapshot": "2026-07-30T10:05+08:00 GitHub API: 98,491 stars, 9,557 forks, 710 open issues, Apache-2.0 license, archived=false; latest release v0.9.30 on 2026-07-29T16:34:47Z; multi-harness knowledge graph skill.",
+    "state_snapshot": "2026-07-31T10:05+08:00 GitHub API: 99,161 stars, 9,620 forks, 706 open issues, Apache-2.0 license, archived=false; latest release v0.9.31 on 2026-07-30T18:15:48Z; multi-harness knowledge graph skill.",
     "stage_tags": [
       "requirements",
       "design",
@@ -612,9 +620,13 @@
       {
         "date": "2026-07-19",
         "note": "v0.32.0 release (2026-07-17): Codex AGENTS.md additive memory adapter, x-headroom-base-url routing, Bedrock cache token usage, Copilot auth token fix."
+      },
+      {
+        "date": "2026-07-31",
+        "note": "v0.33.0 release (2026-07-29): per-extension token savings metrics, OpenCode transport plugin in pip installs, Copilot subscription backend, streaming fold-only turn hooks."
       }
     ],
-    "state_snapshot": "2026-07-19T10:05+08:00 GitHub API: 59,845 stars, 4,453 forks, Apache-2.0 license, archived=false; latest release v0.32.0 on 2026-07-17T04:38:48Z; MCP/proxy context compression layer.",
+    "state_snapshot": "2026-07-31T10:05+08:00 GitHub API: 63,429 stars, 4,810 forks, Apache-2.0 license, archived=false; latest release v0.33.0 on 2026-07-29T23:10:22Z; MCP/proxy context compression layer.",
     "stage_tags": [
       "design",
       "implementation",
@@ -671,8 +683,13 @@
     "type": "paradigm",
     "evidence_tier": "community-verified",
     "first_reported": "2026-07-16",
-    "last_updates": [],
-    "state_snapshot": "2026-07-16T10:02+08:00 GitHub API: 51,264 stars, 5,695 forks, Apache-2.0 license, archived=false; latest release v1.43.0 on 2026-07-14T09:46:27Z; MCP-native open source AI agent with desktop/CLI/API.",
+    "last_updates": [
+      {
+        "date": "2026-07-31",
+        "note": "v1.45.0 release (2026-07-29): Gemini/Grok/DeepSeek model support, GOOSE_DOCS_ROOT for air-gapped docs, allow disabling built-in skills, stable agent event message identity."
+      }
+    ],
+    "state_snapshot": "2026-07-31T10:05+08:00 GitHub API: 51,988 stars, 5,815 forks, Apache-2.0 license, archived=false; latest release v1.45.0 on 2026-07-29T20:11:39Z; MCP-native open source AI agent with desktop/CLI/API.",
     "stage_tags": [
       "implementation",
       "testing",
@@ -942,8 +959,13 @@
     "type": "paradigm",
     "evidence_tier": "community-verified",
     "first_reported": "2026-07-30",
-    "last_updates": [],
-    "state_snapshot": "2026-07-30T10:05+08:00 GitHub API: 26,711 stars, 2,533 forks, 593 open issues, archived=false; latest release @mastra/core@1.53.0 on 2026-07-29T08:33:48Z; TypeScript agent/workflow/MCP framework (Y Combinator W25).",
+    "last_updates": [
+      {
+        "date": "2026-07-31",
+        "note": "@mastra/core@1.54.0 release (2026-07-30): AgentController Chat Channels (Slack/Discord/Telegram), MongoDB BYO collections + hybrid retrieval, exact metadata filtering, smoothStream()."
+      }
+    ],
+    "state_snapshot": "2026-07-31T10:05+08:00 GitHub API: 26,752 stars, 2,543 forks, 563 open issues, archived=false; latest release @mastra/core@1.54.0 on 2026-07-30T11:54:39Z; TypeScript agent/workflow/MCP framework (Y Combinator W25).",
     "stage_tags": [
       "design",
       "implementation",

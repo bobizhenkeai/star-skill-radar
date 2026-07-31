@@ -1,0 +1,268 @@
+{
+  "date": "2026-07-31",
+  "generated_at": "2026-07-31T10:05:00+08:00",
+  "highlights": [
+    {
+      "id": "github/spec-kit",
+      "name": "GitHub Spec Kit",
+      "type": "paradigm",
+      "evidence_tier": "official",
+      "evidence_notes": "采集时间 2026-07-31T10:05+08:00。GitHub API 显示 github/spec-kit 有 124,673 stars；archived=false；MIT license；release 页面核验 v0.15.0 发布于 2026-07-30T12:01:11Z；289 open issues 与 pushed_at=2026-07-30T21:54:06Z 显示持续维护。",
+      "gist": "Spec Kit 0.15.0 新增 yolo 与 Intent 扩展",
+      "summary": "GitHub Spec Kit 是 GitHub 官方的 spec-driven 开发工具链，提供 CLI、catalog 与 governance preset。自 ledger 追踪的 v0.14.4 以来，官方于 2026-07-30 发布 v0.15.0；release notes 显示 community workflow catalog 新增 yolo、Intent Reconciliation extension 入库；workflow 对 shell/prompt step 的 timeout 校验加固（含 OverflowError guard）；registry 文件读写统一 UTF-8 encoding；file unlink TOCTOU race 消除；preset add/remove 输出对用户输入 catalog name/URL 转义；upgrade 后 extension skill 重注册传 force=True 修复 copilot skills 覆盖问题；integrations uninstall 在 manifest 删除失败时不 abort；agents 对非 string 输入做 coerce 修复。",
+      "competitors": [
+        {
+          "name": "fission-ai/openspec",
+          "link": "https://github.com/Fission-AI/OpenSpec",
+          "verdict": "OpenSpec 是社区 spec-driven CLI；Spec Kit 是 GitHub 官方 spec-driven 工具链与 catalog 生态。"
+        },
+        {
+          "name": "https://github.github.com/spec-kit/",
+          "link": "https://github.github.com/spec-kit/",
+          "verdict": "Spec Kit 官方文档站点；v0.15.0 通过 uv tool install 安装。"
+        }
+      ],
+      "recommendation": "官方 v0.15.0 release 晚于 ledger v0.14.4 追踪、community catalog 扩展与工作流/安全修复会改变 requirements/design 工作流，符合重大更新规则。",
+      "usage_paradigm": "用于 requirements、design、implementation、review：升级至 v0.15.0 后验证 yolo 与 Intent Reconciliation catalog 扩展；Copilot skills 集成团队应回归 upgrade 后 skill 重注册路径。",
+      "stage_tags": [
+        "requirements",
+        "design",
+        "implementation",
+        "review"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/github/spec-kit",
+        "https://github.com/github/spec-kit/releases/tag/v0.15.0",
+        "https://github.github.com/spec-kit/"
+      ]
+    },
+    {
+      "id": "graphify-labs/graphify",
+      "name": "Graphify",
+      "type": "skill",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "采集时间 2026-07-31T10:05+08:00。GitHub API 显示 graphify-labs/graphify 有 99,161 stars；archived=false；Apache-2.0 license；release 页面核验 v0.9.31 发布于 2026-07-30T18:15:48Z；706 open issues 与 pushed_at=2026-07-30T18:15:48Z 显示持续维护。",
+      "gist": "Graphify 0.9.31 兼容 MCP SDK 1.x 与 2.x 双版本",
+      "summary": "Graphify 是 Graphify Labs 维护的多 harness 代码知识图谱 skill，支持 Claude Code、Codex 等 agent 的上下文检索。自 ledger 追踪的 v0.9.30 以来，官方于 2026-07-30 发布 v0.9.31；release notes 显示 MCP server 现 dual-compatible mcp SDK 1.x 与 2.x，依赖从 mcp<2.0 放宽至 mcp>=1,<3，_build_server 在 runtime 绑定 1.x decorator 或 2.x on_* 回调；C# member calls 在 typed receiver 上不再因跨 method 局部变量复用丢失 calls edge（receiver typing 改为 per-method）；SQL cross-file table references（如 prisma migration 引用早期 migration 创建的表）现 resolve 到真实 table node 而非泄漏 absolute-path id。",
+      "competitors": [
+        {
+          "name": "anthropics/skills",
+          "link": "https://github.com/anthropics/skills",
+          "verdict": "Anthropic Skills 是官方 skill 样例；Graphify 是代码知识图谱与 MCP server 上下文层。"
+        },
+        {
+          "name": "modelcontextprotocol/python-sdk",
+          "link": "https://github.com/modelcontextprotocol/python-sdk",
+          "verdict": "官方 Python SDK 提供 MCP 协议基础；Graphify v0.9.31 解除 0.9.30 的 mcp<2.0 pin，支持 1.x 与 2.x 双版本。"
+        }
+      ],
+      "recommendation": "星数、Apache-2.0 license、v0.9.31 release 晚于 ledger v0.9.30 追踪、MCP 2.x 兼容与图谱解析精度修复会改变 design/implementation/testing 行为，符合重大更新规则。",
+      "usage_paradigm": "用于 requirements、design、implementation、testing：升级至 v0.9.31 后验证 mcp 2.0 fresh install 与 C#/SQL cross-file 引用解析；MCP 集成团队应回归 dual-compatible server handshake。",
+      "stage_tags": [
+        "requirements",
+        "design",
+        "implementation",
+        "testing"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/Graphify-Labs/graphify",
+        "https://github.com/Graphify-Labs/graphify/releases/tag/v0.9.31"
+      ]
+    },
+    {
+      "id": "mastra-ai/mastra",
+      "name": "Mastra",
+      "type": "paradigm",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "采集时间 2026-07-31T10:05+08:00。GitHub API 显示 mastra-ai/mastra 有 26,752 stars；archived=false；563 open issues 与 pushed_at=2026-07-31T01:58:40Z 显示持续维护；release 页面核验 @mastra/core@1.54.0 发布于 2026-07-30T11:54:39Z；Y Combinator W25 背景与 README 给出 agents/workflows/MCP/evals 完整路径。",
+      "gist": "Mastra 1.54.0 新增 Slack 聊天频道控制器",
+      "summary": "Mastra 是 Y Combinator W25 团队维护的 TypeScript AI agent 框架，覆盖 model routing、agents、workflows、MCP servers、evals 与 observability，可嵌入 React/Next.js/Node 或独立部署。自 ledger 追踪的 @mastra/core@1.53.0 以来，官方于 2026-07-30 发布 @mastra/core@1.54.0；release notes 显示 AgentController 可通过 Chat SDK adapters 在 Slack/Discord/Telegram 等 chat thread 内运行 durable agent session，含 native streaming、tool approval cards、typing indicators 与 controller-owned webhook routes；MongoDBVector 支持 bring-your-own collections（read-only-by-default）、metadataMode: 'document' 返回完整源文档，以及 createSearchIndex/textQuery/hybridQuery 混合检索（Atlas Search / MongoDB 8.0+）；memory.recall 新增 exact-match metadata filtering（AND 语义）跨 pg/mysql/mongodb/redis 等后端；新增 smoothStream() 与 experimental stream transforms 缓冲 text/reasoning delta。",
+      "competitors": [
+        {
+          "name": "prefecthq/fastmcp",
+          "link": "https://github.com/PrefectHQ/fastmcp",
+          "verdict": "FastMCP 聚焦 Python MCP server/client 框架；Mastra 是全栈 TypeScript agent/workflow/MCP 框架。"
+        },
+        {
+          "name": "modelcontextprotocol/python-sdk",
+          "link": "https://github.com/modelcontextprotocol/python-sdk",
+          "verdict": "官方 Python SDK 提供 MCP 协议基础；Mastra 在 TypeScript 侧提供 MCP server authoring 与 agent 集成。"
+        }
+      ],
+      "recommendation": "星数超 1000、持续 release 与 commit 活跃、Chat Channel AgentController 与 MongoDB hybrid retrieval 会改变 design/implementation/ops 行为，符合重大更新规则。",
+      "usage_paradigm": "用于 design、implementation、ops：评估 @mastra/core@1.54.0 的 Slack/Discord AgentController webhook 集成；MongoDB 用户应验证 BYO collection 与 hybridQuery 检索路径。",
+      "stage_tags": [
+        "design",
+        "implementation",
+        "ops"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/mastra-ai/mastra",
+        "https://github.com/mastra-ai/mastra/releases/tag/@mastra/core@1.54.0",
+        "https://mastra.ai/docs/agents/overview"
+      ]
+    },
+    {
+      "id": "headroomlabs-ai/headroom",
+      "name": "Headroom",
+      "type": "mcp",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "采集时间 2026-07-31T10:05+08:00。GitHub API 显示 headroomlabs-ai/headroom 有 63,429 stars；archived=false；Apache-2.0 license；release 页面核验 v0.33.0 发布于 2026-07-29T23:10:22Z；599 open issues 与 pushed_at=2026-07-31T00:17:01Z 显示持续维护。",
+      "gist": "Headroom 0.33.0 支持 Copilot 订阅后端",
+      "summary": "Headroom 是 Headroom Labs 维护的 MCP/proxy 上下文压缩层，通过 lossless folding 与 token 预算管理降低 agent harness 的 context 成本。自 ledger 追踪的 v0.32.0 以来，官方于 2026-07-29 发布 v0.33.0；release notes 显示 lossless grep search fold 对共享目录前缀做 factor 压缩；metrics 记录 per-extension token savings；OpenCode transport plugin 纳入 pip install 分发；OpenCode 支持 Copilot subscription backend 用于 headroom models；proxy/hooks 在 streaming OpenAI chat 上运行 fold-only（stream-safe）turn hooks。",
+      "competitors": [
+        {
+          "name": "modelcontextprotocol/python-sdk",
+          "link": "https://github.com/modelcontextprotocol/python-sdk",
+          "verdict": "官方 Python SDK 提供 MCP 协议基础；Headroom 是 MCP/proxy 上下文压缩与 token 预算层。"
+        },
+        {
+          "name": "openai/codex",
+          "link": "https://github.com/openai/codex",
+          "verdict": "Codex 是 OpenAI 官方 harness；Headroom 作为 proxy 层压缩 context 并支持 Copilot subscription backend。"
+        }
+      ],
+      "recommendation": "星数、Apache-2.0 license、v0.33.0 release 晚于 ledger v0.32.0 追踪、OpenCode Copilot backend 与 per-extension metrics 会改变 implementation/ops 行为，符合重大更新规则。",
+      "usage_paradigm": "用于 design、implementation、ops：升级至 v0.33.0 后验证 OpenCode transport plugin pip install 与 Copilot subscription backend；ops 团队应监控 per-extension token savings metrics。",
+      "stage_tags": [
+        "design",
+        "implementation",
+        "ops"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/headroomlabs-ai/headroom",
+        "https://github.com/headroomlabs-ai/headroom/releases/tag/v0.33.0"
+      ]
+    },
+    {
+      "id": "aaif-goose/goose",
+      "name": "goose",
+      "type": "paradigm",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "采集时间 2026-07-31T10:05+08:00。GitHub API 显示 aaif-goose/goose 有 51,988 stars；archived=false；Apache-2.0 license；release 页面核验 v1.45.0 发布于 2026-07-29T20:11:39Z；370 open issues 与 pushed_at=2026-07-31T01:33:36Z 显示持续维护。",
+      "gist": "goose 1.45.0 支持 Gemini 新模型与可禁用内置 skills",
+      "summary": "goose 是 Block 开源的 MCP-native AI agent，提供 desktop/CLI/API 多入口，支持 skills、MCP servers 与多 provider 路由。自 ledger 追踪的 v1.43.0 以来，官方于 2026-07-29 发布 v1.45.0；release notes 显示 stable agent event message identity、model 命令 tab completion 与 switch provider、latest Gemini models 支持、GOOSE_DOCS_ROOT 可配置用于 air-gapped docs access、compaction 结构化 summary template rendering、allow disabling built-in skills、ACP client capability 门控 tool-call label enrichment；bug fix 含 dynamic model discovery 与 Grok support 恢复、DeepSeek v4 API model names、Claude Code/Pi model picker 选择转发至 adapter。",
+      "competitors": [
+        {
+          "name": "anthropics/claude-code",
+          "link": "https://github.com/anthropics/claude-code",
+          "verdict": "Claude Code 是 Anthropic 官方 harness；goose 是 MCP-native 开源 agent 并支持 Claude Code model picker 转发。"
+        },
+        {
+          "name": "openai/codex",
+          "link": "https://github.com/openai/codex",
+          "verdict": "Codex 是 OpenAI 官方 harness；goose 是多 provider MCP-native agent 框架。"
+        }
+      ],
+      "recommendation": "星数、Apache-2.0 license、v1.45.0 release 晚于 ledger v1.43.0 追踪、Gemini/Grok/DeepSeek 模型支持与 built-in skills 开关会改变 implementation/ops 行为，符合重大更新规则。",
+      "usage_paradigm": "用于 implementation、testing、ops：升级至 v1.45.0 后验证 Gemini/Grok model discovery 与 built-in skills disable 路径；air-gapped 环境应配置 GOOSE_DOCS_ROOT。",
+      "stage_tags": [
+        "implementation",
+        "testing",
+        "ops"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/aaif-goose/goose",
+        "https://github.com/aaif-goose/goose/releases/tag/v1.45.0"
+      ]
+    }
+  ],
+  "briefs": [
+    {
+      "name": "openai/codex",
+      "gist": "Codex 0.147 alpha.2 已于昨日重点追踪",
+      "one_liner": "OpenAI Codex rust-v0.147.0-alpha.2（2026-07-30）已在 2026-07-30 日报重点追踪；GitHub API 显示 openai/codex 有 102,659 stars，pushed_at=2026-07-31T00:29:12Z 无新 release。",
+      "link": "https://github.com/openai/codex"
+    },
+    {
+      "name": "anthropics/claude-code",
+      "gist": "Claude Code 最新仍为 v2.1.220 无新 release",
+      "one_liner": "Anthropic Claude Code 官方 harness 自 v2.1.220（2026-07-25）以来无新 release；GitHub API 显示 anthropics/claude-code 有 139,702 stars，pushed_at=2026-07-25T01:35:55Z。",
+      "link": "https://github.com/anthropics/claude-code"
+    },
+    {
+      "name": "sickn33/agentic-awesome-skills",
+      "gist": "Agentic Skills 15.7.0 已于昨日重点追踪",
+      "one_liner": "Agentic Awesome Skills v15.7.0（2026-07-29）已在 2026-07-30 日报重点追踪；GitHub API 显示 sickn33/agentic-awesome-skills 有 44,194 stars，pushed_at=2026-07-30T14:41:54Z。",
+      "link": "https://github.com/sickn33/agentic-awesome-skills"
+    },
+    {
+      "name": "lobehub/lobehub",
+      "gist": "LobeHub 2.2.13 canary.13 持续迭代 UI 与模型参数",
+      "one_liner": "LobeHub 自 canary.9 推进至 v2.2.13-canary.13，含 Kimi K3 reasoning effort controls、AskUserQuestion 热键与 OAuth provider card 优化；GitHub API 显示 lobehub/lobehub 有 80,985 stars，pushed_at=2026-07-31T01:54:14Z。",
+      "link": "https://github.com/lobehub/lobehub"
+    },
+    {
+      "name": "nexu-io/open-design",
+      "gist": "Open Design 持续活跃 commit 无新 release",
+      "one_liner": "Open Design 是 nexu-io 维护的 AI 设计 agent 工作台，自 v0.16.1 以来无新 release 但 2026-07-31 仍有活跃 push；GitHub API 显示 nexu-io/open-design 有 82,774 stars，pushed_at=2026-07-31T01:38:32Z。",
+      "link": "https://github.com/nexu-io/open-design"
+    },
+    {
+      "name": "codexu/note-gen",
+      "gist": "NoteGen 0.33.0 画布工作区已在昨日简讯",
+      "one_liner": "NoteGen v0.33.0（2026-07-29）已在 2026-07-30 简讯追踪；GitHub API 显示 codexu/note-gen 有 12,399 stars，pushed_at=2026-07-31T01:43:24Z。",
+      "link": "https://github.com/codexu/note-gen"
+    },
+    {
+      "name": "fission-ai/openspec",
+      "gist": "OpenSpec 1.7.0 已于 7/29 重点追踪",
+      "one_liner": "OpenSpec v1.7.0（2026-07-29）已在 2026-07-29 日报重点追踪；GitHub API 显示 fission-ai/openspec 有 63,232 stars，pushed_at=2026-07-30T23:44:34Z。",
+      "link": "https://github.com/Fission-AI/OpenSpec"
+    },
+    {
+      "name": "prefecthq/fastmcp",
+      "gist": "FastMCP 4.0 beta 已于 7/29 重点追踪",
+      "one_liner": "FastMCP v4.0.0b1（2026-07-28）已在 2026-07-29 日报重点追踪；GitHub API 显示 prefecthq/fastmcp 有 26,977 stars，pushed_at=2026-07-30T20:23:55Z。",
+      "link": "https://github.com/PrefectHQ/fastmcp"
+    },
+    {
+      "name": "awslabs/mcp",
+      "gist": "AWS MCP 合集持续维护无新 release",
+      "one_liner": "AWS Labs 官方 MCP server 合集最新 release 仍为 2026.07.20260728181317（2026-07-28）；GitHub API 显示 awslabs/mcp 有 9,518 stars，pushed_at=2026-07-30T21:13:03Z。",
+      "link": "https://github.com/awslabs/mcp"
+    },
+    {
+      "name": "https://cursor.com/changelog",
+      "gist": "Cursor iPad 版已在 7/30 简讯追踪",
+      "one_liner": "Cursor changelog（2026-07-29）iPad 版与 Inbox/全 PR 审查已在 2026-07-30 简讯追踪；来源：https://cursor.com/changelog，2026-07-31 无新条目。",
+      "link": "https://cursor.com/changelog"
+    },
+    {
+      "name": "addyosmani/agent-skills",
+      "gist": "Agent Skills 0.6.5 已纳入 CI eval 门禁",
+      "one_liner": "Addy Osmani Agent Skills 已于 2026-07-26 发布 0.6.5 并将 eval gates 升级为 CI-enforced；GitHub API 显示 addyosmani/agent-skills 有 81,028 stars，pushed_at=2026-07-26T12:51:12Z。",
+      "link": "https://github.com/addyosmani/agent-skills"
+    },
+    {
+      "name": "hesreallyhim/awesome-claude-code",
+      "gist": "Claude Code 生态 curated 清单",
+      "one_liner": "Claude Code 生态 awesome 清单，topics 含 agent-skills 与 agentic-coding；GitHub API 显示 hesreallyhim/awesome-claude-code 有 51,352 stars，pushed_at=2026-07-31T00:35:35Z。",
+      "link": "https://github.com/hesreallyhim/awesome-claude-code"
+    },
+    {
+      "name": "punkpeye/awesome-mcp-servers",
+      "gist": "社区最广 MCP server 清单之一",
+      "one_liner": "punkpeye/awesome-mcp-servers 是社区 curated MCP server 清单；GitHub API 显示 punkpeye/awesome-mcp-servers 有 91,623 stars，pushed_at=2026-07-29T10:26:20Z。",
+      "link": "https://github.com/punkpeye/awesome-mcp-servers"
+    },
+    {
+      "name": "microsoft/skills",
+      "gist": "Microsoft 官方 Agent Skills 插件仓库",
+      "one_liner": "microsoft/skills 是 Microsoft 官方 Agent Skills 仓库，从 GitHub Copilot for Azure 同步 plugin 文件；GitHub API 显示 microsoft/skills 有 2,842 stars，pushed_at=2026-07-28T23:00:54Z。",
+      "link": "https://github.com/microsoft/skills"
+    },
+    {
+      "name": "mcp-use/mcp-use",
+      "gist": "mcp-use 全栈 MCP 框架持续维护迭代中",
+      "one_liner": "mcp-use 是全栈 MCP 框架，支持 ChatGPT Apps 与 AI Agents；GitHub API 显示 mcp-use/mcp-use 有 10,428 stars，pushed_at=2026-07-30T22:06:27Z，最新 release 仍为 mcp-use@1.34.3（2026-07-08）。",
+      "link": "https://github.com/mcp-use/mcp-use"
+    }
+  ],
+  "source_gaps": []
+}
