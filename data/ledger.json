@@ -133,9 +133,13 @@
       {
         "date": "2026-07-31",
         "note": "v0.15.0 release (2026-07-30): yolo community workflow catalog, Intent Reconciliation extension, workflow timeout hardening, copilot skills upgrade fix."
+      },
+      {
+        "date": "2026-08-01",
+        "note": "v0.15.1 release (2026-07-31): constitution-sync preset, tar archive installs, ContextForge MCP extension catalog, workflow/security hardening."
       }
     ],
-    "state_snapshot": "2026-07-31T10:05+08:00 GitHub API: 124,673 stars, 11,128 forks, archived=false; latest release v0.15.0 on 2026-07-30T12:01:11Z.",
+    "state_snapshot": "2026-08-01T10:05+08:00 GitHub API: 124,811 stars, 11,147 forks, archived=false; latest release v0.15.1 on 2026-07-31T13:38:30Z.",
     "stage_tags": [
       "requirements",
       "design",
@@ -387,9 +391,13 @@
       {
         "date": "2026-07-30",
         "note": "rust-v0.147.0-alpha.2 release (2026-07-30): 0.147 alpha series — cached MCP tools before startup, Claude/Cursor session parse separation, MCP catalog pagination, named forked chats."
+      },
+      {
+        "date": "2026-08-01",
+        "note": "rust-v0.147.0-alpha.4 release (2026-07-31): MCP bindings as step tool catalog, Cursor-managed skills migration, MCP config consolidation, thread-bound MCP tool calls."
       }
     ],
-    "state_snapshot": "2026-07-30T10:05+08:00 GitHub API: 102,428 stars, 15,377 forks, archived=false; latest release rust-v0.147.0-alpha.2 on 2026-07-30T01:04:28Z.",
+    "state_snapshot": "2026-08-01T10:05+08:00 GitHub API: 102,934 stars, 15,488 forks, archived=false; latest release rust-v0.147.0-alpha.4 on 2026-07-31T17:54:49Z.",
     "stage_tags": [
       "implementation",
       "review",
@@ -871,9 +879,13 @@
       {
         "date": "2026-07-30",
         "note": "v15.7.0 release (2026-07-29): full-catalog semantic risk classification, cohesivity consent-gated backend provisioning skill, installation hardening."
+      },
+      {
+        "date": "2026-08-01",
+        "note": "v15.7.1 release (2026-07-31): maintain-codex-wiki, cowork-to-code-bridge, fact-check-x-complete skills, Antigravity fail-closed install, 1,997 skills catalog."
       }
     ],
-    "state_snapshot": "2026-07-30T10:05+08:00 GitHub API: 44,136 stars, 6,502 forks, MIT license, archived=false; latest release v15.7.0 on 2026-07-29T17:36:14Z; agent-first skill discovery CLI/MCP control plane.",
+    "state_snapshot": "2026-08-01T10:05+08:00 GitHub API: 44,241 stars, 6,509 forks, MIT license, archived=false; latest release v15.7.1 on 2026-07-31T17:44:33Z; agent-first skill discovery CLI/MCP control plane.",
     "stage_tags": [
       "requirements",
       "design",
@@ -963,9 +975,13 @@
       {
         "date": "2026-07-31",
         "note": "@mastra/core@1.54.0 release (2026-07-30): AgentController Chat Channels (Slack/Discord/Telegram), MongoDB BYO collections + hybrid retrieval, exact metadata filtering, smoothStream()."
+      },
+      {
+        "date": "2026-08-01",
+        "note": "@mastra/core@1.55.0 release (2026-07-31): in-process Code Mode, @mastra/isolated-vm V8 isolate transport, webSearchTool, ChannelHandler ctx breaking change."
       }
     ],
-    "state_snapshot": "2026-07-31T10:05+08:00 GitHub API: 26,752 stars, 2,543 forks, 563 open issues, archived=false; latest release @mastra/core@1.54.0 on 2026-07-30T11:54:39Z; TypeScript agent/workflow/MCP framework (Y Combinator W25).",
+    "state_snapshot": "2026-08-01T10:05+08:00 GitHub API: 26,791 stars, 2,547 forks, 569 open issues, archived=false; latest release @mastra/core@1.55.0 on 2026-07-31T12:00:56Z; TypeScript agent/workflow/MCP framework (Y Combinator W25).",
     "stage_tags": [
       "design",
       "implementation",
