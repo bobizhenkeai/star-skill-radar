@@ -1,0 +1,215 @@
+{
+  "date": "2026-08-02",
+  "generated_at": "2026-08-02T10:05:00+08:00",
+  "highlights": [
+    {
+      "id": "lobehub/lobehub",
+      "name": "LobeHub",
+      "type": "paradigm",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "采集时间 2026-08-02T10:05+08:00。GitHub API 显示 lobehub/lobehub 有 81,061 stars；archived=false；659 open issues 与 pushed_at=2026-08-02T01:16:22Z 显示持续维护；release 页面核验 v2.2.13 稳定版发布于 2026-08-01T12:09:11Z（86 merged PRs · 13 contributors）；topics 含 agent-harness、chief-agent-operator、mcp、skills。",
+      "gist": "LobeHub 2.2.13 稳定版重构 Home 为 Agent 仪表盘",
+      "summary": "LobeHub 是 Chief Agent Operator 多 agent 编排工作台，覆盖 desktop、MCP connectors 与 Agent runtime。自 ledger 追踪的 v2.2.12-canary.29 以来，官方于 2026-08-01 发布 v2.2.13 稳定版；release notes 显示 Home 重构为 Agent dashboard（activity、Topics、dashboard rail）；local Agent 连接统一为 single wizard flow；desktop 支持本地 stdio 与 LAN-HTTP MCP connectors 安装运行；Electron 每 tab 独立 keep-alive router 切换不再重置视图；cross-runtime local database 统一数据层；Agent runtime 增加 scoped tool allowlists 防止 sub-Agent 越权；Agent search 恢复 TopN 排序与真实 relevance score；SPA demand-aware startup 降低冷启动成本。",
+      "competitors": [
+        {
+          "name": "openai/codex",
+          "link": "https://github.com/openai/codex",
+          "verdict": "Codex 是 OpenAI 官方 harness；LobeHub 是 desktop Chief Agent Operator 工作台含 MCP 与多 agent 编排。"
+        },
+        {
+          "name": "mastra-ai/mastra",
+          "link": "https://github.com/mastra-ai/mastra",
+          "verdict": "Mastra 是 TypeScript agent/workflow 框架；LobeHub 聚焦 desktop shell 与 workspace/Home 体验。"
+        }
+      ],
+      "recommendation": "星数超 1000、v2.2.13 稳定版晚于 ledger canary.29 追踪、Home 重构与 local MCP/desktop keep-alive 会改变 design/implementation/ops 工作流，符合重大更新规则。",
+      "usage_paradigm": "用于 design、implementation、ops：升级至 v2.2.13 后评估 Home dashboard 与 local Agent wizard；desktop 团队应验证 stdio/LAN-HTTP MCP connector 安装路径与 per-tab keep-alive 行为。",
+      "stage_tags": [
+        "design",
+        "implementation",
+        "ops"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/lobehub/lobehub",
+        "https://github.com/lobehub/lobehub/releases/tag/v2.2.13",
+        "https://github.com/lobehub/lobehub/pull/17807"
+      ]
+    },
+    {
+      "id": "graphify-labs/graphify",
+      "name": "Graphify",
+      "type": "skill",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "采集时间 2026-08-02T10:05+08:00。GitHub API 显示 graphify-labs/graphify 有 100,296 stars；archived=false；Apache-2.0 license；release 页面核验 v0.9.32 发布于 2026-08-01T14:44:13Z；pushed_at=2026-08-01T14:44:12Z 显示持续维护。",
+      "gist": "Graphify 0.9.32 修复 tier-aware 分层合并丢层问题",
+      "summary": "Graphify 是 Graphify Labs 维护的多 harness 代码知识图谱 skill，支持 Claude Code、Codex 等 agent 的上下文检索。自 ledger 追踪的 v0.9.31 以来，官方于 2026-08-01 发布 v0.9.32；release notes 显示 incremental extraction 与 _rebuild_code 不再因 tier-aware merge 丢弃文件的其他 layer（AST re-extract 仅替换 AST nodes 保留 semantic layer）；_origin provenance marker 在 load 时 backfill 使旧 graph 自愈；graphify update 保留 graph directed flag；修复 C# inline-declared/partial-class receiver、Kotlin anonymous object、Ruby compact/nested mixin 等语言解析；graphify query 渲染 visited nodes 间全部 edge 而非仅 traversal tree。",
+      "competitors": [
+        {
+          "name": "anthropics/skills",
+          "link": "https://github.com/anthropics/skills",
+          "verdict": "Anthropic Skills 是官方 skill 样例；Graphify 提供跨语言代码知识图谱与 MCP server。"
+        },
+        {
+          "name": "headroomlabs-ai/headroom",
+          "link": "https://github.com/headroomlabs-ai/headroom",
+          "verdict": "Headroom 是 MCP context compression 层；Graphify 聚焦代码结构图谱与 agent 上下文检索。"
+        }
+      ],
+      "recommendation": "星数超 1000、v0.9.32 release 晚于 ledger v0.9.31 追踪、tier-aware merge 与多语言解析修复会改变 design/implementation/testing 行为，符合重大更新规则。",
+      "usage_paradigm": "用于 requirements、design、implementation、testing：升级至 v0.9.32 后验证 incremental update 不丢 semantic layer；C#/Kotlin/Ruby 项目应回归 cross-file 引用与 mixin 解析。",
+      "stage_tags": [
+        "requirements",
+        "design",
+        "implementation",
+        "testing"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/Graphify-Labs/graphify",
+        "https://github.com/Graphify-Labs/graphify/releases/tag/v0.9.32"
+      ]
+    },
+    {
+      "id": "chromedevtools/chrome-devtools-mcp",
+      "name": "Chrome DevTools MCP",
+      "type": "mcp",
+      "evidence_tier": "official",
+      "evidence_notes": "采集时间 2026-08-02T10:05+08:00。GitHub API 显示 chromedevtools/chrome-devtools-mcp 有 48,342 stars；archived=false；Apache-2.0 license；107 open issues 与 pushed_at=2026-08-02T00:04:41Z 显示持续维护；release 页面核验 chrome-devtools-mcp-v1.6.0 发布于 2026-07-14T06:54:28Z；ChromeDevTools 官方组织维护，README 明确支持 Cursor、Claude、Copilot 等 agent harness。",
+      "gist": "Chrome 官方 MCP 让 agent 控制真实浏览器调试",
+      "summary": "Chrome DevTools MCP（chrome-devtools-mcp）是 Chrome DevTools 官方团队维护的 MCP server，让 coding agent 控制并检查 live Chrome 浏览器实例。README 显示基于 Puppeteer 实现可靠自动化，并提供 performance trace、network 分析、screenshot、console messages（含 source-mapped stack traces）等 DevTools 能力；v1.6.0 新增 experimentalGcfFormat flag、heap snapshot filter、--allow-unrestricted-paths 配置与 Lighthouse 13.4.0 升级；npm 包 chrome-devtools-mcp 为官方分发入口。",
+      "competitors": [
+        {
+          "name": "modelcontextprotocol/servers",
+          "link": "https://github.com/modelcontextprotocol/servers",
+          "verdict": "MCP 官方 servers 仓库含 reference implementations；Chrome DevTools MCP 是 Google 官方浏览器调试 MCP。"
+        },
+        {
+          "name": "prefecthq/fastmcp",
+          "link": "https://github.com/PrefectHQ/fastmcp",
+          "verdict": "FastMCP 是 Python MCP server/client 框架；Chrome DevTools MCP 是面向浏览器自动化与调试的专用 MCP server。"
+        }
+      ],
+      "recommendation": "ChromeDevTools 官方组织维护、星数超 1000、Apache-2.0 license、README 给出 Cursor/Claude/Copilot 集成路径与完整 tool reference，符合 official 准入与首次收录条件。",
+      "usage_paradigm": "用于 implementation、testing、ops：在 agent harness 中配置 chrome-devtools-mcp 作为 MCP server，用于 UI 自动化回归、性能 trace 分析与浏览器 console 调试；注意 README 安全提示避免暴露敏感 browser 内容。",
+      "stage_tags": [
+        "implementation",
+        "testing",
+        "ops"
+      ],
+      "is_update": false,
+      "links": [
+        "https://github.com/ChromeDevTools/chrome-devtools-mcp",
+        "https://github.com/ChromeDevTools/chrome-devtools-mcp/releases/tag/chrome-devtools-mcp-v1.6.0",
+        "https://www.npmjs.com/package/chrome-devtools-mcp"
+      ]
+    }
+  ],
+  "briefs": [
+    {
+      "name": "github/spec-kit",
+      "gist": "Spec Kit 0.15.1 已于昨日重点追踪",
+      "one_liner": "Spec Kit v0.15.1（2026-07-31）已在 2026-08-01 日报重点追踪；GitHub API 显示 github/spec-kit 有 124,919 stars，pushed_at=2026-07-31T17:45:16Z 无新 release。",
+      "link": "https://github.com/github/spec-kit"
+    },
+    {
+      "name": "openai/codex",
+      "gist": "Codex alpha.4 已于昨日重点追踪",
+      "one_liner": "Codex rust-v0.147.0-alpha.4（2026-07-31）已在 2026-08-01 日报重点追踪；GitHub API 显示 openai/codex 有 103,135 stars，pushed_at=2026-08-02T00:28:27Z 无新 release。",
+      "link": "https://github.com/openai/codex"
+    },
+    {
+      "name": "mastra-ai/mastra",
+      "gist": "Mastra 1.55.0 已于昨日重点追踪",
+      "one_liner": "Mastra @mastra/core@1.55.0（2026-07-31）已在 2026-08-01 日报重点追踪；GitHub API 显示 mastra-ai/mastra 有 26,818 stars，pushed_at=2026-08-01T23:53:01Z 无新 release。",
+      "link": "https://github.com/mastra-ai/mastra"
+    },
+    {
+      "name": "sickn33/agentic-awesome-skills",
+      "gist": "Agentic Skills 15.7.1 已于昨日重点追踪",
+      "one_liner": "Agentic Awesome Skills v15.7.1（2026-07-31）已在 2026-08-01 日报重点追踪；GitHub API 显示 sickn33/agentic-awesome-skills 有 44,277 stars，pushed_at=2026-08-01T20:50:20Z 无新 release。",
+      "link": "https://github.com/sickn33/agentic-awesome-skills"
+    },
+    {
+      "name": "headroomlabs-ai/headroom",
+      "gist": "Headroom 0.33.0 已于 7/31 重点追踪",
+      "one_liner": "Headroom v0.33.0（2026-07-29）已在 2026-07-31 日报重点追踪；GitHub API 显示 headroomlabs-ai/headroom 有 63,891 stars，pushed_at=2026-08-01T04:33:33Z 无新 release。",
+      "link": "https://github.com/headroomlabs-ai/headroom"
+    },
+    {
+      "name": "aaif-goose/goose",
+      "gist": "goose 1.45.0 已于昨日简讯追踪",
+      "one_liner": "goose v1.45.0（2026-07-29）已在 2026-08-01 简讯追踪；GitHub API 显示 aaif-goose/goose 有 52,084 stars，pushed_at=2026-08-01T06:29:11Z 无新 release。",
+      "link": "https://github.com/aaif-goose/goose"
+    },
+    {
+      "name": "davila7/claude-code-templates",
+      "gist": "Claude Code Templates 新增 doc-chaser skill",
+      "one_liner": "Claude Code Templates CLI 用于配置 Claude Code 工作流；2026-08-01 合并 PR 新增 doc-chaser-lite 与 patentfig skill；GitHub API 显示 davila7/claude-code-templates 有 30,048 stars，pushed_at=2026-08-02T01:25:44Z。",
+      "link": "https://github.com/davila7/claude-code-templates"
+    },
+    {
+      "name": "nexu-io/open-design",
+      "gist": "Open Design 持续活跃 push 无新 release",
+      "one_liner": "Open Design 是 nexu-io 维护的 AI 设计 agent 工作台，自 v0.16.1 以来无新 release 但 2026-08-02 仍有活跃 push；GitHub API 显示 nexu-io/open-design 有 83,057 stars，pushed_at=2026-08-02T01:37:39Z。",
+      "link": "https://github.com/nexu-io/open-design"
+    },
+    {
+      "name": "anthropics/claude-code",
+      "gist": "Claude Code 最新仍为 v2.1.220 无新 release",
+      "one_liner": "Anthropic Claude Code 官方 harness 自 v2.1.220（2026-07-25）以来无新 release；GitHub API 显示 anthropics/claude-code 有 139,927 stars，pushed_at=2026-07-25T01:35:55Z。",
+      "link": "https://github.com/anthropics/claude-code"
+    },
+    {
+      "name": "fission-ai/openspec",
+      "gist": "OpenSpec 1.7.0 已于 7/29 重点追踪",
+      "one_liner": "OpenSpec v1.7.0（2026-07-29）已在 2026-07-29 日报重点追踪；GitHub API 显示 fission-ai/openspec 有 63,422 stars，pushed_at=2026-07-31T02:10:13Z。",
+      "link": "https://github.com/Fission-AI/OpenSpec"
+    },
+    {
+      "name": "prefecthq/fastmcp",
+      "gist": "FastMCP 4.0 beta 已于 7/29 重点追踪",
+      "one_liner": "FastMCP v4.0.0b1（2026-07-28）已在 2026-07-29 日报重点追踪；GitHub API 显示 prefecthq/fastmcp 有 27,013 stars，pushed_at=2026-07-30T20:23:55Z。",
+      "link": "https://github.com/PrefectHQ/fastmcp"
+    },
+    {
+      "name": "awslabs/mcp",
+      "gist": "AWS MCP 合集持续维护无新 release",
+      "one_liner": "AWS Labs 官方 MCP server 合集最新 release 仍为 2026.07.20260728181317（2026-07-28）；GitHub API 显示 awslabs/mcp 有 9,529 stars，pushed_at=2026-08-01T18:46:07Z。",
+      "link": "https://github.com/awslabs/mcp"
+    },
+    {
+      "name": "https://cursor.com/changelog",
+      "gist": "Cursor iPad 版已在 7/30 简讯追踪",
+      "one_liner": "Cursor changelog（2026-07-29）iPad 版与 Inbox/全 PR 审查已在 2026-07-30 简讯追踪；来源：https://cursor.com/changelog，2026-08-02 无新条目。",
+      "link": "https://cursor.com/changelog"
+    },
+    {
+      "name": "hesreallyhim/awesome-claude-code",
+      "gist": "Claude Code 生态 curated 清单",
+      "one_liner": "Claude Code 生态 awesome 清单，topics 含 agent-skills 与 agentic-coding；GitHub API 显示 hesreallyhim/awesome-claude-code 有 51,472 stars，pushed_at=2026-08-02T00:35:50Z。",
+      "link": "https://github.com/hesreallyhim/awesome-claude-code"
+    },
+    {
+      "name": "punkpeye/awesome-mcp-servers",
+      "gist": "社区最广 MCP server 清单之一",
+      "one_liner": "punkpeye/awesome-mcp-servers 是社区 curated MCP server 清单；GitHub API 显示 punkpeye/awesome-mcp-servers 有 91,700 stars，pushed_at=2026-07-29T10:26:20Z。",
+      "link": "https://github.com/punkpeye/awesome-mcp-servers"
+    },
+    {
+      "name": "addyosmani/agent-skills",
+      "gist": "Agent Skills 0.6.5 已纳入 CI eval 门禁",
+      "one_liner": "Addy Osmani Agent Skills 已于 2026-07-26 发布 0.6.5 并将 eval gates 升级为 CI-enforced；GitHub API 显示 addyosmani/agent-skills 有 81,256 stars，pushed_at=2026-07-26T12:51:12Z。",
+      "link": "https://github.com/addyosmani/agent-skills"
+    },
+    {
+      "name": "mcp-use/mcp-use",
+      "gist": "mcp-use 全栈 MCP 框架持续维护迭代中",
+      "one_liner": "mcp-use 是全栈 MCP 框架，支持 ChatGPT Apps 与 AI Agents；GitHub API 显示 mcp-use/mcp-use 有 10,432 stars，pushed_at=2026-08-01T00:29:11Z，最新 release 仍为 mcp-use@1.34.3（2026-07-08）。",
+      "link": "https://github.com/mcp-use/mcp-use"
+    }
+  ],
+  "source_gaps": [
+    "MCP 官方 blog（https://modelcontextprotocol.io/blog）返回 404；已改用 modelcontextprotocol/registry GitHub 仓库与 modelcontextprotocol.io/registry/about 作为替代来源。"
+  ]
+}

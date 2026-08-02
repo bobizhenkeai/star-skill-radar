@@ -605,9 +605,13 @@
       {
         "date": "2026-07-31",
         "note": "v0.9.31 release (2026-07-30): MCP SDK 1.x/2.x dual compatibility (mcp>=1,<3), C# per-method receiver typing, SQL cross-file table reference resolution."
+      },
+      {
+        "date": "2026-08-02",
+        "note": "v0.9.32 release (2026-08-01): tier-aware merge fixes incremental/rebuild layer drops, C#/Kotlin/Ruby resolution, graphify query edge rendering."
       }
     ],
-    "state_snapshot": "2026-07-31T10:05+08:00 GitHub API: 99,161 stars, 9,620 forks, 706 open issues, Apache-2.0 license, archived=false; latest release v0.9.31 on 2026-07-30T18:15:48Z; multi-harness knowledge graph skill.",
+    "state_snapshot": "2026-08-02T10:05+08:00 GitHub API: 100,296 stars, 9,620 forks, Apache-2.0 license, archived=false; latest release v0.9.32 on 2026-08-01T14:44:13Z; multi-harness knowledge graph skill.",
     "stage_tags": [
       "requirements",
       "design",
@@ -821,9 +825,13 @@
       {
         "date": "2026-07-28",
         "note": "v2.2.12-canary.29 release (2026-07-27): canary.23–29 — workspace HTML preview, structured acceptance verification, Classic onboarding fallback, realtime topic comments."
+      },
+      {
+        "date": "2026-08-02",
+        "note": "v2.2.13 stable release (2026-08-01): Home Agent dashboard, unified local Agent wizard, desktop MCP connectors, per-tab keep-alive routers, scoped tool allowlists."
       }
     ],
-    "state_snapshot": "2026-07-28T10:05+08:00 GitHub API: 80,888 stars, 15,718 forks, 684 open issues, archived=false; latest release v2.2.12-canary.29 on 2026-07-27T19:34:29Z; Chief Agent Operator multi-agent harness.",
+    "state_snapshot": "2026-08-02T10:05+08:00 GitHub API: 81,061 stars, 15,740 forks, 659 open issues, archived=false; latest release v2.2.13 on 2026-08-01T12:09:11Z; Chief Agent Operator multi-agent harness.",
     "stage_tags": [
       "design",
       "implementation",
@@ -992,6 +1000,26 @@
       "https://api.github.com/repos/mastra-ai/mastra",
       "https://github.com/mastra-ai/mastra/releases/tag/@mastra/core@1.53.0",
       "https://mastra.ai/docs/agents/overview"
+    ]
+  },
+  {
+    "id": "chromedevtools/chrome-devtools-mcp",
+    "name": "Chrome DevTools MCP",
+    "type": "mcp",
+    "evidence_tier": "official",
+    "first_reported": "2026-08-02",
+    "last_updates": [],
+    "state_snapshot": "2026-08-02T10:05+08:00 GitHub API: 48,342 stars, 3,293 forks, 107 open issues, Apache-2.0 license, archived=false; latest release chrome-devtools-mcp-v1.6.0 on 2026-07-14T06:54:28Z; ChromeDevTools official MCP server for browser automation and debugging.",
+    "stage_tags": [
+      "implementation",
+      "testing",
+      "ops"
+    ],
+    "links": [
+      "https://github.com/ChromeDevTools/chrome-devtools-mcp",
+      "https://api.github.com/repos/ChromeDevTools/chrome-devtools-mcp",
+      "https://github.com/ChromeDevTools/chrome-devtools-mcp/releases/tag/chrome-devtools-mcp-v1.6.0",
+      "https://www.npmjs.com/package/chrome-devtools-mcp"
     ]
   }
 ]
