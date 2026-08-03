@@ -1021,5 +1021,87 @@
       "https://github.com/ChromeDevTools/chrome-devtools-mcp/releases/tag/chrome-devtools-mcp-v1.6.0",
       "https://www.npmjs.com/package/chrome-devtools-mcp"
     ]
+  },
+  {
+    "id": "screenpipe/screenpipe",
+    "name": "screenpipe",
+    "type": "mcp",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-08-03",
+    "last_updates": [],
+    "state_snapshot": "2026-08-03T10:05+08:00 GitHub API: 20,693 stars, 2,054 forks, 128 open issues, archived=false; latest release app-v2.5.166 on 2026-08-03T01:06:28Z; YC S26 local-first screen/audio capture with MCP integration.",
+    "stage_tags": [
+      "requirements",
+      "design",
+      "implementation",
+      "ops"
+    ],
+    "links": [
+      "https://github.com/screenpipe/screenpipe",
+      "https://api.github.com/repos/screenpipe/screenpipe",
+      "https://github.com/screenpipe/screenpipe/releases/tag/app-v2.5.166",
+      "https://screenpipe.com"
+    ]
+  },
+  {
+    "id": "github/gh-aw",
+    "name": "GitHub Agentic Workflows (gh-aw)",
+    "type": "paradigm",
+    "evidence_tier": "official",
+    "first_reported": "2026-08-03",
+    "last_updates": [],
+    "state_snapshot": "2026-08-03T10:05+08:00 GitHub API: 4,854 stars, 475 forks, 247 open issues, MIT license, archived=false; latest release v0.84.2 on 2026-08-01T08:20:22Z; official GitHub Agentic Workflows for Actions + agent + safety.",
+    "stage_tags": [
+      "design",
+      "implementation",
+      "review",
+      "ops"
+    ],
+    "links": [
+      "https://github.com/github/gh-aw",
+      "https://api.github.com/repos/github/gh-aw",
+      "https://github.com/github/gh-aw/releases/tag/v0.84.2",
+      "https://raw.githubusercontent.com/github/gh-aw/main/create.md"
+    ]
+  },
+  {
+    "id": "stablyai/orca",
+    "name": "Orca",
+    "type": "paradigm",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-08-03",
+    "last_updates": [],
+    "state_snapshot": "2026-08-03T10:05+08:00 GitHub API: 35,845 stars, 2,523 forks, 2934 open issues, MIT license, archived=false; latest release v1.4.164 on 2026-08-02T08:56:13Z; YC-backed parallel agent IDE (ADE).",
+    "stage_tags": [
+      "design",
+      "implementation",
+      "ops"
+    ],
+    "links": [
+      "https://github.com/stablyai/orca",
+      "https://api.github.com/repos/stablyai/orca",
+      "https://github.com/stablyai/orca/releases/tag/v1.4.164",
+      "https://onOrca.dev"
+    ]
+  },
+  {
+    "id": "mcpjam/inspector",
+    "name": "MCPJam Inspector",
+    "type": "mcp",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-08-03",
+    "last_updates": [],
+    "state_snapshot": "2026-08-03T10:05+08:00 GitHub API: 2,103 stars, 253 forks, 147 open issues, archived=false; latest release v2.32.0 on 2026-08-01T05:54:03Z; MCP server/apps testing and eval platform.",
+    "stage_tags": [
+      "testing",
+      "review",
+      "ops"
+    ],
+    "links": [
+      "https://github.com/MCPJam/inspector",
+      "https://api.github.com/repos/mcpjam/inspector",
+      "https://github.com/MCPJam/inspector/releases/tag/v2.32.0",
+      "https://www.mcpjam.com"
+    ]
   }
 ]
