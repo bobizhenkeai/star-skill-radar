@@ -137,9 +137,13 @@
       {
         "date": "2026-08-01",
         "note": "v0.15.1 release (2026-07-31): constitution-sync preset, tar archive installs, ContextForge MCP extension catalog, workflow/security hardening."
+      },
+      {
+        "date": "2026-08-04",
+        "note": "v0.15.2 release (2026-08-03): specify init --extension, adrkit catalog extension, preset/workflow/bundler security fixes."
       }
     ],
-    "state_snapshot": "2026-08-01T10:05+08:00 GitHub API: 124,811 stars, 11,147 forks, archived=false; latest release v0.15.1 on 2026-07-31T13:38:30Z.",
+    "state_snapshot": "2026-08-04T10:05+08:00 GitHub API: 125,191 stars, 11,189 forks, archived=false; latest release v0.15.2 on 2026-08-03T19:07:13Z.",
     "stage_tags": [
       "requirements",
       "design",
@@ -395,9 +399,13 @@
       {
         "date": "2026-08-01",
         "note": "rust-v0.147.0-alpha.4 release (2026-07-31): MCP bindings as step tool catalog, Cursor-managed skills migration, MCP config consolidation, thread-bound MCP tool calls."
+      },
+      {
+        "date": "2026-08-04",
+        "note": "rust-v0.147.0-alpha.6 release (2026-08-03): --approve-for-me CLI, MCP strict auto review, thread section APIs, sandboxed V8 code mode."
       }
     ],
-    "state_snapshot": "2026-08-01T10:05+08:00 GitHub API: 102,934 stars, 15,488 forks, archived=false; latest release rust-v0.147.0-alpha.4 on 2026-07-31T17:54:49Z.",
+    "state_snapshot": "2026-08-04T10:05+08:00 GitHub API: 103,654 stars, 15,520 forks, archived=false; latest release rust-v0.147.0-alpha.6 on 2026-08-03T21:32:07Z.",
     "stage_tags": [
       "implementation",
       "review",
@@ -1102,6 +1110,65 @@
       "https://api.github.com/repos/mcpjam/inspector",
       "https://github.com/MCPJam/inspector/releases/tag/v2.32.0",
       "https://www.mcpjam.com"
+    ]
+  },
+  {
+    "id": "https://cursor.com/changelog",
+    "name": "Cursor Google Workspace Plugins",
+    "type": "mcp",
+    "evidence_tier": "official",
+    "first_reported": "2026-08-04",
+    "last_updates": [],
+    "state_snapshot": "2026-08-04T10:05+08:00 Cursor changelog (2026-08-03): Google Workspace plugins via Google remote MCP for Gmail, Drive, Calendar, Docs, Sheets; Marketplace entries verified.",
+    "stage_tags": [
+      "requirements",
+      "implementation",
+      "ops"
+    ],
+    "links": [
+      "https://cursor.com/changelog",
+      "https://cursor.com/marketplace",
+      "https://cursor.com/docs/plugins"
+    ]
+  },
+  {
+    "id": "nvidia/skills",
+    "name": "NVIDIA Agent Skills",
+    "type": "skill",
+    "evidence_tier": "official",
+    "first_reported": "2026-08-04",
+    "last_updates": [],
+    "state_snapshot": "2026-08-04T10:05+08:00 GitHub API: 2,780 stars, 322 forks, 17 open issues, archived=false; NVIDIA-verified skills catalog with docs.nvidia.com/skills and Cursor Marketplace plugin.",
+    "stage_tags": [
+      "design",
+      "implementation",
+      "testing"
+    ],
+    "links": [
+      "https://github.com/nvidia/skills",
+      "https://api.github.com/repos/nvidia/skills",
+      "https://docs.nvidia.com/skills",
+      "https://cursor.com/marketplace"
+    ]
+  },
+  {
+    "id": "dyoshikawa/rulesync",
+    "name": "Rulesync",
+    "type": "rules",
+    "evidence_tier": "community-verified",
+    "first_reported": "2026-08-04",
+    "last_updates": [],
+    "state_snapshot": "2026-08-04T10:05+08:00 GitHub API: 1,281 stars, 142 forks, 33 open issues, archived=false; latest release v16.6.0 on 2026-08-03T09:37:21Z; cross-harness rules/skills/MCP sync CLI.",
+    "stage_tags": [
+      "design",
+      "implementation",
+      "ops"
+    ],
+    "links": [
+      "https://github.com/dyoshikawa/rulesync",
+      "https://api.github.com/repos/dyoshikawa/rulesync",
+      "https://github.com/dyoshikawa/rulesync/releases/tag/v16.6.0",
+      "https://dyoshikawa.github.io/rulesync/"
     ]
   }
 ]
