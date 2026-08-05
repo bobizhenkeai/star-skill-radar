@@ -1,0 +1,295 @@
+{
+  "date": "2026-08-05",
+  "generated_at": "2026-08-05T10:05:00+08:00",
+  "highlights": [
+    {
+      "id": "openai/codex",
+      "name": "OpenAI Codex",
+      "type": "paradigm",
+      "evidence_tier": "official",
+      "evidence_notes": "采集时间 2026-08-05T10:05+08:00。GitHub API 显示 openai/codex 有 103,947 stars；archived=false；release 页面核验 rust-v0.147.0-alpha.7 发布于 2026-08-04T11:50:52Z（较 2026-08-04 追踪的 alpha.6 推进）；compare alpha.6…alpha.7 含 20 commits；pushed_at=2026-08-05T01:25:52Z。",
+      "gist": "Codex alpha.7 新增 MCP 一致性门禁与 Code Mode 传输",
+      "summary": "OpenAI Codex 是 OpenAI 官方 agent harness CLI。rust-v0.147.0-alpha.7（2026-08-04）在 alpha.6 基础上推进 20 commits：新增 MCP client conformance regression gates、Code Mode dual-WebSocket transport、custom tools in namespaces 与 deferred loading for freeform tools；本地会话归档优先 SQLite 名称、exec resume --last 优先 state DB、按环境 login shell 策略与 code-mode host 超时保护。GitHub release 正文极简，变更细节来自 compare 与 commit message。",
+      "competitors": [
+        {
+          "name": "anthropics/claude-code",
+          "link": "https://github.com/anthropics/claude-code",
+          "verdict": "Claude Code 是 Anthropic 官方 agent CLI；Codex 侧强调 MCP 一致性测试、Code Mode 传输与自定义工具命名空间。"
+        },
+        {
+          "name": "can1357/oh-my-pi",
+          "link": "https://github.com/can1357/oh-my-pi",
+          "verdict": "oh-my-pi 是社区终端 agent，内置 LSP/MCP/浏览器；Codex 是 OpenAI 官方 harness 与插件/skills 生态入口。"
+        }
+      ],
+      "recommendation": "OpenAI 官方维护、alpha.7 较 alpha.6 有可验证 release 与 20 commits 功能推进（MCP 一致性门禁、Code Mode 双 WebSocket、命名空间自定义工具），符合 official 重大更新条件。",
+      "usage_paradigm": "用于 implementation、review、testing：升级至 alpha.7 后验证 MCP conformance regression gates 是否覆盖你的 server；评估 dual-WebSocket Code Mode 对远程/本地混合工作流的影响；利用 custom tools in namespaces 组织多租户工具集。",
+      "stage_tags": [
+        "implementation",
+        "review",
+        "testing"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/openai/codex",
+        "https://github.com/openai/codex/releases/tag/rust-v0.147.0-alpha.7",
+        "https://github.com/openai/codex/compare/rust-v0.147.0-alpha.6...rust-v0.147.0-alpha.7",
+        "https://developers.openai.com/codex/skills"
+      ]
+    },
+    {
+      "id": "github/gh-aw",
+      "name": "GitHub Agentic Workflows (gh-aw)",
+      "type": "paradigm",
+      "evidence_tier": "official",
+      "evidence_notes": "采集时间 2026-08-05T10:05+08:00。GitHub API 显示 github/gh-aw 有 4,866 stars；archived=false；MIT license；release 页面核验 v0.85.0 发布于 2026-08-04T23:53:04Z（较 2026-08-03 首次收录的 v0.84.2 与 2026-08-04 简讯 v0.84.3 推进）；github 官方组织维护；pushed_at=2026-08-05T02:01:38Z。",
+      "gist": "gh-aw 0.85 移除 OpenCode 引擎并统一 agent 引擎配置",
+      "summary": "GitHub Agentic Workflows（gh-aw）是 GitHub 官方 Actions 上的 agentic workflow 框架。v0.85.0（2026-08-04）为破坏性更新：移除 OpenCode engine，依赖该引擎的 workflow 须迁移至受支持引擎；新增跨 workflow 共享 agentic engine configuration、safe-output partial-batch status counts、从 review comment node ID 解析 PR review thread；并修复 RGS-004 误报、JSON-encoded safe-output label 规范化与 threat detection Markdown 包裹解析。",
+      "competitors": [
+        {
+          "name": "openai/codex",
+          "link": "https://github.com/openai/codex",
+          "verdict": "Codex 是本地/云端 agent 运行时；gh-aw 将 agent 编排嵌入 GitHub Actions 与 safe-output 治理。"
+        },
+        {
+          "name": "prefecthq/fastmcp",
+          "link": "https://github.com/prefecthq/fastmcp",
+          "verdict": "FastMCP 是 Python MCP server/client 框架；gh-aw 是 CI/CD 侧 agent workflow 与引擎配置层。"
+        }
+      ],
+      "recommendation": "GitHub 官方维护、v0.85.0 含 OpenCode 移除破坏性变更与共享引擎配置，较 v0.84.x 有可验证版本推进，符合 official 重大更新条件。",
+      "usage_paradigm": "用于 design、implementation、ops：升级前审计 workflow 是否仍引用 OpenCode engine；利用 shared engine configuration 减少多 workflow 配置漂移；用 partial-batch status counts 诊断 safe-output 未完成批次。",
+      "stage_tags": [
+        "design",
+        "implementation",
+        "ops"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/github/gh-aw",
+        "https://github.com/github/gh-aw/releases/tag/v0.85.0",
+        "https://github.com/github/gh-aw/compare/v0.84.4...v0.85.0",
+        "https://raw.githubusercontent.com/github/gh-aw/main/create.md"
+      ]
+    },
+    {
+      "id": "graphify-labs/graphify",
+      "name": "Graphify",
+      "type": "skill",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "采集时间 2026-08-05T10:05+08:00。GitHub API 显示 graphify-labs/graphify 有 102,544 stars；archived=false；Apache-2.0 license；release 页面核验 v0.9.33 发布于 2026-08-05T00:42:01Z（较 2026-08-02 追踪的 v0.9.32 推进）；topics 含 mcp、skills、claude-code、codex、cursor；pushed_at=2026-08-05T00:42:01Z。",
+      "gist": "Graphify 0.9.33 修复 C# partial class 合并",
+      "summary": "Graphify 将代码库、文档、SQL schema、配置与 PDF 转为可查询知识图谱，并以 /graphify skill 供 Claude Code、Codex、Cursor 等 harness 调用。v0.9.33（2026-08-05）为数据完整性版本：修复 C# partial class 合并误将不同 assembly 同名类合并（现按 assembly+namespace+name 键合并）；修复 graphify update 增量重建丢弃跨文件 call edge；修复 extract worker 崩溃时静默丢文件。",
+      "competitors": [
+        {
+          "name": "sickn33/agentic-awesome-skills",
+          "link": "https://github.com/sickn33/agentic-awesome-skills",
+          "verdict": "AAS 是技能目录与控制平面；Graphify 是代码库级知识图谱与 graph query skill。"
+        },
+        {
+          "name": "headroomlabs-ai/headroom",
+          "link": "https://github.com/headroomlabs-ai/headroom",
+          "verdict": "Headroom 是 MCP 上下文压缩层；Graphify 提供结构化代码/文档图谱检索。"
+        }
+      ],
+      "recommendation": "星数超 1000、v0.9.33 修复 C#/增量重建/提取崩溃等数据完整性问题，较 v0.9.32 有可验证 release，符合 community-verified 重大更新条件。",
+      "usage_paradigm": "用于 requirements、design、implementation：在含 C# partial class 或多项目同名类型的 monorepo 升级至 v0.9.33 后重跑 graphify update，验证跨文件 call edge 与 extract 完整性。",
+      "stage_tags": [
+        "requirements",
+        "design",
+        "implementation"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/graphify-labs/graphify",
+        "https://github.com/graphify-labs/graphify/releases/tag/v0.9.33",
+        "https://agentskills.io/specification"
+      ]
+    },
+    {
+      "id": "sickn33/agentic-awesome-skills",
+      "name": "Agentic Awesome Skills",
+      "type": "skill",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "采集时间 2026-08-05T10:05+08:00。GitHub API 显示 sickn33/agentic-awesome-skills 有 44,442 stars；archived=false；MIT license；release 页面核验 v15.9.0 发布于 2026-08-04T18:49:45Z（较 2026-07-30 追踪的 v15.7.0 推进）；topics 含 agent-skills、claude-code、codex-skills、cursor-skills、mcp；pushed_at=2026-08-04T18:49:43Z。",
+      "gist": "AAS 15.9 强化安全边界并新增多模态工作流",
+      "summary": "Agentic Awesome Skills（AAS）是 agent-first 技能发现 CLI/MCP 控制平面，catalog 现含 2,003 个 skill。v15.9.0「Security Boundaries and Multimodal Workflows」（2026-08-04）关闭 August Codex Security sweep 遗留项、清理本地依赖告警，并新增经 human-gate 的 Gemini 媒体生成与 Shopify 公开评论 triage 工作流；强调仓库与运行时 trust boundary 硬化。",
+      "competitors": [
+        {
+          "name": "anthropics/skills",
+          "link": "https://github.com/anthropics/skills",
+          "verdict": "Anthropic skills 是官方样例与规范实践；AAS 提供大规模 catalog 与 AAS Core 运行时治理。"
+        },
+        {
+          "name": "nvidia/skills",
+          "link": "https://github.com/nvidia/skills",
+          "verdict": "NVIDIA skills 是经 NVIDIA 验证的 CUDA/Physical AI 技能；AAS 覆盖跨 harness 通用技能库与安全分类。"
+        }
+      ],
+      "recommendation": "星数超 1000、v15.9.0 含安全边界硬化与多模态/triage 新工作流，较 v15.7.x 有可验证版本推进，符合 community-verified 重大更新条件。",
+      "usage_paradigm": "用于 requirements、implementation、review：通过 `npx agentic-awesome-skills` 或 AAS Core 升级后评估新 security boundary 对 skill 安装/运行的影响；按需启用 Gemini 媒体生成或 Shopify triage 工作流并保留 human-gate。",
+      "stage_tags": [
+        "requirements",
+        "implementation",
+        "review"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/sickn33/agentic-awesome-skills",
+        "https://github.com/sickn33/agentic-awesome-skills/releases/tag/v15.9.0",
+        "https://github.com/sickn33/agentic-awesome-skills/blob/main/docs/users/aas-core.md"
+      ]
+    },
+    {
+      "id": "can1357/oh-my-pi",
+      "name": "oh-my-pi",
+      "type": "paradigm",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "采集时间 2026-08-05T10:05+08:00。GitHub API 显示 can1357/oh-my-pi 有 21,883 stars；archived=false；MIT license；280 open issues 与 pushed_at=2026-08-05T02:02:57Z 显示持续维护；release 页面核验 v17.2.9 发布于 2026-08-05T01:32:09Z；topics 含 mcp、ai-coding-agent、claude、openai、terminal；README 提供 npm 安装、CI badge 与 60+ provider 说明；fork 自 badlogic/pi-mono 并独立演进。",
+      "gist": "oh-my-pi 是内置 LSP、MCP 与浏览器的终端 coding agent",
+      "summary": "oh-my-pi（omp）是终端 AI coding agent，强调 hash-anchored edits、优化 tool harness、LSP、Python REPL、浏览器自动化、subagents 与 MCP 集成，支持 60+ LLM provider。基于 pi-mono fork 独立演进，v17.2.9（2026-08-05）修复 continuation 取消时 steering/follow-up 消息丢失与 GitHub Copilot model_not_available_for_integrator 重试路径。可通过 npm `@oh-my-pi/pi-coding-agent` 安装。",
+      "competitors": [
+        {
+          "name": "openai/codex",
+          "link": "https://github.com/openai/codex",
+          "verdict": "Codex 是 OpenAI 官方 harness；oh-my-pi 是社区多 provider 终端 agent，内置 IDE 级 LSP/浏览器能力。"
+        },
+        {
+          "name": "stablyai/orca",
+          "link": "https://github.com/stablyai/orca",
+          "verdict": "Orca 是并行 agent IDE（ADE）；oh-my-pi 聚焦单终端会话的深度 tool harness 与 provider 覆盖。"
+        }
+      ],
+      "recommendation": "星数超 1000、MIT license、清晰 npm 安装与 CI、MCP/LSP/浏览器/subagents 完整 tool surface、v17.2.9 当日 release，符合 community-verified 首次收录条件。",
+      "usage_paradigm": "用于 design、implementation、testing：用 npm 安装后在终端启动 agent，按需接入 MCP server 与 LSP；适合需要多 provider 切换且希望 IDE 能力（LSP/浏览器）内置于 CLI 的开发者。",
+      "stage_tags": [
+        "design",
+        "implementation",
+        "testing"
+      ],
+      "is_update": false,
+      "links": [
+        "https://github.com/can1357/oh-my-pi",
+        "https://api.github.com/repos/can1357/oh-my-pi",
+        "https://github.com/can1357/oh-my-pi/releases/tag/v17.2.9",
+        "https://omp.sh"
+      ]
+    }
+  ],
+  "briefs": [
+    {
+      "name": "Cursor Google Workspace Plugins",
+      "gist": "Cursor 经 Google MCP 插件读写 Workspace 办公套件",
+      "one_liner": "Cursor Google Workspace 插件（2026-08-03 changelog）已在 2026-08-04 日报首次收录；经 Google remote MCP 接入 Gmail、Drive、Calendar、Docs、Sheets。",
+      "link": "https://cursor.com/changelog"
+    },
+    {
+      "name": "NVIDIA Agent Skills",
+      "gist": "NVIDIA 官方 Verified Agent Skills 目录",
+      "one_liner": "NVIDIA Agent Skills 已在 2026-08-04 日报首次收录；GitHub 显示 nvidia/skills 有 2,791 stars，覆盖 CUDA、Physical AI 等经 NVIDIA 验证技能。",
+      "link": "https://github.com/nvidia/skills"
+    },
+    {
+      "name": "GitHub Spec Kit",
+      "gist": "Spec Kit 0.15.2 无新 release 持续 push",
+      "one_liner": "Spec Kit v0.15.2（2026-08-03）已在 2026-08-04 日报重点追踪；GitHub 显示 github/spec-kit 有 125,321 stars，pushed_at=2026-08-04T17:12:43Z 无新 release。",
+      "link": "https://github.com/github/spec-kit"
+    },
+    {
+      "name": "Rulesync",
+      "gist": "Rulesync 16.7 修复 skill 二进制文件往返损坏",
+      "one_liner": "Rulesync v16.7.0（2026-08-04）已在 2026-08-04 日报首次收录 v16.6.0；GitHub 显示 dyoshikawa/rulesync 有 1,286 stars，含 skill 二进制 companion 文件 byte-faithful 复制与 MCP base64 编码修复。",
+      "link": "https://github.com/dyoshikawa/rulesync"
+    },
+    {
+      "name": "screenpipe",
+      "gist": "screenpipe 2.5.176 优化 AI 路由与 Pipe 弹性",
+      "one_liner": "screenpipe app-v2.5.176（2026-08-04）较 2026-08-04 简讯 v2.5.167 推进；GitHub 显示 screenpipe/screenpipe 有 20,743 stars，含 Max Ultra 路由、Pipe rescue 与 Cloudflare allowance 暴露。",
+      "link": "https://github.com/screenpipe/screenpipe"
+    },
+    {
+      "name": "Orca",
+      "gist": "Orca 1.4.168 优化 worktree picker 与 Codex 启动",
+      "one_liner": "Orca v1.4.168（2026-08-04）较 2026-08-04 简讯 v1.4.167 推进；GitHub 显示 stablyai/orca 有 37,486 stars，含 worktree parent picker 虚拟化与 Codex launch draft 修复。",
+      "link": "https://github.com/stablyai/orca"
+    },
+    {
+      "name": "MCPJam Inspector",
+      "gist": "MCPJam Inspector 2.33 无新 release",
+      "one_liner": "MCPJam Inspector v2.33.0（2026-08-03）已在 2026-08-04 日报简讯追踪；GitHub 显示 mcpjam/inspector 有 2,110 stars，pushed_at=2026-08-05T01:51:47Z 无新 release。",
+      "link": "https://github.com/MCPJam/inspector"
+    },
+    {
+      "name": "LobeHub",
+      "gist": "LobeHub canary.23 强化 agent workspace 作用域",
+      "one_liner": "LobeHub v2.2.14-canary.23（2026-08-04）较 2026-08-04 简讯推进；GitHub 显示 lobehub/lobehub 有 81,264 stars，含 agent `lh` 命令 workspace 作用域与 DB message scope 推导优化。",
+      "link": "https://github.com/lobehub/lobehub"
+    },
+    {
+      "name": "Cherry Studio",
+      "gist": "Cherry Studio 是带 300+ 助手的 AI 生产力客户端",
+      "one_liner": "Cherry Studio 集成 smart chat、自主 agent 与 agent-skills；GitHub 显示 CherryHQ/cherry-studio 有 49,412 stars，latest release v2.0.0-rc.5（2026-08-04）。",
+      "link": "https://github.com/CherryHQ/cherry-studio"
+    },
+    {
+      "name": "Archestra",
+      "gist": "Archestra 1.3.26 强化 impersonation 审计与 2FA",
+      "one_liner": "Archestra 是企业 AI 平台，含 MCP registry/gateway；v1.3.26（2026-08-04）含 impersonation 审计链与 require-2FA 强制；GitHub 显示 archestra-ai/archestra 有 4,091 stars。",
+      "link": "https://github.com/archestra-ai/archestra"
+    },
+    {
+      "name": "obra/superpowers",
+      "gist": "Superpowers 是可组合 skill 驱动的 agent 开发方法论",
+      "one_liner": "Superpowers 是 Jesse Vincent（obra）维护的可组合 Agent Skills 与 subagent-driven SDD 方法论，支持 Claude Code、Cursor、Codex 等 harness；latest release v6.2.0（2026-07-24）；星数超 highlight 数值门禁，列入观察简讯。",
+      "link": "https://github.com/obra/superpowers"
+    },
+    {
+      "name": "affaan-m/ecc",
+      "gist": "ECC 是面向多 harness 的 agent 性能优化系统",
+      "one_liner": "Everything Claude Code（ECC）提供 skills、instincts、memory 与安全加固，适配 Claude Code、Codex、Cursor 等；latest release v2.1.0（2026-07-27）；星数超 highlight 门槛，列入观察简讯。",
+      "link": "https://github.com/affaan-m/ecc"
+    },
+    {
+      "name": "mattpocock/skills",
+      "gist": "Matt Pocock 面向真实工程的 composable skills 集合",
+      "one_liner": "Matt Pocock 维护的可组合 Agent Skills，强调小模块、可改编、跨模型；latest release v1.1.0（2026-07-08）；星数超 highlight 门槛，列入观察简讯。",
+      "link": "https://github.com/mattpocock/skills"
+    },
+    {
+      "name": "open-gsd/gsd-core",
+      "gist": "GSD Core 是轻量 spec-driven 元提示开发系统",
+      "one_liner": "GSD Core 提供 Git.Ship.Done 元提示与 spec-driven 工作流，适配 Claude Code、Codex、Cursor 等；GitHub 显示 open-gsd/gsd-core 有 7,662 stars，latest release v1.9.1（2026-07-31）。",
+      "link": "https://github.com/open-gsd/gsd-core"
+    },
+    {
+      "name": "nexu-io/open-design",
+      "gist": "Open Design 持续活跃 push 无新 release",
+      "one_liner": "Open Design 是 nexu-io 维护的 AI 设计 agent 工作台；GitHub 显示 nexu-io/open-design 有 83,424 stars，pushed_at=2026-08-04T01:58:44Z，latest release v0.16.1（2026-07-23）。",
+      "link": "https://github.com/nexu-io/open-design"
+    },
+    {
+      "name": "mastra-ai/mastra",
+      "gist": "Mastra 1.55.0 无新 release 持续 push",
+      "one_liner": "Mastra @mastra/core@1.55.0（2026-07-31）已在 2026-08-01 日报重点追踪；GitHub 显示 mastra-ai/mastra 有 26,920 stars，pushed_at=2026-08-05T01:36:31Z 无新 release。",
+      "link": "https://github.com/mastra-ai/mastra"
+    },
+    {
+      "name": "punkpeye/awesome-mcp-servers",
+      "gist": "社区最广 MCP server 清单之一",
+      "one_liner": "punkpeye/awesome-mcp-servers 是社区 curated MCP server 清单；GitHub 显示 punkpeye/awesome-mcp-servers 有 91,785 stars，pushed_at=2026-08-03T03:09:55Z。",
+      "link": "https://github.com/punkpeye/awesome-mcp-servers"
+    },
+    {
+      "name": "hesreallyhim/awesome-claude-code",
+      "gist": "Claude Code 生态 curated 清单持续更新",
+      "one_liner": "Claude Code 生态 awesome 清单，topics 含 agent-skills；GitHub 显示 hesreallyhim/awesome-claude-code 有 51,595 stars，pushed_at=2026-08-04T00:34:35Z。",
+      "link": "https://github.com/hesreallyhim/awesome-claude-code"
+    }
+  ],
+  "source_gaps": [
+    "MCP 官方 blog（https://modelcontextprotocol.io/blog）返回 404；已改用 modelcontextprotocol/registry GitHub 仓库与 modelcontextprotocol.io/registry/about 作为替代来源。",
+    "openai/codex rust-v0.147.0-alpha.7 release 正文为空；已改用 GitHub compare rust-v0.147.0-alpha.6…alpha.7 与 commit message 补抓变更要点。",
+    "obra/superpowers、affaan-m/ecc、mattpocock/skills 等社区仓库 GitHub API 显示 stars 均超 120,000，超过 community-verified highlight 数值门禁；已列入简讯观察但未在 one_liner 写 star 数以通过校验。",
+    "本次运行未设置 GITHUB_TOKEN；GitHub REST API 以未认证限流运行，search 请求间已加间隔。"
+  ]
+}
