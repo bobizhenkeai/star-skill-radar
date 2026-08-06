@@ -1,0 +1,282 @@
+{
+  "date": "2026-08-06",
+  "generated_at": "2026-08-06T10:05:00+08:00",
+  "highlights": [
+    {
+      "id": "anthropics/claude-code",
+      "name": "Claude Code",
+      "type": "paradigm",
+      "evidence_tier": "official",
+      "evidence_notes": "采集时间 2026-08-06T10:05+08:00。GitHub API 显示 anthropics/claude-code 有 140,393 stars；archived=false；release 页面核验 v2.1.223 发布于 2026-08-06T00:52:37Z（较 v2.1.222 推进）；compare v2.1.222…v2.1.223 含 1 commit；pushed_at=2026-08-06T00:52:37Z。",
+      "gist": "Claude Code 2.1.223 强化 marketplace 治理与安全修复",
+      "summary": "Claude Code 是 Anthropic 官方 agent CLI 与 harness。v2.1.223（2026-08-06）在 v2.1.222 基础上推进：managed settings 的 strictKnownMarketplaces/blockedMarketplaces 支持 owner 通配符 `\"owner/*\"` 批量允许或屏蔽 GitHub org 下全部 marketplace 仓库；云会话新增 `/teleport` 提示以 `claude --teleport <session id>` 本地续跑；修复 Bash 权限绕过、不可见 Unicode 隐藏命令片段、workflow 脚本 dynamic import 逃逸 sandbox、agent bypassPermissions 忽略 org 禁用策略、Linux sandbox denyWrite 覆盖工作目录时命令无法启动等多项安全与权限问题；并修复 gateway 在 vertex_ai/bedrock 前缀 ID 下隐藏 Claude 模型、modelOverrides 非 Anthropic ID 被误作 canonical model 等模型路由问题。",
+      "competitors": [
+        {
+          "name": "openai/codex",
+          "link": "https://github.com/openai/codex",
+          "verdict": "Codex 是 OpenAI 官方 harness；Claude Code 侧强调 marketplace org 级治理、云会话 teleport 与权限 fail-closed 硬化。"
+        },
+        {
+          "name": "can1357/oh-my-pi",
+          "link": "https://github.com/can1357/oh-my-pi",
+          "verdict": "oh-my-pi 是社区多 provider 终端 agent；Claude Code 是 Anthropic 官方 CLI 与 skills/MCP 生态入口。"
+        }
+      ],
+      "recommendation": "Anthropic 官方维护、v2.1.223 当日 release 含 marketplace org 通配符治理、teleport 续跑提示与多项权限/沙箱安全修复，符合 official 重大更新条件。",
+      "usage_paradigm": "用于 implementation、review、ops：在受管部署中配置 owner/* marketplace 规则；云会话开发时用 teleport 切回本地 CLI；升级后回归 Bash 权限 prompt 与 sandbox denyWrite 场景。",
+      "stage_tags": [
+        "implementation",
+        "review",
+        "ops"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/anthropics/claude-code",
+        "https://github.com/anthropics/claude-code/releases/tag/v2.1.223",
+        "https://github.com/anthropics/claude-code/compare/v2.1.222...v2.1.223",
+        "https://code.claude.com/docs/en/skills"
+      ]
+    },
+    {
+      "id": "github/spec-kit",
+      "name": "GitHub Spec Kit",
+      "type": "paradigm",
+      "evidence_tier": "official",
+      "evidence_notes": "采集时间 2026-08-06T10:05+08:00。GitHub API 显示 github/spec-kit 有 125,479 stars；archived=false；MIT license；release 页面核验 v0.16.0 发布于 2026-08-05T13:39:52Z（较 2026-08-04 追踪的 v0.15.2 推进）；compare v0.15.2…v0.16.0 含 21 commits；pushed_at=2026-08-05T16:23:22Z。",
+      "gist": "Spec Kit 0.16 Copilot 默认安装 skills",
+      "summary": "GitHub Spec Kit 是 GitHub 官方的 spec-driven 开发工具包。v0.16.0（2026-08-05）为范式更新：`specify init --integration copilot` 默认安装 `.github/skills/speckit-*/SKILL.md` skills 布局，不再默认 commands；需旧行为可用 `--integration-options=\"--commands\"`，已有 command 布局项目升级时保留。同期合并 TDD Extension 社区 catalog、Archive Extension v1.1.0、Charter v0.5.1、events context injection for opencode/JSON-envelope agent hooks，并修复 preset registry 非 UTF-8、corrupted run state、stdin 1 MiB DoS cap 等安全与健壮性问题。",
+      "competitors": [
+        {
+          "name": "fission-ai/openspec",
+          "link": "https://github.com/Fission-AI/OpenSpec",
+          "verdict": "OpenSpec 是社区 spec-driven CLI；Spec Kit 是 GitHub 官方 harness 集成与 Copilot skills 默认路径。"
+        },
+        {
+          "name": "open-gsd/gsd-core",
+          "link": "https://github.com/open-gsd/gsd-core",
+          "verdict": "GSD Core 是轻量元提示 spec-driven 系统；Spec Kit 提供完整 workflow/catalog/governance 扩展生态。"
+        }
+      ],
+      "recommendation": "GitHub 官方维护、v0.16.0 Copilot 默认从 commands 切至 skills 为可验证范式变更，较 v0.15.2 有 21 commits，符合 official 重大更新条件。",
+      "usage_paradigm": "用于 requirements、design、implementation：新建 Copilot 项目时用 `specify init --integration copilot` 评估 skills 布局；legacy command 项目用 `--integration-options=\"--commands\"` 或保留现有结构。",
+      "stage_tags": [
+        "requirements",
+        "design",
+        "implementation"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/github/spec-kit",
+        "https://github.com/github/spec-kit/releases/tag/v0.16.0",
+        "https://github.com/github/spec-kit/compare/v0.15.2...v0.16.0",
+        "https://github.github.com/spec-kit/"
+      ]
+    },
+    {
+      "id": "fission-ai/openspec",
+      "name": "OpenSpec",
+      "type": "paradigm",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "采集时间 2026-08-06T10:05+08:00。GitHub API 显示 fission-ai/openspec 有 63,947 stars；archived=false；MIT license；244 open issues 与 pushed_at=2026-08-05T21:48:57Z 显示持续维护；release 页面核验 v1.8.0 发布于 2026-08-05T21:10:13Z（较 2026-07-29 追踪的 v1.7.0 推进）；compare v1.7.0…v1.8.0 含 34 commits；README 提供 npm 安装与多 harness init 路径。",
+      "gist": "OpenSpec 1.8 新增 agents 与 Copilot 集成",
+      "summary": "OpenSpec 是社区 spec-driven 变更管理 CLI。v1.8.0（2026-08-05）新增 vendor-neutral `agents` 目标（写入 `.agents/skills/` 供 AGENTS.md-aware 助手读取）、MiniMax Code 与 Atlassian Rovo Dev CLI；`openspec init` 可选生成 GitHub Copilot coding-agent 文件（默认 No）；archive 支持 `retire_capabilities` 清理末级 capability spec；validate 在 authoring 阶段拦截 MODIFIED requirement 丢失 scenario；非交互 archive 给出可粘贴 rerun 指令；telemetry.enabled=false 关闭匿名遥测。",
+      "competitors": [
+        {
+          "name": "github/spec-kit",
+          "link": "https://github.com/github/spec-kit",
+          "verdict": "Spec Kit 是 GitHub 官方 spec-driven 工具包；OpenSpec 强调跨 harness 的轻量 change/archive/validate 工作流。"
+        },
+        {
+          "name": "open-gsd/gsd-core",
+          "link": "https://github.com/open-gsd/gsd-core",
+          "verdict": "GSD Core 是轻量 Git.Ship.Done 元提示 SDD；OpenSpec 提供 change/archive/validate 全流程 CLI。"
+        }
+      ],
+      "recommendation": "星数超 1000、MIT license、清晰 npm 安装、v1.8.0 含 34 commits 与多 harness/Copilot 集成推进，较 v1.7.0 有可验证 major release，符合 community-verified 重大更新条件。",
+      "usage_paradigm": "用于 requirements、design、implementation：运行 `openspec init --tools agents` 写入共享 skills；按需 opt-in Copilot cloud agent；用 validate 在 archive 前捕获 scenario 丢失。",
+      "stage_tags": [
+        "requirements",
+        "design",
+        "implementation"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/Fission-AI/OpenSpec",
+        "https://github.com/Fission-AI/OpenSpec/releases/tag/v1.8.0",
+        "https://github.com/Fission-AI/OpenSpec/compare/v1.7.0...v1.8.0",
+        "https://www.npmjs.com/package/@fission-ai/openspec"
+      ]
+    },
+    {
+      "id": "nexu-io/open-design",
+      "name": "Open Design",
+      "type": "paradigm",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "采集时间 2026-08-06T10:05+08:00。GitHub API 显示 nexu-io/open-design 有 83,979 stars；archived=false；Apache-2.0 license；771 open issues 与 pushed_at=2026-08-06T01:52:10Z 显示持续维护；release 页面核验 open-design-v0.18.0 发布于 2026-08-05T17:31:17Z（较 open-design-v0.16.1 推进）；compare open-design-v0.16.1…open-design-v0.18.0 含 135 commits；topics 含 agent-skills、claude-code-for-design、codex。",
+      "gist": "Open Design 0.18 团队工作区与 Codex 插件",
+      "summary": "Open Design 是 nexu-io 维护的 AI 设计 agent 工作台。open-design-v0.18.0「Design Team Workspace. Now in Codex.」（2026-08-05，115 PRs）引入 Team Workspace：团队共享项目、上下文评论、设计系统/plugins/skills 复用与 seat-aware 邀请；Open Design Codex 插件将协作工作台延伸至 Codex Desktop/CLI；修复外部 MCP host 在本地服务重启换端口后断连；共享项目对成员提供 owner 工作的只读 live mirror。",
+      "competitors": [
+        {
+          "name": "openai/codex",
+          "link": "https://github.com/openai/codex",
+          "verdict": "Codex 是通用 coding harness；Open Design 提供设计专用 agent 工作台与 Codex 插件集成。"
+        },
+        {
+          "name": "anthropics/claude-code",
+          "link": "https://github.com/anthropics/claude-code",
+          "verdict": "Claude Code 是通用 agent CLI；Open Design 聚焦设计协作与 visual brief/Studio 产出。"
+        }
+      ],
+      "recommendation": "星数超 1000、Apache-2.0 license、v0.18.0 含 Team Workspace 与 Codex 插件两大范式能力，较 v0.16.1 有 135 commits 可验证 release，符合 community-verified 重大更新条件。",
+      "usage_paradigm": "用于 design、implementation、ops：创建 Team workspace 邀请设计成员；在 Codex 安装 Open Design 插件接入 visual brief 与 Studio 产出；验证 MCP 重启后 `@open-design` 自动重连。",
+      "stage_tags": [
+        "design",
+        "implementation",
+        "ops"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/nexu-io/open-design",
+        "https://github.com/nexu-io/open-design/releases/tag/open-design-v0.18.0",
+        "https://github.com/nexu-io/open-design/compare/open-design-v0.16.1...open-design-v0.18.0"
+      ]
+    },
+    {
+      "id": "headroomlabs-ai/headroom",
+      "name": "Headroom",
+      "type": "mcp",
+      "evidence_tier": "community-verified",
+      "evidence_notes": "采集时间 2026-08-06T10:05+08:00。GitHub API 显示 headroomlabs-ai/headroom 有 65,055 stars；archived=false；Apache-2.0 license；637 open issues 与 pushed_at=2026-08-06T02:01:12Z 显示持续维护；release 页面核验 v0.34.0 发布于 2026-08-05T02:45:36Z（较 2026-07-31 追踪的 v0.33.0 推进）；compare v0.33.0…v0.34.0 含 47 commits；README 提供 MCP proxy 安装与多 harness 集成说明。",
+      "gist": "Headroom 0.34 支持 Claude Code in VS Code 集成",
+      "summary": "Headroom 是 MCP/proxy 上下文压缩层，为 Claude Code、Codex、Cursor 等 harness 提供 token 节省与检索标记。v0.34.0（2026-08-05）新增 Claude Code in VS Code 支持、PHP CodeAwareCompressor、/v1/compress 的 config.frozen_message_count 与 marker-free 默认输出、Copilot VS Code models 透明代理；修复 CCR 检索 marker 持久化、qualified CCR 名称跨集成 honor 等问题。",
+      "competitors": [
+        {
+          "name": "graphify-labs/graphify",
+          "link": "https://github.com/graphify-labs/graphify",
+          "verdict": "Graphify 提供代码库知识图谱检索 skill；Headroom 聚焦对话上下文压缩与 MCP proxy。"
+        },
+        {
+          "name": "anthropics/claude-code",
+          "link": "https://github.com/anthropics/claude-code",
+          "verdict": "Claude Code 是官方 harness；Headroom 作为 MCP 层扩展 VS Code 内 Claude Code 的上下文治理。"
+        }
+      ],
+      "recommendation": "星数超 1000、Apache-2.0 license、v0.34.0 含 Claude Code VS Code 集成与 compress API 演进，较 v0.33.0 有 47 commits，符合 community-verified 重大更新条件。",
+      "usage_paradigm": "用于 design、implementation、ops：在 VS Code 内 Claude Code 场景部署 Headroom proxy；用 frozen_message_count 控制压缩边界；评估 marker-free compress 对下游解析的影响。",
+      "stage_tags": [
+        "design",
+        "implementation",
+        "ops"
+      ],
+      "is_update": true,
+      "links": [
+        "https://github.com/headroomlabs-ai/headroom",
+        "https://github.com/headroomlabs-ai/headroom/releases/tag/v0.34.0",
+        "https://github.com/headroomlabs-ai/headroom/compare/v0.33.0...v0.34.0"
+      ]
+    }
+  ],
+  "briefs": [
+    {
+      "name": "OpenAI Codex",
+      "gist": "Codex alpha.7 已在昨日日报重点追踪",
+      "one_liner": "OpenAI Codex rust-v0.147.0-alpha.7（2026-08-04）已在 2026-08-05 日报重点追踪；GitHub 显示 openai/codex 有 104,196 stars，pushed_at=2026-08-06T01:18:07Z 无新 release。",
+      "link": "https://github.com/openai/codex"
+    },
+    {
+      "name": "GitHub Agentic Workflows (gh-aw)",
+      "gist": "gh-aw 0.85 移除 OpenCode 引擎",
+      "one_liner": "gh-aw v0.85.0（2026-08-04）已在 2026-08-05 日报重点追踪；GitHub 显示 github/gh-aw 有 4,867 stars，pushed_at=2026-08-06T01:50:48Z 无新 release。",
+      "link": "https://github.com/github/gh-aw"
+    },
+    {
+      "name": "Graphify",
+      "gist": "Graphify 0.9.34 修复 C# 接收方类型与有向最短路径",
+      "one_liner": "Graphify v0.9.34（2026-08-05）较 2026-08-05 日报 v0.9.33 推进；GitHub 显示 graphify-labs/graphify 有 103,069 stars，含 C# receiver typing、有向 shortest_path 与 hyperedge merge 修复。",
+      "link": "https://github.com/graphify-labs/graphify"
+    },
+    {
+      "name": "Cherry Studio",
+      "gist": "Cherry Studio 2.0 正式版发布 AI 工作空间",
+      "one_liner": "Cherry Studio 2.0.0（2026-08-05）从 rc.5 转正，重构多窗口/分屏 AI 工作空间并内置 Agent runtime；GitHub 显示 CherryHQ/cherry-studio 有 49,690 stars。",
+      "link": "https://github.com/CherryHQ/cherry-studio"
+    },
+    {
+      "name": "mcp-use",
+      "gist": "mcp-use 2.0 系列发布 MCP 全栈框架大版本",
+      "one_liner": "mcp-use mcp-use@2.0.1（2026-08-05）较 1.x 大版本升级；GitHub 显示 mcp-use/mcp-use 有 10,456 stars，含 Inspector loopback SSRF 默认阻断与 CLI 包管理器参数转发修复。",
+      "link": "https://github.com/mcp-use/mcp-use"
+    },
+    {
+      "name": "MCPJam Inspector",
+      "gist": "MCPJam Inspector 2.34 强化 OAuth 一致性测试",
+      "one_liner": "MCPJam Inspector v2.34.0（2026-08-05）较 2026-08-04 简讯 v2.33.0 推进；GitHub 显示 mcpjam/inspector 有 2,115 stars，含 OAuth conformance N/A 分流与 Streamable HTTP MUST 覆盖。",
+      "link": "https://github.com/MCPJam/inspector"
+    },
+    {
+      "name": "FastMCP",
+      "gist": "FastMCP 3.4.6 回移植 SSRF 代理 OAuth 抓取",
+      "one_liner": "FastMCP v3.4.6（2026-08-05）较 2026-07-27 追踪 v3.4.5 推进；GitHub 显示 prefecthq/fastmcp 有 27,082 stars，含 trusted-proxy SSRF 保护 OAuth metadata/JWKS 抓取。",
+      "link": "https://github.com/prefecthq/fastmcp"
+    },
+    {
+      "name": "Orca",
+      "gist": "Orca 1.4.173 修复远程 SSH 终端重连",
+      "one_liner": "Orca v1.4.173（2026-08-05）较 2026-08-05 简讯 v1.4.168 推进；GitHub 显示 stablyai/orca 有 38,217 stars，含 remote terminal reattach 与 worktree picker 系列修复。",
+      "link": "https://github.com/stablyai/orca"
+    },
+    {
+      "name": "Agentic Awesome Skills",
+      "gist": "AAS 15.9 已在昨日日报重点追踪",
+      "one_liner": "Agentic Awesome Skills v15.9.0（2026-08-04）已在 2026-08-05 日报重点追踪；GitHub 显示 sickn33/agentic-awesome-skills 有 44,532 stars，pushed_at=2026-08-05T07:21:21Z 无新 release。",
+      "link": "https://github.com/sickn33/agentic-awesome-skills"
+    },
+    {
+      "name": "oh-my-pi",
+      "gist": "oh-my-pi 已在昨日日报首次收录",
+      "one_liner": "oh-my-pi v17.2.9（2026-08-05）已在 2026-08-05 日报首次收录；GitHub 显示 can1357/oh-my-pi 有 22,199 stars，pushed_at=2026-08-06T01:36:55Z 无新 release。",
+      "link": "https://github.com/can1357/oh-my-pi"
+    },
+    {
+      "name": "AWS MCP Servers",
+      "gist": "AWS MCP 8 月批次发布 Aurora DSQL 等更新",
+      "one_liner": "awslabs/mcp 2026.08.20260805092707（2026-08-05）较上期推进；GitHub 显示 awslabs/mcp 有 9,554 stars，含 Aurora DSQL VALIDATE CONSTRAINT ASYNC 指引等。",
+      "link": "https://github.com/awslabs/mcp"
+    },
+    {
+      "name": "LobeHub",
+      "gist": "LobeHub 持续 push 无新 release",
+      "one_liner": "LobeHub v2.2.13（2026-08-01）已在 2026-08-05 简讯追踪 canary 系列；GitHub 显示 lobehub/lobehub 有 81,310 stars，pushed_at=2026-08-06T00:44:16Z 无新 release。",
+      "link": "https://github.com/lobehub/lobehub"
+    },
+    {
+      "name": "Archestra",
+      "gist": "Archestra 1.3.27 强化 agent 环境归属展示",
+      "one_liner": "Archestra platform-v1.3.27（2026-08-05）较 2026-08-05 简讯 v1.3.26 推进；GitHub 显示 archestra-ai/archestra 有 4,095 stars，含 agent 环境归属与 silent app builds。",
+      "link": "https://github.com/archestra-ai/archestra"
+    },
+    {
+      "name": "Cursor Google Workspace Plugins",
+      "gist": "Cursor 经 Google MCP 插件读写 Workspace",
+      "one_liner": "Cursor Google Workspace 插件（2026-08-03 changelog）已在 2026-08-04 日报首次收录；经 Google remote MCP 接入 Gmail、Drive、Calendar、Docs、Sheets。",
+      "link": "https://cursor.com/changelog"
+    },
+    {
+      "name": "punkpeye/awesome-mcp-servers",
+      "gist": "社区最广 MCP server 清单之一",
+      "one_liner": "punkpeye/awesome-mcp-servers 是社区 curated MCP server 清单；GitHub 显示 punkpeye/awesome-mcp-servers 有 91,857 stars，pushed_at=2026-08-03T03:09:55Z。",
+      "link": "https://github.com/punkpeye/awesome-mcp-servers"
+    },
+    {
+      "name": "hesreallyhim/awesome-claude-code",
+      "gist": "Claude Code 生态 curated 清单持续更新",
+      "one_liner": "Claude Code 生态 awesome 清单；GitHub 显示 hesreallyhim/awesome-claude-code 有 51,735 stars，pushed_at=2026-08-06T00:29:39Z。",
+      "link": "https://github.com/hesreallyhim/awesome-claude-code"
+    }
+  ],
+  "source_gaps": [
+    "MCP 官方 blog（https://modelcontextprotocol.io/blog）返回 404；已改用 modelcontextprotocol/registry GitHub 仓库与 modelcontextprotocol.io/registry/about 作为替代来源。",
+    "mcp-use/mcp-use mcp-use@2.0.1 release 正文极简；已改用同批次 @mcp-use/inspector、@mcp-use/cli 等 package changelog 补抓 SSRF 与 CLI 修复要点。",
+    "Cursor changelog 最新条目仍为 2026-08-03 Google Workspace 插件；2026-08-06 运行期间无更新。"
+  ]
+}

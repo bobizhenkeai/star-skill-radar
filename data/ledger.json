@@ -141,9 +141,13 @@
       {
         "date": "2026-08-04",
         "note": "v0.15.2 release (2026-08-03): specify init --extension, adrkit catalog extension, preset/workflow/bundler security fixes."
+      },
+      {
+        "date": "2026-08-06",
+        "note": "v0.16.0 release (2026-08-05): Copilot integration defaults to skills layout; TDD/Archive/Charter extensions; events context injection."
       }
     ],
-    "state_snapshot": "2026-08-04T10:05+08:00 GitHub API: 125,191 stars, 11,189 forks, archived=false; latest release v0.15.2 on 2026-08-03T19:07:13Z.",
+    "state_snapshot": "2026-08-06T10:05+08:00 GitHub API: 125,479 stars, 11,209 forks, archived=false; latest release v0.16.0 on 2026-08-05T13:39:52Z.",
     "stage_tags": [
       "requirements",
       "design",
@@ -247,9 +251,13 @@
       {
         "date": "2026-07-25",
         "note": "v2.1.219 release (2026-07-24): Claude Opus 5 default Opus, sandbox.network.strictAllowlist, DirectoryAdded hook, nested subagent stream-json forwarding; v2.1.220 bug fixes."
+      },
+      {
+        "date": "2026-08-06",
+        "note": "v2.1.223 release (2026-08-06): owner/* marketplace wildcards, /teleport cloud hint, Bash permission bypass and sandbox security fixes."
       }
     ],
-    "state_snapshot": "2026-07-25T10:05+08:00 GitHub API: 138,974 stars, 22,262 forks, archived=false; latest release v2.1.220 on 2026-07-25T01:35:55Z.",
+    "state_snapshot": "2026-08-06T10:05+08:00 GitHub API: 140,393 stars, 22,577 forks, archived=false; latest release v2.1.223 on 2026-08-06T00:52:37Z.",
     "stage_tags": [
       "implementation",
       "review",
@@ -326,9 +334,13 @@
       {
         "date": "2026-07-29",
         "note": "v1.7.0 release (2026-07-29): openspec update self-upgrade, five new AI tools, defaultStore global config, skip_specs refactor path."
+      },
+      {
+        "date": "2026-08-06",
+        "note": "v1.8.0 release (2026-08-05): agents/.agents/skills target, Copilot cloud agent opt-in, retire_capabilities archive, validate scenario-loss guard."
       }
     ],
-    "state_snapshot": "2026-07-29T10:05+08:00 GitHub API: 62,956 stars, 4,253 forks, 447 open issues, MIT license, archived=false; latest release v1.7.0 on 2026-07-29T01:31:26Z.",
+    "state_snapshot": "2026-08-06T10:05+08:00 GitHub API: 63,947 stars, 4,409 forks, 244 open issues, MIT license, archived=false; latest release v1.8.0 on 2026-08-05T21:10:13Z.",
     "stage_tags": [
       "requirements",
       "design",
@@ -444,9 +456,13 @@
       {
         "date": "2026-07-25",
         "note": "Post-v0.16.1 commits (2026-07-24): updater cache clear/crash-recovery lifecycle, CI confidence-tiered scope rules, Codex model preflight."
+      },
+      {
+        "date": "2026-08-06",
+        "note": "open-design-v0.18.0 release (2026-08-05): Team Workspace, Open Design Codex plugin, shared project live mirror; 115 PRs."
       }
     ],
-    "state_snapshot": "2026-07-25T10:05+08:00 GitHub API: 81,340 stars, 9,364 forks, 658 open issues, Apache-2.0 license, archived=false; latest release open-design-v0.16.1 on 2026-07-23T16:11:51Z; post-release commits active.",
+    "state_snapshot": "2026-08-06T10:05+08:00 GitHub API: 83,979 stars, 9,764 forks, 771 open issues, Apache-2.0 license, archived=false; latest release open-design-v0.18.0 on 2026-08-05T17:31:17Z.",
     "stage_tags": [
       "design",
       "implementation",
@@ -652,9 +668,13 @@
       {
         "date": "2026-07-31",
         "note": "v0.33.0 release (2026-07-29): per-extension token savings metrics, OpenCode transport plugin in pip installs, Copilot subscription backend, streaming fold-only turn hooks."
+      },
+      {
+        "date": "2026-08-06",
+        "note": "v0.34.0 release (2026-08-05): Claude Code in VS Code support, PHP CodeAwareCompressor, marker-free compress default, Copilot VS Code model proxy."
       }
     ],
-    "state_snapshot": "2026-07-31T10:05+08:00 GitHub API: 63,429 stars, 4,810 forks, Apache-2.0 license, archived=false; latest release v0.33.0 on 2026-07-29T23:10:22Z; MCP/proxy context compression layer.",
+    "state_snapshot": "2026-08-06T10:05+08:00 GitHub API: 65,055 stars, 4,947 forks, Apache-2.0 license, archived=false; latest release v0.34.0 on 2026-08-05T02:45:36Z; MCP/proxy context compression layer.",
     "stage_tags": [
       "design",
       "implementation",
