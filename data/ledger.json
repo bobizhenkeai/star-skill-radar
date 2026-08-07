@@ -52,9 +52,13 @@
       {
         "date": "2026-07-15",
         "note": "v1.8.0 release (2026-07-13): cargo (crates.io) package registry type, security dependency bumps."
+      },
+      {
+        "date": "2026-08-07",
+        "note": "v1.8.1 release (2026-08-06): golang.org/x/text v0.39.0 security fix GO-2026-5970, dependency bumps."
       }
     ],
-    "state_snapshot": "2026-07-15T10:02+08:00 GitHub API: 7,018 stars, 900 forks, archived=false; latest release v1.8.0 on 2026-07-13T08:43:51Z; official MCP Registry docs and REST API entry retained.",
+    "state_snapshot": "2026-08-07T10:05+08:00 GitHub API: 7,118 stars, 932 forks, archived=false; latest release v1.8.1 on 2026-08-06T23:35:18Z; official MCP Registry docs and REST API entry retained.",
     "stage_tags": [
       "implementation",
       "ops"
@@ -419,9 +423,13 @@
       {
         "date": "2026-08-05",
         "note": "rust-v0.147.0-alpha.7 release (2026-08-04): MCP conformance regression gates, dual-WebSocket Code Mode, custom tools in namespaces, deferred freeform tool loading."
+      },
+      {
+        "date": "2026-08-07",
+        "note": "rust-v0.147.0 stable release (2026-08-07): Agent Plugins catalog search, conversation sections, --approve-for-me, Cursor skills import, MCP 2026-07-28 opt-in, Bedrock cached web search."
       }
     ],
-    "state_snapshot": "2026-08-05T10:05+08:00 GitHub API: 103,947 stars, 15,694 forks, archived=false; latest release rust-v0.147.0-alpha.7 on 2026-08-04T11:50:52Z.",
+    "state_snapshot": "2026-08-07T10:05+08:00 GitHub API: 104,442 stars, 15,805 forks, archived=false; latest release rust-v0.147.0 on 2026-08-07T01:41:49Z.",
     "stage_tags": [
       "implementation",
       "review",
@@ -515,9 +523,13 @@
       {
         "date": "2026-07-29",
         "note": "v4.0.0b1 release (2026-07-28): MCP Python SDK v2 rebuild, sessionless 2026-07-28 protocol support, snake_case field migration."
+      },
+      {
+        "date": "2026-08-07",
+        "note": "v4.0.0b2 release (2026-08-07): task context encryption, EdDSA JWT, protocol docs, Renovate migration; 37 commits from v4.0.0b1."
       }
     ],
-    "state_snapshot": "2026-07-29T10:05+08:00 GitHub API: 26,916 stars, 2,197 forks, 249 open issues, Apache-2.0 license, archived=false; latest release v4.0.0b1 on 2026-07-28T21:17:34Z; 3.x stable maintenance alongside 4.0 beta.",
+    "state_snapshot": "2026-08-07T10:05+08:00 GitHub API: 27,096 stars, 2,229 forks, 250 open issues, Apache-2.0 license, archived=false; latest release v4.0.0b2 on 2026-08-07T00:16:08Z; 3.x stable maintenance alongside 4.0 beta.",
     "stage_tags": [
       "design",
       "implementation",
@@ -1093,9 +1105,13 @@
       {
         "date": "2026-08-05",
         "note": "v0.85.0 release (2026-08-04): OpenCode engine removed (breaking), shared agentic engine configuration, safe-output partial-batch status counts."
+      },
+      {
+        "date": "2026-08-07",
+        "note": "v0.85.4 release (2026-08-06): expanded secret masking, Zizmor CI gating, daily security audit, MCP server secret protection; 98 commits from v0.85.0."
       }
     ],
-    "state_snapshot": "2026-08-05T10:05+08:00 GitHub API: 4,866 stars, 479 forks, 280 open issues, MIT license, archived=false; latest release v0.85.0 on 2026-08-04T23:53:04Z; official GitHub Agentic Workflows for Actions + agent + safety.",
+    "state_snapshot": "2026-08-07T10:05+08:00 GitHub API: 4,872 stars, 482 forks, 221 open issues, MIT license, archived=false; latest release v0.85.4 on 2026-08-06T06:18:41Z; official GitHub Agentic Workflows for Actions + agent + safety.",
     "stage_tags": [
       "design",
       "implementation",
@@ -1214,8 +1230,13 @@
     "type": "paradigm",
     "evidence_tier": "community-verified",
     "first_reported": "2026-08-05",
-    "last_updates": [],
-    "state_snapshot": "2026-08-05T10:05+08:00 GitHub API: 21,883 stars, 2,086 forks, 280 open issues, MIT license, archived=false; latest release v17.2.9 on 2026-08-05T01:32:09Z; terminal AI coding agent with LSP, MCP, browser, subagents, 60+ providers.",
+    "last_updates": [
+      {
+        "date": "2026-08-07",
+        "note": "v17.2.10 release (2026-08-06): zod removed in favor of omptype, --trusted-extension flag, remote OpenAI compaction replay fix; 144 commits from v17.2.9."
+      }
+    ],
+    "state_snapshot": "2026-08-07T10:05+08:00 GitHub API: 22,506 stars, 2,086 forks, 1,096 open issues, MIT license, archived=false; latest release v17.2.10 on 2026-08-06T12:28:54Z; terminal AI coding agent with LSP, MCP, browser, subagents, 60+ providers.",
     "stage_tags": [
       "design",
       "implementation",
