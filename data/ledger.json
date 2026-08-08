@@ -149,9 +149,13 @@
       {
         "date": "2026-08-06",
         "note": "v0.16.0 release (2026-08-05): Copilot integration defaults to skills layout; TDD/Archive/Charter extensions; events context injection."
+      },
+      {
+        "date": "2026-08-08",
+        "note": "v0.16.1 release (2026-08-07): UTF-8 catalog/bundle fixes, nested plan agent-context recursion, specify init output escaping; 22 commits."
       }
     ],
-    "state_snapshot": "2026-08-06T10:05+08:00 GitHub API: 125,479 stars, 11,209 forks, archived=false; latest release v0.16.0 on 2026-08-05T13:39:52Z.",
+    "state_snapshot": "2026-08-08T10:05+08:00 GitHub API: 125,791 stars, 11,209 forks, archived=false; latest release v0.16.1 on 2026-08-07T17:30:26Z.",
     "stage_tags": [
       "requirements",
       "design",
@@ -259,9 +263,13 @@
       {
         "date": "2026-08-06",
         "note": "v2.1.223 release (2026-08-06): owner/* marketplace wildcards, /teleport cloud hint, Bash permission bypass and sandbox security fixes."
+      },
+      {
+        "date": "2026-08-08",
+        "note": "v2.1.225 release (2026-08-08): gateway spend-limit support, workspace trust prompt for claude agents, OAuth token and MCP OAuth keychain fixes."
       }
     ],
-    "state_snapshot": "2026-08-06T10:05+08:00 GitHub API: 140,393 stars, 22,577 forks, archived=false; latest release v2.1.223 on 2026-08-06T00:52:37Z.",
+    "state_snapshot": "2026-08-08T10:05+08:00 GitHub API: 140,611 stars, 22,577 forks, archived=false; latest release v2.1.225 on 2026-08-08T01:09:26Z; official Anthropic terminal agent harness.",
     "stage_tags": [
       "implementation",
       "review",
@@ -653,9 +661,13 @@
       {
         "date": "2026-08-05",
         "note": "v0.9.33 release (2026-08-05): C# partial-class assembly-keyed merge, incremental rebuild cross-file call edge fix, extract worker crash file-loss fix."
+      },
+      {
+        "date": "2026-08-08",
+        "note": "v0.9.36 release (2026-08-07): four silent CLI failure fixes, Swift cross-file extension call, Windows PowerShell skill runnable; 4 commits from v0.9.35."
       }
     ],
-    "state_snapshot": "2026-08-05T10:05+08:00 GitHub API: 102,544 stars, 9,957 forks, Apache-2.0 license, archived=false; latest release v0.9.33 on 2026-08-05T00:42:01Z; multi-harness knowledge graph skill.",
+    "state_snapshot": "2026-08-08T10:05+08:00 GitHub API: 104,042 stars, 9,957 forks, Apache-2.0 license, archived=false; latest release v0.9.36 on 2026-08-07T21:58:20Z; multi-harness knowledge graph skill.",
     "stage_tags": [
       "requirements",
       "design",
@@ -1109,9 +1121,13 @@
       {
         "date": "2026-08-07",
         "note": "v0.85.4 release (2026-08-06): expanded secret masking, Zizmor CI gating, daily security audit, MCP server secret protection; 98 commits from v0.85.0."
+      },
+      {
+        "date": "2026-08-08",
+        "note": "v0.86.1 release (2026-08-07): Pydantic AI/aider/cursor/kiro engine support, PureLock pure-function tests, safe-outputs and log-parser fixes; 127 commits from v0.85.4."
       }
     ],
-    "state_snapshot": "2026-08-07T10:05+08:00 GitHub API: 4,872 stars, 482 forks, 221 open issues, MIT license, archived=false; latest release v0.85.4 on 2026-08-06T06:18:41Z; official GitHub Agentic Workflows for Actions + agent + safety.",
+    "state_snapshot": "2026-08-08T10:05+08:00 GitHub API: 4,884 stars, 482 forks, 241 open issues, MIT license, archived=false; latest release v0.86.1 on 2026-08-07T21:47:59Z; official GitHub Agentic Workflows for Actions + agent + safety.",
     "stage_tags": [
       "design",
       "implementation",
@@ -1131,8 +1147,13 @@
     "type": "paradigm",
     "evidence_tier": "community-verified",
     "first_reported": "2026-08-03",
-    "last_updates": [],
-    "state_snapshot": "2026-08-03T10:05+08:00 GitHub API: 35,845 stars, 2,523 forks, 2934 open issues, MIT license, archived=false; latest release v1.4.164 on 2026-08-02T08:56:13Z; YC-backed parallel agent IDE (ADE).",
+    "last_updates": [
+      {
+        "date": "2026-08-08",
+        "note": "v1.4.177-rc.0 release (2026-08-07): idle agent pending mail delivery, combined diff HTML preview, cmd+j search ranking; 36 commits from v1.4.176-rc.0."
+      }
+    ],
+    "state_snapshot": "2026-08-08T10:05+08:00 GitHub API: 39,682 stars, 2,523 forks, 3306 open issues, MIT license, archived=false; latest release v1.4.177-rc.0 on 2026-08-07T23:01:36Z; YC-backed parallel agent IDE (ADE).",
     "stage_tags": [
       "design",
       "implementation",
